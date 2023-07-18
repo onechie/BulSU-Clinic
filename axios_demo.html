@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div>
+      <h1>AXIOS</h1>
+      <hr />
+      <h2>GET REQUEST EXAMPLE</h2>
+      <button type="button" onclick="(getUser1())">Get User 1</button>
+      <p id="userData"></p>
+      <hr />
+      <h2>POST REQUEST EXAMPLE</h2>
+      <input type="text" placeholder="username" name="username" id="username" />
+      <input
+        type="password"
+        placeholder="password"
+        name="password"
+        id="password"
+      />
+      <button type="button" onclick="(submitUserData())">Register</button>
+      <p id="registerMessage"></p>
+      <hr />
+    </div>
+
+    <script>
+      // EXAMPLE LANG TO PERO DAPAT NAKA BUKOD NA FILE YUNG SA JAVASCRIPT
+      //GET REQUEST - example kukunin mo data ni user na may id=1 mag re-request ka sa backend sa may controller
+      const getUser1 = () => {
+        //parameter dito yung link kung saang api endpoint tayo magrerequest tas yung isa na naka enclose sa {} yan yung kasamang data nung get request
+        axios
+          .get("./backend/controller/login.controller.php", {
+            params: {
+              id: 1,
+            },
+          })
+          .then((response) => {
+            //pag nag response na si server dito mapupunta yon
+
+            //kunin yung data na object sa response, check mo yung na console log para makita mo structure nung mismong response, tas yung user data na galing sa response.data object
+            const userData = response.data;
+            console.log("RESPONSE:");
+            console.log(response);
+
+            console.log("USER DATA:");
+            console.log(userData);
+
+            //then dito didisplay ko yung user data ilalagay ko sa paragraph tag na may id na userData
+            const userDataParagraph = document.getElementById("userData");
+            userDataParagraph.innerText = JSON.stringify(userData);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      };
+      //POST REQUEST - eto example pag mag susubmit ka nung data kunware sa register parang ganon lang din bale dito ireresponse ko lang kung success tas may error message kung failed
+      const submitUserData = () => {
+        //kukunin ko yung data sa mga input field pag nasubmit na
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+        console.log("test");
+
+        const registeredMessage = document.getElementById("registerMessage");
+
+        //bale iba yung link kase sa ibang api endpoint tayo magrerequest tas yung sa parameter dapat walang params:{} di sya kagaya sa get request
+        axios
+          .post(
+            "./backend/controller/register.controller.php",
+            {
+              username: username,
+              password: password,
+            },
+            {
+              //tas papalitan yung content type para maread sya ni PHP
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+            }
+          )
+          .then((response) => {
+            console.log(response);
+            //ganon lang ulit gaya sa taas then iaccess ko yung response.data.isSuccess
+            const isSuccess = response.data.isSuccess;
+            const errorMessage = response.data.errorMessage;
+            //check if success
+            if (isSuccess) {
+              //idisplay ko lang na successfully registered
+              registeredMessage.innerText = "Successfully registered";
+            } else {
+              //if nag failed ididisplay ko yung error message
+              registeredMessage.innerText = errorMessage;
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      };
+    </script>
+  </body>
+</html>
