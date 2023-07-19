@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <!-- ETO YUNG CDN PARA SA AXIOS-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div>
+      <h1>REGISTER</h1>
+      <hr />
+      <h2>API ENDPOINT : "./backend/routes/register.route.php"</h2>
+      <h3>REQUIRED PARAMETERS:</h3>
+      <ul>
+        <li>username</li>
+        <li>email</li>
+        <li>password</li>
+        <li>confirmPassword</li>
+        <li>requestType = "register"</li>
+      </ul>
+      <hr />
+      <input type="text" placeholder="username" id="username" />
+      <input type="email" placeholder="email" id="email" />
+      <input type="password" placeholder="password" id="password" />
+      <input
+        type="confirmPassword"
+        placeholder="confirm password"
+        id="confirmPassword"
+      />
+      <button type="button" onclick="(submitUserData())">Register</button>
+      <p id="registerMessage"></p>
+      <hr />
+      <a href="./">Back to home page</a>
+    </div>
+
+    <script src="./JavaScript/register.js">
+    </script>
+  </body>
+</html>

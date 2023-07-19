@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <!-- ETO YUNG CDN PARA SA AXIOS-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div>
+      <h1>LOGIN</h1>
+      <hr />
+      <h2>API ENDPOINT : "./backend/routes/login.route.php"</h2>
+      <h3>REQUIRED PARAMETERS:</h3>
+      <ul>
+        <li>usernameOrEmail</li>
+        <li>password</li>
+        <li>requestType = "login"</li>
+      </ul>
+      <input type="text" placeholder="username/email" id="usernameOrEmail" />
+      <input type="password" placeholder="password" id="password" />
+      <button type="button" onclick="(submitUserData())">Login</button>
+      <p id="loginMessage"></p>
+      <hr />
+      <a href="./">Back to home page</a>
+    </div>
+
+    <script src="./JavaScript/login.js">
+    </script>
+  </body>
+</html>
