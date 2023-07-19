@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register</title>
-    <!-- ETO YUNG CDN PARA SA AXIOS-->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body>
@@ -12,6 +11,8 @@
       <h1>REGISTER</h1>
       <hr />
       <h2>API ENDPOINT : "./backend/routes/register.route.php"</h2>
+      <hr>
+      <h3>REQUEST TYPE: POST</h3>
       <h3>REQUIRED PARAMETERS:</h3>
       <ul>
         <li>username</li>
@@ -20,7 +21,7 @@
         <li>confirmPassword</li>
         <li>requestType = "register"</li>
       </ul>
-      <hr />
+      <h3>RESPONSE: destructure using {data} with value = {success:true, message="text"}</h3>
       <input type="text" placeholder="username" id="username" />
       <input type="email" placeholder="email" id="email" />
       <input type="password" placeholder="password" id="password" />

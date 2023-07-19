@@ -13,10 +13,7 @@ abstract class Database
         $this->tableName = $tableName;
     }
 
-    protected function createTable(PDO $pdo) {
-        // Define the SQL query to create the "users" table
-        // ...
-    }
+    abstract protected function createTable(PDO $pdo);
 
     protected function getPdo(): PDO
     {

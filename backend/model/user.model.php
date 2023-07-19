@@ -54,7 +54,7 @@ class UserModel extends Database
     public function getUser($username, $email)
     {
         // Prepare the SQL query to retrieve the user by username or email
-        $sql = 'SELECT * FROM users WHERE username = :username OR email = :email';
+        $sql = 'SELECT * FROM users WHERE username = ? OR email = ?';
 
         // Get the PDO connection from the parent class
         $pdo = $this->getPdo();
@@ -64,19 +64,18 @@ class UserModel extends Database
             $stmt = $pdo->prepare($sql);
 
             // Bind the values to the placeholders and execute the statement
-            $stmt->execute([
-                ':username' => $username,
-                ':email' => $email
-            ]);
+            if (!$stmt->execute([$username, $email])) {
+                return false;
+            } else {
+                // Fetch the user data
+                $user = $stmt->fetch();
 
-            // Fetch the user data
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            // Return the user data (if found) or null (if not found)
-            return $user !== false ? $user : null;
+                // Return the user data (if found) or null (if not found)
+                return $user !== false ? $user : null;
+            }
         } catch (PDOException $error) {
             // Handle any exceptions that occur during the query
-            throw new Exception('Database connection error: ' . $error->getMessage());
+            return false;
         }
     }
 }
