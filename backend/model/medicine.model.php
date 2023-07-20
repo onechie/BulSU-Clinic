@@ -18,7 +18,7 @@ class MedicineModel extends Database
             unit VARCHAR(255) NOT NULL,
             expiration DATE NOT NULL,
             boxesC INT NOT NULL,
-            boxesD INT NOT NULL DEFAULT 0,
+            itemsPerB INT NOT NULL,
             itemsC INT NOT NULL,
             itemsD INT NOT NULL DEFAULT 0,
             created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -31,14 +31,14 @@ class MedicineModel extends Database
             $pdo->exec($sql);
         } catch (PDOException $error) {
             // Handle any exceptions that occur during table creation
-            return false;
+            throw new Exception('Database connection error: ' . $error->getMessage());
         }
     }
 
-    public function setMedicine($name, $brand, $unit, $expiration, $boxesC, $itemsC)
+    public function setMedicine($name, $brand, $unit, $expiration, $boxesC, $itemsPerB, $itemsC)
     {
         // Prepare the SQL query with positional placeholders (?)
-        $sql = 'INSERT INTO medicines (name, brand, unit, expiration, boxesC, itemsC) VALUES (?, ?, ?, ?, ?, ?)';
+        $sql = 'INSERT INTO medicines (name, brand, unit, expiration, boxesC, itemsPerB, itemsC) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
         // Get the PDO connection from the parent class
         $pdo = $this->getPdo();
@@ -48,7 +48,7 @@ class MedicineModel extends Database
             $stmt = $pdo->prepare($sql);
 
             // Bind the values to the placeholders and execute the statement
-            if (!$stmt->execute([$name, $brand, $unit, $expiration, $boxesC, $itemsC])) {
+            if (!$stmt->execute([$name, $brand, $unit, $expiration, $boxesC, $itemsPerB, $itemsC])) {
                 return false;
             } else {
                 return true;
@@ -59,11 +59,11 @@ class MedicineModel extends Database
         }
     }
 
-    
+
     public function getMedicine()
     {
         // Prepare the SQL query to retrieve all medicines
-        $sql = 'SELECT name, brand, unit, expiration, boxesC, boxesD, itemsC, itemsD FROM medicines';
+        $sql = 'SELECT name, brand, unit, expiration, boxesC, itemsPerB, itemsC, itemsD FROM medicines';
 
         // Get the PDO connection from the parent class
         $pdo = $this->getPdo();

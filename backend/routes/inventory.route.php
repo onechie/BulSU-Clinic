@@ -6,24 +6,6 @@ include_once("../controller/inventory.controller.php");
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if the form was submitted for creating a medicine
     if ($_POST['requestType'] == "createMedicine") {
-        // Get the data from $_POST
-        $name = $_POST['name'];
-        $brand = $_POST['brand'];
-        $unit = $_POST['unit'];
-        $expiration = $_POST['expiration'];
-        $boxesC = $_POST['boxesCount'];
-        $itemsC = $_POST['itemsCount'];
-
-        // Create an associative array with the medicine data
-        $medicineData = array(
-            'name' => $name,
-            'brand' => $brand,
-            'unit' => $unit,
-            'expiration' => $expiration,
-            'boxesC' => $boxesC,
-            'itemsC' => $itemsC
-        );
-
         // Create an instance of the MedicineModel
         $medicineModel = new MedicineModel();
 
@@ -31,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $ic = new InventoryController($medicineModel);
 
         // Call the createMedicine method in the InventoryController and pass the $medicineData array
-        $response = $ic->createMedicine($medicineData);
+        $response = $ic->createMedicine($_POST);
 
         // Encode the response as JSON and echo it
         echo json_encode($response);

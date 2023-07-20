@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clinic Form</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+      table,
+      th,
+      tr,
+      td {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h1>CLINIC FORM</h1>
+      <hr />
+      <h2>API ENDPOINT : "./backend/routes/clinicForm.route.php"</h2>
+      <hr />
+      <h3>REQUEST TYPE: POST</h3>
+      <h3>REQUIRED PARAMETERS:</h3>
+      <ul>
+        <li>sYear</li>
+        <li>name</li>
+        <li>date</li>
+        <li>complaint</li>
+        <li>medication</li>
+        <li>quantity</li>
+        <li>treatment</li>
+        <li>laboratory</li>
+        <li>bloodPressure</li>
+        <li>pulse</li>
+        <li>weight</li>
+        <li>temperature</li>
+        <li>respiration</li>
+        <li>oximetry</li>
+        <li>attachments = []</li>
+        <li>requestType = "createRecord"</li>
+      </ul>
+      <h3>
+        RESPONSE: destructure using {data} with value = {success:true,
+        message="text"}
+      </h3>
+      <h3>CREATE RECORD</h3>
+      <form
+        action=""
+        enctype="multipart/form-data"
+        id="clinicFormData"
+        onsubmit="(createRecord(event))"
+      >
+        <input type="number" placeholder="School Year" name="sYear" />
+        <input type="text" placeholder="Patient's Name" name="name" />
+        <input type="date" placeholder="Date Entry" name="date" />
+        <p></p>
+        <input type="text" placeholder="Complaint" name="complaint" />
+        <input type="text" placeholder="Medication" name="medication" />
+        <input type="number" placeholder="Quantity" name="quantity" />
+        <p></p>
+        <input type="text" placeholder="Treatment" name="treatment" />
+        <input type="text" placeholder="Laboratory" name="laboratory" />
+        <input type="text" placeholder="Blood Pressure" name="bloodPressure" />
+        <p></p>
+        <input type="text" placeholder="Pulse" name="pulse" />
+        <input type="text" placeholder="Weight" name="weight" />
+        <input type="text" placeholder="Temperature" name="temperature" />
+        <p></p>
+        <input type="text" placeholder="Respiration" name="respiration" />
+        <input type="text" placeholder="Oximetry" name="oximetry" />
+        <input type="file" name="attachments[]" multiple id="attachments" />
+        <p></p>
+        <button type="submit">Create Record</button>
+      </form>
+
+      <p id="clinicFormMessage"></p>
+      <hr />
+      <hr />
+      <a href="./">Back to home page</a>
+    </div>
+
+    <script src="./JavaScript/clinicForm.js"></script>
+  </body>
+</html>

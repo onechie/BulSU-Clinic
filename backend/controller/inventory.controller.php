@@ -14,8 +14,9 @@ class InventoryController
         $brand = $medicineData['brand'];
         $unit = $medicineData['unit'];
         $expiration = $medicineData['expiration'];
-        $boxesC = $medicineData['boxesC'];
-        $itemsC = $medicineData['itemsC'];
+        $boxesC = $medicineData['boxesCount'];
+        $itemsPerB = $medicineData['itemsPerBox'];
+        $itemsC = $medicineData['itemsCount'];
 
         // Initialize the response array
         $response = [];
@@ -33,14 +34,14 @@ class InventoryController
             return $response;
         }
 
-        if (!is_numeric($boxesC)  || !is_numeric($itemsC)) {
+        if (!is_numeric($boxesC)  || !is_numeric($itemsPerB)  || !is_numeric($itemsC)) {
             $response['success'] = false;
             $response['message'] = "Box/Item count must be numbers.";
             return $response;
         }
 
         // Call the MedicineModel's setMedicine method for database insertion
-        $result = $this->medicineModel->setMedicine($name, $brand, $unit, $expiration, $boxesC, $itemsC);
+        $result = $this->medicineModel->setMedicine($name, $brand, $unit, $expiration, $boxesC, $itemsPerB, $itemsC);
 
         // Set the response based on the result of the setMedicine method
         if ($result) {
@@ -66,7 +67,6 @@ class InventoryController
             $response['success'] = true;
             $response['message'] = "Medicines successfully get";
             $response['medicines'] = $medicines;
-            
         } catch (Exception $error) {
             // Handle any exceptions that occur during the fetch
             $response['success'] = false;

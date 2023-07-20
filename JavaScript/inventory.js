@@ -4,6 +4,7 @@ const createMedicine = () => {
   let unit = document.getElementById("unit").value;
   let expiration = document.getElementById("expiration").value;
   let boxesCount = document.getElementById("boxesCount").value;
+  let itemsPerBox = document.getElementById("itemsPerBox").value;
   let itemsCount = document.getElementById("itemsCount").value;
 
   let requestType = "createMedicine";
@@ -19,6 +20,7 @@ const createMedicine = () => {
         unit,
         expiration,
         boxesCount,
+        itemsPerBox,
         itemsCount,
         requestType,
       },

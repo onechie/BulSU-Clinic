@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clinic Record</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+      table,
+      th,
+      tr,
+      td {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h1>CLINIC RECORD</h1>
+      <hr />
+      <h2>API ENDPOINT : "./backend/routes/clinicRecord.route.php"</h2>
+      <hr />
+      <h3>REQUEST TYPE: GET</h3>
+      <h3>REQUIRED PARAMETERS:</h3>
+
+      <div id="facultyRecord">
+        <ul>
+          <li>requestType = "getAllRecord"</li>
+        </ul>
+        <h3>
+          RESPONSE: destructure using {data} with value = {success:true,
+          message="text", records={}}
+        </h3>
+        <h2>FACULTY RECORD</h2>
+        <table>
+          <thead>
+            <th>Name</th>
+            <th>Complaint</th>
+            <th>Date of Entry</th>
+            <th>Medication</th>
+            <th>Others</th>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+        <button type="button" onclick="(getAllRecord())">Get All Record</button>
+        <p id="clinicRecordMessage"></p>
+        <hr />
+      </div>
+
+      <div id="patientHistory" hidden>
+        <ul>
+          <li>name</li>
+          <li>requestType = "getAllRecordByName"</li>
+        </ul>
+        <h3>
+          RESPONSE: destructure using {data} with value = {success:true,
+          message="text", records={}}
+        </h3>
+        <h2>HISTORY</h2>
+        <div id="viewHistory">
+          <h3>Patient Name: <span id="patientName"></span></h3>
+          <table>
+            <thead>
+              <th>ID</th>
+              <th>Date Entry</th>
+              <th>Complaint</th>
+              <th>Medication</th>
+              <th>Attachments</th>
+            </thead>
+            <tbody id="tableBodyByPatient"></tbody>
+          </table>
+          <p id="recordMessageByPatient"></p>
+        </div>
+        <hr />
+      </div>
+
+      <div id="recordAttachments" hidden>
+        <ul>
+          <li>id</li>
+          <li>requestType = "getAllRecordById"</li>
+        </ul>
+        <h3>
+          RESPONSE: destructure using {data} with value = {success:true,
+          message="text", record={}}
+        </h3>
+        <h2>SEE ATTACHMENTS</h2>
+        <h3>Patient's Findings</h3>
+        <p>Patient's Name: <span id="pfName"></span></p>
+        <p>Complaint: <span id="pfComplaint"></span></p>
+        <p>Medication: <span id="pfMedication"></span></p>
+        <p>Treatment: <span id="pfTreatment"></span></p>
+        <p>Laboratory: <span id="pfLaboratory"></span></p>
+        <h3>Vital Signs</h3>
+        <p>Blood Pressure: <span id="pfBloodPressure"></span></p>
+        <p>Pulse: <span id="pfPulse"></span></p>
+        <p>Weight: <span id="pfWeight"></span></p>
+        <p>Temperature: <span id="pfTemperature"></span></p>
+        <p>Respiration: <span id="pfRespiration"></span></p>
+        <p>Oxygen Saturation: <span id="pfSaturation"></span></p>
+        <p></p>
+        <p id="messageByPf"></p>
+        <hr />
+      </div>
+
+      <a href="./">Back to home page</a>
+    </div>
+
+    <script src="./JavaScript/clinicRecord.js"></script>
+  </body>
+</html>

@@ -25,7 +25,7 @@ class UserModel extends Database
             $pdo->exec($sql);
         } catch (PDOException $error) {
             // Handle any exceptions that occur during table creation
-            return false;
+            throw new Exception('Database connection error: ' . $error->getMessage());
         }
     }
     public function setUser($username, $email, $hashedPassword)
