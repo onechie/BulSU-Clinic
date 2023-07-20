@@ -5,14 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Inventory</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <style>
-      table,
-      th,
-      tr,
-      td {
-        border: 1px solid black;
-      }
-    </style>
+    <link rel="stylesheet" href="./src/styles/index.css">
   </head>
   <body>
     <div>
@@ -48,7 +41,7 @@
       <input type="number" placeholder="items count" id="itemsCount" />
       <button type="button" onclick="(createMedicine())">Create</button>
 
-      <p id="inventoryMessage"></p>
+      <p id="inventoryMessage" class="message"></p>
       <hr />
       <h3>REQUEST TYPE: GET</h3>
       <h3>REQUIRED PARAMETERS:</h3>
@@ -74,7 +67,7 @@
         <tbody id="tableBody">
         </tbody>
       </table>
-      <p id="tableMessage"></p>
+      <p id="tableMessage" class="message"></p>
       <button type="button" onclick="(getAllMedicine())">Get All Medicine</button>
 
       <hr>

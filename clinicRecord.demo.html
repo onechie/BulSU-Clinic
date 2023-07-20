@@ -5,14 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Clinic Record</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <style>
-      table,
-      th,
-      tr,
-      td {
-        border: 1px solid black;
-      }
-    </style>
+    <link rel="stylesheet" href="./src/styles/index.css">
   </head>
   <body>
     <div>
@@ -43,7 +36,7 @@
           <tbody id="tableBody"></tbody>
         </table>
         <button type="button" onclick="(getAllRecord())">Get All Record</button>
-        <p id="clinicRecordMessage"></p>
+        <p id="clinicRecordMessage" class="message"></p>
         <hr />
       </div>
 
@@ -69,7 +62,7 @@
             </thead>
             <tbody id="tableBodyByPatient"></tbody>
           </table>
-          <p id="recordMessageByPatient"></p>
+          <p id="recordMessageByPatient" class="message"></p>
         </div>
         <hr />
       </div>
@@ -98,7 +91,7 @@
         <p>Respiration: <span id="pfRespiration"></span></p>
         <p>Oxygen Saturation: <span id="pfSaturation"></span></p>
         <p></p>
-        <p id="messageByPf"></p>
+        <p id="messageByPf" class="message"></p>
         <hr />
       </div>
 
