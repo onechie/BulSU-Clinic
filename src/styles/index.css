@@ -7,3 +7,11 @@ td {
     .message{
     color: red;
 }
+button{
+    background-color: blue;
+    color: white;
+    padding: 5px;
+}
+a{
+    font-size: 20px;
+}
