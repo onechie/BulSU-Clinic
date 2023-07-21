@@ -5,10 +5,11 @@ include_once("../controller/register.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['route'])) {
 
-    if ($_POST['route'] === "register") {
+    $userModel = new UserModel();
+    $registerController = new RegisterController($userModel);
 
-        $userModel = new UserModel();
-        $registerController = new RegisterController($userModel);
+    if ($_POST['route'] === "register") {
+        
         $response = $registerController->registerUser($_POST);
 
         header('Content-Type: application/json');

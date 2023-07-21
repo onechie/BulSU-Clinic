@@ -5,10 +5,11 @@ include_once("../controller/login.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['route'])) {
 
+    $userModel = new UserModel();
+    $loginController = new LoginController($userModel);
+
     if ($_GET['route'] === "login") {
 
-        $userModel = new UserModel();
-        $loginController = new LoginController($userModel);
         $response = $loginController->loginUser($_GET);
 
         header('Content-Type: application/json');

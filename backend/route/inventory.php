@@ -5,10 +5,10 @@ include_once("../controller/inventory.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['route'])) {
 
-    if ($_POST['route'] == "createMedicine") {
+    $medicineModel = new MedicineModel();
+    $ic = new InventoryController($medicineModel);
 
-        $medicineModel = new MedicineModel();
-        $ic = new InventoryController($medicineModel);
+    if ($_POST['route'] == "createMedicine") {
         $response = $ic->createMedicine($_POST);
 
         header('Content-Type: application/json');
@@ -18,10 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['route'])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['route'])) {
 
-    if ($_GET['route'] == "getAllMedicine") {
+    $medicineModel = new MedicineModel();
+    $inventoryController = new InventoryController($medicineModel);
 
-        $medicineModel = new MedicineModel();
-        $inventoryController = new InventoryController($medicineModel);
+    if ($_GET['route'] == "getAllMedicine") {
         $response = $inventoryController->getAllMedicine();
 
         header('Content-Type: application/json');

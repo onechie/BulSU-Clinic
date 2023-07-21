@@ -90,10 +90,28 @@
         <p>Temperature: <span id="pfTemperature"></span></p>
         <p>Respiration: <span id="pfRespiration"></span></p>
         <p>Oxygen Saturation: <span id="pfSaturation"></span></p>
+        <h3>Attachments</h3>
+        <div id="attachmentsContainer"></div>
+        <button type="button" onclick="(newAttachment())">
+          Add Attachment
+        </button>
         <p></p>
         <p id="messageByPf" class="message"></p>
+
         <hr />
       </div>
+      <form
+        id="addAttachment"
+        enctype="multipart/form-data"
+        onsubmit="(addAttachment(event))"
+        hidden
+      >
+        <input type="hidden" name="id" id="recordId" />
+        <input type="file" name="attachments[]" multiple id="attachments" />
+        <p id="addAttachmentMessage" class="message"></p>
+        <button type="submit">Submit</button>
+        <hr />
+      </form>
 
       <a href="./">Back to home page</a>
     </div>

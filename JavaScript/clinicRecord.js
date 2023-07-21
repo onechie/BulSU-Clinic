@@ -1,4 +1,8 @@
 const endPoint = "./backend/route/clinicRecord.php";
+const facultyRecordDiv = document.getElementById("facultyRecord");
+const patientHistoryDiv = document.getElementById("patientHistory");
+const recordAttachmentsDiv = document.getElementById("recordAttachments");
+const addAttachmentDiv = document.getElementById("addAttachment");
 
 const getAllRecord = async () => {
   try {
@@ -28,9 +32,8 @@ const getAllRecord = async () => {
         viewHistoryButton.textContent = "View History";
 
         viewHistoryButton.addEventListener("click", () => {
-          console.log("View History clicked for record name: " + record.name);
-          facultyRecord.setAttribute("hidden", true);
-          patientHistory.removeAttribute("hidden");
+          facultyRecordDiv.setAttribute("hidden", true);
+          patientHistoryDiv.removeAttribute("hidden");
           getAllRecordByName(record.name);
         });
 
@@ -80,9 +83,8 @@ const getAllRecordByName = async (name) => {
         viewHistoryButton.textContent = "See Attachments";
 
         viewHistoryButton.addEventListener("click", () => {
-          console.log("See Attachments clicked for record ID: " + record.id);
-          patientHistory.setAttribute("hidden", true);
-          recordAttachments.removeAttribute("hidden");
+          patientHistoryDiv.setAttribute("hidden", true);
+          recordAttachmentsDiv.removeAttribute("hidden");
           getRecordById(record.id);
         });
 
@@ -115,6 +117,11 @@ const getRecordById = async (id) => {
     const pfRespiration = document.getElementById("pfRespiration");
     const pfSaturation = document.getElementById("pfSaturation");
     const messageByPf = document.getElementById("messageByPf");
+    const recordId = document.getElementById("recordId");
+
+    const attachmentsContainer = document.getElementById(
+      "attachmentsContainer"
+    );
 
     const { data } = await axios.get(endPoint, { params: { id, route } });
 
@@ -145,10 +152,62 @@ const getRecordById = async (id) => {
       pfRespiration.innerText = respiration;
       pfSaturation.innerText = oximetry;
 
+      recordId.value = id;
+
+      if (data.attachments) {
+        data.attachments.forEach((attachment) => {
+          const fileName = attachment.attachment_name;
+          const underScore = fileName.indexOf("_");
+          const finalFileName = fileName.substring(underScore + 1);
+
+          const paragraph = document.createElement("p");
+
+          const link = document.createElement("a");
+          link.href = attachment.attachment_url;
+          link.target = "_blank";
+          link.textContent = finalFileName;
+
+          paragraph.appendChild(link);
+
+          attachmentsContainer.appendChild(paragraph);
+        });
+      }
+
       messageByPf.innerText = data.message;
     } else {
       messageByPf.innerText = data.message;
     }
+  } catch (error) {
+    console.error(error);
+  }
+};
+const newAttachment = () => {
+  recordAttachmentsDiv.setAttribute("hidden", true);
+  addAttachmentDiv.removeAttribute("hidden");
+};
+
+const addAttachment = async (event) => {
+  event.preventDefault();
+
+  const addAttachmentMessage = document.getElementById("addAttachmentMessage");
+  const route = "addAttachment";
+
+  try {
+    // Use destructuring to extract the files from the file input
+    const { files } = document.getElementById("attachments");
+
+    // Use FormData constructor to create the formData object
+    const formData = new FormData(addAttachmentDiv);
+    formData.append("route", route);
+
+    // Remove the "attachments" key if no files are selected
+    if (files.length === 0) {
+      return;
+    }
+    const { data } = await axios.post(endPoint, formData);
+
+    // Use template literals for setting the inner text
+    addAttachmentMessage.innerText = data.message;
   } catch (error) {
     console.error(error);
   }

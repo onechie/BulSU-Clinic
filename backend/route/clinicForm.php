@@ -7,12 +7,13 @@ include_once("../controller/clinicForm.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['route'])) {
 
+    $recordModel = new RecordModel();
+    $attachmentModel = new AttachmentModel();
+    $clinicFormController = new ClinicFormController($recordModel, $attachmentModel);
+
     if ($_POST['route'] == "createRecord") {
 
         $fileData = isset($_FILES["attachments"]) ? $_FILES["attachments"] : [];
-        $recordModel = new RecordModel();
-        $attachmentModel = new AttachmentModel();
-        $clinicFormController = new ClinicFormController($recordModel, $attachmentModel);
         $response = $clinicFormController->createRecord($_POST, $fileData);
 
         header('Content-Type: application/json');
