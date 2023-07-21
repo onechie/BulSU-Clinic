@@ -1,89 +1,75 @@
 const endPoint = "./backend/route/inventory.php";
 
-const createMedicine = () => {
+const createMedicine = async () => {
   const route = "createMedicine";
 
-  let name = document.getElementById("name").value;
-  let brand = document.getElementById("brand").value;
-  let unit = document.getElementById("unit").value;
-  let expiration = document.getElementById("expiration").value;
-  let boxesCount = document.getElementById("boxesCount").value;
-  let itemsPerBox = document.getElementById("itemsPerBox").value;
-  let itemsCount = document.getElementById("itemsCount").value;
+  const name = document.getElementById("name").value;
+  const brand = document.getElementById("brand").value;
+  const unit = document.getElementById("unit").value;
+  const expiration = document.getElementById("expiration").value;
+  const boxesCount = document.getElementById("boxesCount").value;
+  const itemsPerBox = document.getElementById("itemsPerBox").value;
+  const itemsCount = document.getElementById("itemsCount").value;
   const inventoryMessage = document.getElementById("inventoryMessage");
 
-  axios
-    .post(
-      endPoint,
-      {
-        name,
-        brand,
-        unit,
-        expiration,
-        boxesCount,
-        itemsPerBox,
-        itemsCount,
-        route,
+  try {
+    const { data } = await axios.post(endPoint, {
+      name,
+      brand,
+      unit,
+      expiration,
+      boxesCount,
+      itemsPerBox,
+      itemsCount,
+      route,
+    }, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
-    )
-    .then(({ data }) => {
-      const success = data.success;
-      const message = data.message;
-      inventoryMessage.innerText = message;
-      getAllMedicine();
-    })
-    .catch((error) => {
-      console.log(error);
     });
+
+    inventoryMessage.innerText = data.message;
+    await getAllMedicine();
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-const getAllMedicine = () => {
+const getAllMedicine = async () => {
   const route = "getAllMedicine";
 
   const tableBody = document.getElementById("tableBody");
   const tableMessage = document.getElementById("tableMessage");
 
-  axios
-    .get(endPoint, {
+  try {
+    const { data } = await axios.get(endPoint, {
       params: {
         route,
       },
-    })
-    .then(({ data }) => {
-      if (data.success) {
-        while (tableBody.firstChild) {
-          tableBody.removeChild(tableBody.firstChild);
-        }
-        const medicines = data.medicines;
-        // Loop through each object in the medicines array
-        medicines.forEach((item) => {
-          // Create a new row (tr element) for each object
-          const row = document.createElement("tr");
-
-          // Loop through each key-value pair in the object
-          for (const key in item) {
-            if (item.hasOwnProperty(key)) {
-              // Create a new cell (td element) for each value in the object
-              const cell = document.createElement("td");
-              cell.textContent = item[key];
-              row.appendChild(cell);
-            }
-          }
-
-          // Append the row to the table body
-          tableBody.appendChild(row);
-        });
-        tableMessage.innerText = data.message;
-      } else {
-        tableMessage.innerText = data.message;
-      }
-    })
-    .catch((error) => {
-      console.log(error);
     });
+
+    if (data.success) {
+      tableBody.innerHTML = "";
+      const medicines = data.medicines;
+
+      medicines.forEach((item) => {
+        const row = document.createElement("tr");
+
+        for (const key in item) {
+          if (item.hasOwnProperty(key)) {
+            const cell = document.createElement("td");
+            cell.textContent = item[key];
+            row.appendChild(cell);
+          }
+        }
+
+        tableBody.appendChild(row);
+      });
+      tableMessage.innerText = data.message;
+    } else {
+      tableMessage.innerText = data.message;
+    }
+  } catch (error) {
+    console.error(error);
+  }
 };

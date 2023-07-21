@@ -1,31 +1,29 @@
-const createRecord = (event) => {
+const createRecord = async (event) => {
   event.preventDefault();
+
   const clinicFormData = document.getElementById("clinicFormData");
   const clinicFormMessage = document.getElementById("clinicFormMessage");
-
   const endPoint = "./backend/route/clinicForm.php";
   const route = "createRecord";
 
-  const formData = new FormData(clinicFormData);
-  formData.append("route", route);
+  try {
+    // Use destructuring to extract the files from the file input
+    const { files } = document.getElementById("attachments");
 
-  // Check if the input file has files selected
-  const fileInput = document.getElementById("attachments");
+    // Use FormData constructor to create the formData object
+    const formData = new FormData(clinicFormData);
+    formData.append("route", route);
 
-  if (fileInput.files.length === 0) {
-    formData.delete("attachments[]"); // Remove the "attachments" key from the formData
+    // Remove the "attachments" key if no files are selected
+    if (files.length === 0) {
+      formData.delete("attachments[]");
+    }
+
+    const { data } = await axios.post(endPoint, formData);
+
+    // Use template literals for setting the inner text
+    clinicFormMessage.innerText = data.message;
+  } catch (error) {
+    console.error(error);
   }
-
-  axios
-    .post(endPoint, formData, {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    })
-    .then(({ data }) => {
-      clinicFormMessage.innerText = data.message;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
 };

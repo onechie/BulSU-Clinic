@@ -1,15 +1,15 @@
-const submitUserData = () => {
-  let username = document.getElementById("username").value;
-  let email = document.getElementById("email").value;
-  let password = document.getElementById("password").value;
-  let confirmPassword = document.getElementById("confirmPassword").value;
+const submitUserData = async () => {
+  const username = document.getElementById("username").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
   const registeredMessage = document.getElementById("registerMessage");
 
   const route = "register";
   const endPoint = "./backend/route/register.php";
 
-  axios
-    .post(
+  try {
+    const { data } = await axios.post(
       endPoint,
       {
         username,
@@ -23,13 +23,10 @@ const submitUserData = () => {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       }
-    )
-    .then(({ data }) => {
-      const success = data.success;
-      const message = data.message;
-      registeredMessage.innerText = message;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    );
+
+    registeredMessage.innerText = data.message;
+  } catch (error) {
+    console.error(error);
+  }
 };
