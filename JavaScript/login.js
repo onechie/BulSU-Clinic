@@ -1,16 +1,17 @@
 const submitUserData = () => {
   let usernameOrEmail = document.getElementById("usernameOrEmail").value;
   let password = document.getElementById("password").value;
-  let requestType = "login";
-
   const loginMessage = document.getElementById("loginMessage");
 
+  const route = "login";
+  const endPoint = "./backend/route/login.php";
+
   axios
-    .get("./backend/routes/login.route.php", {
+    .get(endPoint, {
       params: {
         usernameOrEmail,
         password,
-        requestType,
+        route,
       },
     })
     .then(({ data }) => {

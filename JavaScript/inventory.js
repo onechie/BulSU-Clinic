@@ -1,4 +1,8 @@
+const endPoint = "./backend/route/inventory.php";
+
 const createMedicine = () => {
+  const route = "createMedicine";
+
   let name = document.getElementById("name").value;
   let brand = document.getElementById("brand").value;
   let unit = document.getElementById("unit").value;
@@ -6,14 +10,11 @@ const createMedicine = () => {
   let boxesCount = document.getElementById("boxesCount").value;
   let itemsPerBox = document.getElementById("itemsPerBox").value;
   let itemsCount = document.getElementById("itemsCount").value;
-
-  let requestType = "createMedicine";
-
   const inventoryMessage = document.getElementById("inventoryMessage");
 
   axios
     .post(
-      "./backend/routes/inventory.route.php",
+      endPoint,
       {
         name,
         brand,
@@ -22,7 +23,7 @@ const createMedicine = () => {
         boxesCount,
         itemsPerBox,
         itemsCount,
-        requestType,
+        route,
       },
       {
         headers: {
@@ -42,15 +43,15 @@ const createMedicine = () => {
 };
 
 const getAllMedicine = () => {
-  let requestType = "getAllMedicine";
+  const route = "getAllMedicine";
 
   const tableBody = document.getElementById("tableBody");
   const tableMessage = document.getElementById("tableMessage");
 
   axios
-    .get("./backend/routes/inventory.route.php", {
+    .get(endPoint, {
       params: {
-        requestType,
+        route,
       },
     })
     .then(({ data }) => {

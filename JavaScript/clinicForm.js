@@ -1,9 +1,13 @@
 const createRecord = (event) => {
   event.preventDefault();
-
   const clinicFormData = document.getElementById("clinicFormData");
+  const clinicFormMessage = document.getElementById("clinicFormMessage");
+
+  const endPoint = "./backend/route/clinicForm.php";
+  const route = "createRecord";
+
   const formData = new FormData(clinicFormData);
-  formData.append("requestType", "createRecord");
+  formData.append("route", route);
 
   // Check if the input file has files selected
   const fileInput = document.getElementById("attachments");
@@ -12,10 +16,8 @@ const createRecord = (event) => {
     formData.delete("attachments[]"); // Remove the "attachments" key from the formData
   }
 
-  const clinicFormMessage = document.getElementById("clinicFormMessage");
-
   axios
-    .post("./backend/routes/clinicForm.route.php", formData, {
+    .post(endPoint, formData, {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },

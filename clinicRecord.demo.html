@@ -5,24 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Clinic Record</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link rel="stylesheet" href="./src/styles/index.css">
+    <link rel="stylesheet" href="./src/styles/index.css" />
   </head>
   <body>
     <div>
       <h1>CLINIC RECORD</h1>
       <hr />
-      <h2>API ENDPOINT : "./backend/routes/clinicRecord.route.php"</h2>
+      <h2>API ENDPOINT : "./backend/route/clinicRecord.php"</h2>
       <hr />
       <h3>REQUEST TYPE: GET</h3>
       <h3>REQUIRED PARAMETERS:</h3>
 
       <div id="facultyRecord">
         <ul>
-          <li>requestType = "getAllRecord"</li>
+          <li>route = "getAllRecords"</li>
         </ul>
         <h3>
-          RESPONSE: destructure using {data} with value = {success:true,
-          message="text", records={}}
+          RESPONSE: destructure using {data} with value = {success:bool,
+          message="string", records=[array]}
         </h3>
         <h2>FACULTY RECORD</h2>
         <table>
@@ -43,11 +43,11 @@
       <div id="patientHistory" hidden>
         <ul>
           <li>name</li>
-          <li>requestType = "getAllRecordByName"</li>
+          <li>route = "getRecordsByName"</li>
         </ul>
         <h3>
-          RESPONSE: destructure using {data} with value = {success:true,
-          message="text", records={}}
+          RESPONSE: destructure using {data} with value = {success:bool,
+          message="string", records=[array]}
         </h3>
         <h2>HISTORY</h2>
         <div id="viewHistory">
@@ -70,11 +70,11 @@
       <div id="recordAttachments" hidden>
         <ul>
           <li>id</li>
-          <li>requestType = "getRecordById"</li>
+          <li>route = "getRecordById"</li>
         </ul>
         <h3>
-          RESPONSE: destructure using {data} with value = {success:true,
-          message="text", record={}}
+          RESPONSE: destructure using {data} with value = {success:bool,
+          message="string", record={object}}
         </h3>
         <h2>SEE ATTACHMENTS</h2>
         <h3>Patient's Findings</h3>

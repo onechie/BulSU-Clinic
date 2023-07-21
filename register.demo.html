@@ -11,7 +11,7 @@
     <div>
       <h1>REGISTER</h1>
       <hr />
-      <h2>API ENDPOINT : "./backend/routes/register.route.php"</h2>
+      <h2>API ENDPOINT : "./backend/route/register.php"</h2>
       <hr>
       <h3>REQUEST TYPE: POST</h3>
       <h3>REQUIRED PARAMETERS:</h3>
@@ -20,9 +20,9 @@
         <li>email</li>
         <li>password</li>
         <li>confirmPassword</li>
-        <li>requestType = "register"</li>
+        <li>route = "register"</li>
       </ul>
-      <h3>RESPONSE: destructure using {data} with value = {success:true, message="text"}</h3>
+      <h3>RESPONSE: destructure using {data} with value = {success:bool, message="string"}</h3>
       <input type="text" placeholder="username" id="username" />
       <input type="email" placeholder="email" id="email" />
       <input type="password" placeholder="password" id="password" />

@@ -11,7 +11,7 @@
     <div>
       <h1>INVENTORY</h1>
       <hr />
-      <h2>API ENDPOINT : "./backend/routes/inventory.route.php"</h2>
+      <h2>API ENDPOINT : "./backend/route/inventory.php"</h2>
       <hr />
       <h3>REQUEST TYPE: POST</h3>
       <h3>REQUIRED PARAMETERS:</h3>
@@ -21,12 +21,13 @@
         <li>unit</li>
         <li>expiration</li>
         <li>boxesCount</li>
+        <li>itemsPerBox</li>
         <li>itemsCount</li>
-        <li>requestType = "createMedicine"</li>
+        <li>route = "createMedicine"</li>
       </ul>
       <h3>
-        RESPONSE: destructure using {data} with value = {success:true,
-        message="text"}
+        RESPONSE: destructure using {data} with value = {success:bool,
+        message="string"}
       </h3>
       <h3>ADD MEDICINE</h3>
       <input type="text" placeholder="name" id="name" />
@@ -46,11 +47,11 @@
       <h3>REQUEST TYPE: GET</h3>
       <h3>REQUIRED PARAMETERS:</h3>
       <ul>
-        <li>requestType = "getAllMedicine"</li>
+        <li>route = "getAllMedicine"</li>
       </ul>
       <h3>
-        RESPONSE: destructure using {data} with value = {success:true,
-        message="text", medicines=[array of medicines]}
+        RESPONSE: destructure using {data} with value = {success:bool,
+        message="string", medicines=[array]}
       </h3>
       <h3>TABLE</h3>
       <table>

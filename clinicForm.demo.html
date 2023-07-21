@@ -11,12 +11,12 @@
     <div>
       <h1>CLINIC FORM</h1>
       <hr />
-      <h2>API ENDPOINT : "./backend/routes/clinicForm.route.php"</h2>
+      <h2>API ENDPOINT : "./backend/route/clinicForm.php"</h2>
       <hr />
       <h3>REQUEST TYPE: POST</h3>
       <h3>REQUIRED PARAMETERS:</h3>
       <ul>
-        <li>sYear</li>
+        <li>schoolYear</li>
         <li>name</li>
         <li>date</li>
         <li>complaint</li>
@@ -31,11 +31,11 @@
         <li>respiration</li>
         <li>oximetry</li>
         <li>attachments = []</li>
-        <li>requestType = "createRecord"</li>
+        <li>route = "createRecord"</li>
       </ul>
       <h3>
-        RESPONSE: destructure using {data} with value = {success:true,
-        message="text"}
+        RESPONSE: destructure using {data} with value = {success:bool,
+        message="string"}
       </h3>
       <h3>CREATE RECORD</h3>
       <form
@@ -44,7 +44,7 @@
         id="clinicFormData"
         onsubmit="(createRecord(event))"
       >
-        <input type="number" placeholder="School Year" name="sYear" />
+        <input type="number" placeholder="School Year" name="schoolYear" />
         <input type="text" placeholder="Patient's Name" name="name" />
         <input type="date" placeholder="Date Entry" name="date" />
         <p></p>

@@ -2,16 +2,18 @@ const facultyRecord = document.getElementById("facultyRecord");
 const patientHistory = document.getElementById("patientHistory");
 const recordAttachments = document.getElementById("recordAttachments");
 
+const endPoint = "./backend/route/clinicRecord.php";
+
 const getAllRecord = () => {
-  let requestType = "getAllRecord";
+  const route = "getAllRecords";
 
   const tableBody = document.getElementById("tableBody");
   const clinicRecordMessage = document.getElementById("clinicRecordMessage");
 
   axios
-    .get("./backend/routes/clinicRecord.route.php", {
+    .get(endPoint, {
       params: {
-        requestType,
+        route,
       },
     })
     .then(({ data }) => {
@@ -73,7 +75,8 @@ const getAllRecord = () => {
 };
 
 const getAllRecordByName = (name) => {
-  const requestType = "getAllRecordByName";
+  const route = "getRecordsByName";
+
   const patientName = document.getElementById("patientName");
   const tableBodyByPatient = document.getElementById("tableBodyByPatient");
   const recordMessageByPatient = document.getElementById(
@@ -81,10 +84,10 @@ const getAllRecordByName = (name) => {
   );
 
   axios
-    .get("./backend/routes/clinicRecord.route.php", {
+    .get(endPoint, {
       params: {
         name,
-        requestType,
+        route,
       },
     })
     .then(({ data }) => {
@@ -145,7 +148,7 @@ const getAllRecordByName = (name) => {
 };
 
 const getRecordById = (id) => {
-  const requestType = "getRecordById";
+  const route = "getRecordById";
   const pfName = document.getElementById("pfName");
   const pfComplaint = document.getElementById("pfComplaint");
   const pfMedication = document.getElementById("pfMedication");
@@ -159,10 +162,10 @@ const getRecordById = (id) => {
   const pfSaturation = document.getElementById("pfSaturation");
   const messageByPf = document.getElementById("messageByPf");
   axios
-    .get("./backend/routes/clinicRecord.route.php", {
+    .get(endPoint, {
       params: {
         id,
-        requestType,
+        route,
       },
     })
     .then(({ data }) => {
