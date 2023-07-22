@@ -61,7 +61,6 @@ class ClinicFormController
         // Return success response with additional data
         return $this->successResponse("Record successfully created with attachments.");
     }
-
     private function validateInputData(array $inputData): array
     {
         $requiredFields = [

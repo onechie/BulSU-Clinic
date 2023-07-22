@@ -1,19 +1,28 @@
 const submitUserData = async () => {
-  const usernameOrEmail = document.getElementById("usernameOrEmail").value;
-  const password = document.getElementById("password").value;
+  const usernameOrEmailInput = document.getElementById("usernameOrEmail");
+  const passwordInput = document.getElementById("password");
   const loginMessage = document.getElementById("loginMessage");
 
   const route = "login";
   const endPoint = "./backend/route/login.php";
 
   try {
-    const { data } = await axios.get(endPoint, {
-      params: {
+    const usernameOrEmail = usernameOrEmailInput.value;
+    const password = passwordInput.value;
+
+    const { data } = await axios.post(
+      endPoint,
+      {
         usernameOrEmail,
         password,
         route,
       },
-    });
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
 
     loginMessage.innerText = data.message;
   } catch (error) {

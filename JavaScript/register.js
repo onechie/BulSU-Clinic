@@ -1,14 +1,19 @@
 const submitUserData = async () => {
-  const username = document.getElementById("username").value;
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const confirmPassword = document.getElementById("confirmPassword").value;
+  const usernameInput = document.getElementById("username");
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const confirmPasswordInput = document.getElementById("confirmPassword");
   const registeredMessage = document.getElementById("registerMessage");
 
   const route = "register";
   const endPoint = "./backend/route/register.php";
 
   try {
+    const username = usernameInput.value;
+    const email = emailInput.value;
+    const password = passwordInput.value;
+    const confirmPassword = confirmPasswordInput.value;
+
     const { data } = await axios.post(
       endPoint,
       {

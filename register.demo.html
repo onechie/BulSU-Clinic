@@ -2,17 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <title>Register</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link rel="stylesheet" href="./src/styles/index.css">
+    <link rel="stylesheet" href="./src/styles/index.css" />
   </head>
   <body>
     <div>
       <h1>REGISTER</h1>
-      <hr />
       <h2>API ENDPOINT : "./backend/route/register.php"</h2>
-      <hr>
       <h3>REQUEST TYPE: POST</h3>
       <h3>REQUIRED PARAMETERS:</h3>
       <ul>
@@ -22,22 +20,22 @@
         <li>confirmPassword</li>
         <li>route = "register"</li>
       </ul>
-      <h3>RESPONSE: destructure using {data} with value = {success:bool, message="string"}</h3>
-      <input type="text" placeholder="username" id="username" />
-      <input type="email" placeholder="email" id="email" />
-      <input type="password" placeholder="password" id="password" />
-      <input
-        type="confirmPassword"
+      <h3>
+        RESPONSE: destructure using {data} with value = {success:bool,
+        message="string"}
+      </h3>
+      <input type="text" placeholder="username" id="username" /><input
+        type="email"
+        placeholder="email"
+        id="email"
+      /><input type="password" placeholder="password" id="password" /><input
+        type="password"
         placeholder="confirm password"
         id="confirmPassword"
-      />
-      <button type="button" onclick="(submitUserData())">Register</button>
+      /><button type="button" onclick="(submitUserData())">Register</button>
       <p id="registerMessage" class="message"></p>
-      <hr />
       <a href="./">Back to home page</a>
     </div>
-
-    <script src="./JavaScript/register.js">
-    </script>
+    <script src="./JavaScript/register.js"></script>
   </body>
 </html>

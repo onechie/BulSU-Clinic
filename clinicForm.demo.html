@@ -2,10 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <title>Clinic Form</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link rel="stylesheet" href="./src/styles/index.css">
+    <link rel="stylesheet" href="./src/styles/index.css" />
   </head>
   <body>
     <div>
@@ -30,7 +30,7 @@
         <li>temperature</li>
         <li>respiration</li>
         <li>oximetry</li>
-        <li>attachments = []</li>
+        <li>attachments[]</li>
         <li>route = "createRecord"</li>
       </ul>
       <h3>
@@ -44,35 +44,51 @@
         id="clinicFormData"
         onsubmit="(createRecord(event))"
       >
-        <input type="number" placeholder="School Year" name="schoolYear" />
-        <input type="text" placeholder="Patient's Name" name="name" />
-        <input type="date" placeholder="Date Entry" name="date" />
+        <input
+          type="number"
+          placeholder="School Year"
+          name="schoolYear"
+        /><input type="text" placeholder="Patient's Name" name="name" /><input
+          type="date"
+          placeholder="Date Entry"
+          name="date"
+        />
         <p></p>
-        <input type="text" placeholder="Complaint" name="complaint" />
-        <input type="text" placeholder="Medication" name="medication" />
-        <input type="number" placeholder="Quantity" name="quantity" />
+        <input type="text" placeholder="Complaint" name="complaint" /><input
+          type="text"
+          placeholder="Medication"
+          name="medication"
+        /><input type="number" placeholder="Quantity" name="quantity" />
         <p></p>
-        <input type="text" placeholder="Treatment" name="treatment" />
-        <input type="text" placeholder="Laboratory" name="laboratory" />
-        <input type="text" placeholder="Blood Pressure" name="bloodPressure" />
+        <input type="text" placeholder="Treatment" name="treatment" /><input
+          type="text"
+          placeholder="Laboratory"
+          name="laboratory"
+        /><input
+          type="text"
+          placeholder="Blood Pressure"
+          name="bloodPressure"
+        />
         <p></p>
-        <input type="text" placeholder="Pulse" name="pulse" />
-        <input type="text" placeholder="Weight" name="weight" />
-        <input type="text" placeholder="Temperature" name="temperature" />
+        <input type="text" placeholder="Pulse" name="pulse" /><input
+          type="text"
+          placeholder="Weight"
+          name="weight"
+        /><input type="text" placeholder="Temperature" name="temperature" />
         <p></p>
-        <input type="text" placeholder="Respiration" name="respiration" />
-        <input type="text" placeholder="Oximetry" name="oximetry" />
-        <input type="file" name="attachments[]" multiple id="attachments" />
+        <input type="text" placeholder="Respiration" name="respiration" /><input
+          type="text"
+          placeholder="Oximetry"
+          name="oximetry"
+        /><input type="file" name="attachments[]" multiple id="attachments" />
         <p></p>
         <button type="submit">Create Record</button>
       </form>
-
       <p id="clinicFormMessage" class="message"></p>
       <hr />
       <hr />
       <a href="./">Back to home page</a>
     </div>
-
     <script src="./JavaScript/clinicForm.js"></script>
   </body>
 </html>

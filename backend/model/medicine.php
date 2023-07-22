@@ -56,7 +56,7 @@ class MedicineModel extends MedicineTableInitializer
 
     public function getAllMedicines()
     {
-        $sql = 'SELECT name, brand, unit, expiration, boxesC, itemsPerB, itemsC, itemsD FROM medicines';
+        $sql = 'SELECT * FROM medicines';
 
         $pdo = $this->connect();
 

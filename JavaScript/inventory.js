@@ -1,32 +1,45 @@
 const endPoint = "./backend/route/inventory.php";
+const inventoryMessage = document.getElementById("inventoryMessage");
+const tableBody = document.getElementById("tableBody");
+const tableMessage = document.getElementById("tableMessage");
+const nameInput = document.getElementById("name");
+const brandInput = document.getElementById("brand");
+const unitInput = document.getElementById("unit");
+const expirationInput = document.getElementById("expiration");
+const boxesCountInput = document.getElementById("boxesCount");
+const itemsPerBoxInput = document.getElementById("itemsPerBox");
+const itemsCountInput = document.getElementById("itemsCount");
 
 const createMedicine = async () => {
   const route = "createMedicine";
 
-  const name = document.getElementById("name").value;
-  const brand = document.getElementById("brand").value;
-  const unit = document.getElementById("unit").value;
-  const expiration = document.getElementById("expiration").value;
-  const boxesCount = document.getElementById("boxesCount").value;
-  const itemsPerBox = document.getElementById("itemsPerBox").value;
-  const itemsCount = document.getElementById("itemsCount").value;
-  const inventoryMessage = document.getElementById("inventoryMessage");
+  const name = nameInput.value;
+  const brand = brandInput.value;
+  const unit = unitInput.value;
+  const expiration = expirationInput.value;
+  const boxesCount = boxesCountInput.value;
+  const itemsPerBox = itemsPerBoxInput.value;
+  const itemsCount = itemsCountInput.value;
 
   try {
-    const { data } = await axios.post(endPoint, {
-      name,
-      brand,
-      unit,
-      expiration,
-      boxesCount,
-      itemsPerBox,
-      itemsCount,
-      route,
-    }, {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+    const { data } = await axios.post(
+      endPoint,
+      {
+        name,
+        brand,
+        unit,
+        expiration,
+        boxesCount,
+        itemsPerBox,
+        itemsCount,
+        route,
       },
-    });
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
 
     inventoryMessage.innerText = data.message;
     await getAllMedicine();
@@ -38,9 +51,6 @@ const createMedicine = async () => {
 const getAllMedicine = async () => {
   const route = "getAllMedicine";
 
-  const tableBody = document.getElementById("tableBody");
-  const tableMessage = document.getElementById("tableMessage");
-
   try {
     const { data } = await axios.get(endPoint, {
       params: {
@@ -49,22 +59,36 @@ const getAllMedicine = async () => {
     });
 
     if (data.success) {
+      const filteredMedicines = data.medicines.map(
+        ({
+          name,
+          brand,
+          unit,
+          expiration,
+          boxesC,
+          itemsPerB,
+          itemsC,
+          itemsD,
+        }) => ({
+          name,
+          brand,
+          unit,
+          expiration,
+          boxesC,
+          itemsPerB,
+          itemsC,
+          itemsD,
+        })
+      );
+
+      // Clear previous table rows
       tableBody.innerHTML = "";
-      const medicines = data.medicines;
 
-      medicines.forEach((item) => {
-        const row = document.createElement("tr");
-
-        for (const key in item) {
-          if (item.hasOwnProperty(key)) {
-            const cell = document.createElement("td");
-            cell.textContent = item[key];
-            row.appendChild(cell);
-          }
-        }
-
+      filteredMedicines.forEach((item) => {
+        const row = createTableRow(item);
         tableBody.appendChild(row);
       });
+
       tableMessage.innerText = data.message;
     } else {
       tableMessage.innerText = data.message;
@@ -72,4 +96,17 @@ const getAllMedicine = async () => {
   } catch (error) {
     console.error(error);
   }
+};
+
+// Helper function to create a table row with cells from a medicine object
+const createTableRow = (medicine) => {
+  const row = document.createElement("tr");
+  for (const key in medicine) {
+    if (medicine.hasOwnProperty(key)) {
+      const cell = document.createElement("td");
+      cell.textContent = medicine[key];
+      row.appendChild(cell);
+    }
+  }
+  return row;
 };

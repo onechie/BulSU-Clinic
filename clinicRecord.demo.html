@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <title>Clinic Record</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="./src/styles/index.css" />
@@ -13,10 +13,9 @@
       <hr />
       <h2>API ENDPOINT : "./backend/route/clinicRecord.php"</h2>
       <hr />
-      <h3>REQUEST TYPE: GET</h3>
-      <h3>REQUIRED PARAMETERS:</h3>
-
       <div id="facultyRecord">
+        <h3>REQUEST TYPE: GET</h3>
+        <h3>REQUIRED PARAMETERS:</h3>
         <ul>
           <li>route = "getAllRecords"</li>
         </ul>
@@ -27,11 +26,13 @@
         <h2>FACULTY RECORD</h2>
         <table>
           <thead>
-            <th>Name</th>
-            <th>Complaint</th>
-            <th>Date of Entry</th>
-            <th>Medication</th>
-            <th>Others</th>
+            <tr>
+              <th>Name</th>
+              <th>Complaint</th>
+              <th>Date of Entry</th>
+              <th>Medication</th>
+              <th>Others</th>
+            </tr>
           </thead>
           <tbody id="tableBody"></tbody>
         </table>
@@ -39,8 +40,9 @@
         <p id="clinicRecordMessage" class="message"></p>
         <hr />
       </div>
-
       <div id="patientHistory" hidden>
+        <h3>REQUEST TYPE: GET</h3>
+        <h3>REQUIRED PARAMETERS:</h3>
         <ul>
           <li>name</li>
           <li>route = "getRecordsByName"</li>
@@ -54,11 +56,13 @@
           <h3>Patient Name: <span id="patientName"></span></h3>
           <table>
             <thead>
-              <th>ID</th>
-              <th>Date Entry</th>
-              <th>Complaint</th>
-              <th>Medication</th>
-              <th>Attachments</th>
+              <tr>
+                <th>ID</th>
+                <th>Date Entry</th>
+                <th>Complaint</th>
+                <th>Medication</th>
+                <th>Attachments</th>
+              </tr>
             </thead>
             <tbody id="tableBodyByPatient"></tbody>
           </table>
@@ -66,8 +70,9 @@
         </div>
         <hr />
       </div>
-
       <div id="recordAttachments" hidden>
+        <h3>REQUEST TYPE: GET</h3>
+        <h3>REQUIRED PARAMETERS:</h3>
         <ul>
           <li>id</li>
           <li>route = "getRecordById"</li>
@@ -97,7 +102,6 @@
         </button>
         <p></p>
         <p id="messageByPf" class="message"></p>
-
         <hr />
       </div>
       <form
@@ -106,16 +110,26 @@
         onsubmit="(addAttachment(event))"
         hidden
       >
-        <input type="hidden" name="id" id="recordId" />
-        <input type="file" name="attachments[]" multiple id="attachments" />
+        <h3>REQUEST TYPE: POST</h3>
+        <h3>REQUIRED PARAMETERS:</h3>
+        <ul>
+          <li>id</li>
+          <li>attachments[]</li>
+          <li>route = "addAttachment"</li>
+        </ul>
+        <h2>ADD ATTACHMENTS</h2>
+        <input type="hidden" name="id" id="recordId" /><input
+          type="file"
+          name="attachments[]"
+          multiple
+          id="attachments"
+        />
         <p id="addAttachmentMessage" class="message"></p>
         <button type="submit">Submit</button>
         <hr />
       </form>
-
       <a href="./">Back to home page</a>
     </div>
-
     <script src="./JavaScript/clinicRecord.js"></script>
   </body>
 </html>

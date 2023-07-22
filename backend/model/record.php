@@ -69,7 +69,7 @@ class RecordModel extends RecordTableInitializer
 
     public function getAllRecords()
     {
-        $sql = 'SELECT name, complaint, date, medication FROM records';
+        $sql = 'SELECT * FROM records';
 
         $pdo = $this->connect();
 
@@ -85,7 +85,7 @@ class RecordModel extends RecordTableInitializer
 
     public function getRecordsByName($name)
     {
-        $sql = 'SELECT id, date, complaint, medication FROM records WHERE name LIKE :name';
+        $sql = 'SELECT * FROM records WHERE name LIKE :name';
 
         $pdo = $this->connect();
 

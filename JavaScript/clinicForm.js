@@ -8,7 +8,7 @@ const createRecord = async (event) => {
 
   try {
     // Use destructuring to extract the files from the file input
-    const { files } = document.getElementById("attachments");
+    const { files } = clinicFormData.attachments;
 
     // Use FormData constructor to create the formData object
     const formData = new FormData(clinicFormData);
