@@ -1,5 +1,5 @@
 <?php
-class ClinicRecordController
+class ClinicRecordController extends Utility
 {
     private $recordModel;
     private $attachmentModel;
@@ -100,7 +100,6 @@ class ClinicRecordController
         foreach ($fileData['tmp_name'] as $key => $tmpName) {
             if (isset($fileData['name'])) {
                 $fileName = $fileData['name'][$key];
-                $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
                 $uploadDir = "../../src/attachments/" . $recordId . "/";
 
@@ -135,20 +134,5 @@ class ClinicRecordController
             $attachmentUrl = $attachment['url'];
             $this->attachmentModel->addAttachment($recordId, $attachmentName, $attachmentUrl);
         }
-    }
-
-    private function successResponse(string $message): array
-    {
-        return ['success' => true, 'message' => $message];
-    }
-
-    private function successResponseWithData(string $message, array $data): array
-    {
-        return ['success' => true, 'message' => $message] + $data;
-    }
-
-    private function errorResponse(string $message): array
-    {
-        return ['success' => false, 'message' => $message];
     }
 }

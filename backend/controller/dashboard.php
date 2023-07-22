@@ -1,6 +1,5 @@
 <?php
-//TODO
-class DashboardController
+class DashboardController extends Utility
 {
     private $medicineModel;
 
@@ -18,15 +17,5 @@ class DashboardController
         } catch (Exception $error) {
             return $this->errorResponse("Error: Unable to fetch medicines.");
         }
-    }
-
-    private function successResponseWithData(string $message, array $data): array
-    {
-        return ['success' => true, 'message' => $message] + $data;
-    }
-
-    private function errorResponse(string $message): array
-    {
-        return ['success' => false, 'message' => $message];
     }
 }

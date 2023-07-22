@@ -69,4 +69,45 @@ class MedicineModel extends MedicineTableInitializer
             throw new Exception('Database error: ' . $error->getMessage());
         }
     }
+    public function getMedicineByName($name)
+    {
+        $sql = 'SELECT * FROM medicines WHERE name = :name';
+
+        $pdo = $this->connect();
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            $params = [
+                ':name' => $name,
+            ];
+            $stmt->execute($params);
+            $medicine = $stmt->fetch();
+            return $medicine;
+        } catch (PDOException $error) {
+            throw new Exception('Database error: ' . $error->getMessage());
+        }
+    }
+    public function updateMedicineById($id, $quantity, $deducted)
+    {
+        $sql = 'UPDATE medicines SET itemsC = :quantity, itemsD = :deducted WHERE id = :id';
+
+        $pdo = $this->connect();
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            $params = [
+                ':quantity' => $quantity,
+                ':deducted' => $deducted,
+                ':id' => $id,
+            ];
+
+            if ($stmt->execute($params)) {
+                return true;
+            } else {
+                throw new Exception('Error while updating the medicine.');
+            }
+        } catch (PDOException $error) {
+            throw new Exception('Database error: ' . $error->getMessage());
+        }
+    }
 }

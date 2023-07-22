@@ -1,4 +1,5 @@
 <?php
+include_once("../utils/utility.php");
 include_once("../database/database.php");
 include_once("../model/record.php");
 include_once("../model/attachment.php");

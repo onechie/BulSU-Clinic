@@ -1,30 +1,58 @@
 <?php
-class ClinicFormController
+class ClinicFormController extends Utility
 {
+    private const ALLOWED_EXTENSIONS = ['pdf', 'txt', 'jpg', 'jpeg', 'png', 'gif', 'docx'];
+
     private $recordModel;
     private $attachmentModel;
+    private $complaintModel;
+    private $medicineModel;
+    private $treatmentModel;
+    private $laboratoryModel;
 
-    public function __construct(RecordModel $recordModel, AttachmentModel $attachmentModel)
-    {
+    public function __construct(
+        RecordModel $recordModel,
+        AttachmentModel $attachmentModel,
+        ComplaintModel $complaintModel,
+        MedicineModel $medicineModel,
+        TreatmentModel $treatmentModel,
+        LaboratoryModel $laboratoryModel
+    ) {
         $this->recordModel = $recordModel;
         $this->attachmentModel = $attachmentModel;
+        $this->complaintModel = $complaintModel;
+        $this->medicineModel = $medicineModel;
+        $this->treatmentModel = $treatmentModel;
+        $this->laboratoryModel = $laboratoryModel;
+    }
+
+    public function getFormSuggestions(): array
+    {
+        $suggestions = [
+            'complaints' => $this->complaintModel->getAllComplaints(),
+            'medications' => $this->medicineModel->getAllMedicines(),
+            'treatments' => $this->treatmentModel->getAllTreatments(),
+            'laboratories' => $this->laboratoryModel->getAllLaboratories()
+        ];
+
+        return $this->successResponseWithData("Form suggestions successfully retrieved.", $suggestions);
     }
 
     public function createRecord(array $inputData, array $fileData): array
     {
-        $response = $this->validateInputData($inputData);
-        if (!$response['success']) {
-            return $response;
+        $validationResult = $this->validateInputData($inputData);
+        if (!$validationResult['success']) {
+            return $validationResult;
         }
 
-        if (isset($fileData['name'])) {
+        if (!empty($fileData['name'])) {
             $fileValidationResult = $this->validateFiles($fileData);
             if (!$fileValidationResult['success']) {
                 return $fileValidationResult;
             }
         }
 
-        $result = $this->recordModel->createRecord(
+        $recordId = $this->recordModel->createRecord(
             $inputData['schoolYear'],
             $inputData['name'],
             $inputData['date'],
@@ -41,26 +69,22 @@ class ClinicFormController
             $inputData['oximetry']
         );
 
-        if (!$result) {
+        if (!$recordId) {
             return $this->errorResponse("Internal Error: Unable to create record.");
         }
 
-        $response = $this->successResponse("Record successfully created.");
-
-        if (!isset($fileData['name'])) {
-            return $response;
+        if (!empty($fileData['name'])) {
+            $attachmentsData = $this->processAttachments($fileData, $recordId);
+            if (!$attachmentsData['success']) {
+                return $this->errorResponse($attachmentsData['message']);
+            }
+            $this->saveAttachmentsToDatabase($attachmentsData['data'], $recordId);
         }
 
-        $attachmentsData = $this->processAttachments($fileData, $result);
-        if ($attachmentsData['success'] === false) {
-            return $this->errorResponse($attachmentsData['message']);
-        }
-
-        $this->saveAttachmentsToDatabase($attachmentsData['data'], $result);
-
-        // Return success response with additional data
-        return $this->successResponse("Record successfully created with attachments.");
+        $message = !empty($fileData['name']) ? "Record successfully created with attachments." : "Record successfully created.";
+        return $this->successResponse($message);
     }
+
     private function validateInputData(array $inputData): array
     {
         $requiredFields = [
@@ -85,6 +109,22 @@ class ClinicFormController
         if (!DateTime::createFromFormat('Y-m-d', $inputData['date'])) {
             return $this->errorResponse("Invalid date format. Please use the YYYY-MM-DD format.");
         }
+        if ($inputData['quantity'] <= 0) {
+            return $this->errorResponse("Invalid quantity. Quantity must be greater than 0.");
+        }
+
+        $medicineMaxQuantity = $this->medicineModel->getMedicineByName($inputData['medication']);
+        if ($inputData['quantity'] > $medicineMaxQuantity['itemsC']) {
+            $message = $medicineMaxQuantity['itemsC'] == 0 ? "Invalid quantity. " . $medicineMaxQuantity['name'] . " is out of stock." : "Invalid quantity. Quantity must be less than or equal to " . $medicineMaxQuantity['itemsC'] . ".";
+            return $this->errorResponse($message);
+        }
+
+        $updatedQuantity = $medicineMaxQuantity['itemsC'] - $inputData['quantity'];
+        $updatedItemsDeducted = $medicineMaxQuantity['itemsD'] + $inputData['quantity'];
+        $medicineUpdated = $this->medicineModel->updateMedicineById($medicineMaxQuantity['id'], $updatedQuantity, $updatedItemsDeducted);
+        if (!$medicineUpdated) {
+            return $this->errorResponse("Internal Error: Unable to update medicine.");
+        }
 
         // Add more validations for other fields here as needed...
 
@@ -93,14 +133,12 @@ class ClinicFormController
 
     private function validateFiles(array $fileData): array
     {
-        $allowedExtensions = ['pdf', 'txt', 'jpg', 'jpeg', 'png', 'gif', 'docx'];
-
         foreach ($fileData['tmp_name'] as $key => $tmpName) {
             if (isset($fileData['name'])) {
                 $fileName = $fileData['name'][$key];
                 $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-                if (!in_array($fileExtension, $allowedExtensions)) {
+                if (!in_array($fileExtension, self::ALLOWED_EXTENSIONS)) {
                     return $this->errorResponse("Invalid file type. Only PDF, TXT, JPG, JPEG, PNG, GIF, and DOCX files are allowed.");
                 }
             }
@@ -152,20 +190,5 @@ class ClinicFormController
             $attachmentUrl = $attachment['url'];
             $this->attachmentModel->addAttachment($recordId, $attachmentName, $attachmentUrl);
         }
-    }
-
-    private function successResponse(string $message): array
-    {
-        return ['success' => true, 'message' => $message];
-    }
-
-    private function successResponseWithData(string $message, array $data): array
-    {
-        return ['success' => true, 'message' => $message] + $data;
-    }
-
-    private function errorResponse(string $message): array
-    {
-        return ['success' => false, 'message' => $message];
     }
 }

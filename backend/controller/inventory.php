@@ -1,5 +1,5 @@
 <?php 
-class InventoryController
+class InventoryController extends Utility
 {
     private $medicineModel;
 
@@ -53,20 +53,5 @@ class InventoryController
         } catch (Exception $error) {
             return $this->errorResponse("Error: Unable to fetch medicines.");
         }
-    }
-
-    private function successResponse(string $message): array
-    {
-        return ['success' => true, 'message' => $message];
-    }
-
-    private function successResponseWithData(string $message, array $data): array
-    {
-        return ['success' => true, 'message' => $message] + $data;
-    }
-
-    private function errorResponse(string $message): array
-    {
-        return ['success' => false, 'message' => $message];
     }
 }

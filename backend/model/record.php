@@ -8,9 +8,9 @@ class RecordTableInitializer extends DatabaseInitializer
             'sYear INT NOT NULL',
             'name VARCHAR(255) NOT NULL',
             'date DATE NOT NULL',
-            'complaint TEXT',
-            'medication VARCHAR(255)',
-            'quantity INT',
+            'complaint TEXT NOT NULL',
+            'medication VARCHAR(255) NOT NULL',
+            'quantity INT NOT NULL',
             'treatment TEXT',
             'laboratory TEXT',
             'bloodPressure VARCHAR(255)',
@@ -32,7 +32,7 @@ class RecordModel extends RecordTableInitializer
         parent::__construct();
     }
 
-    public function createRecord($sYear, $name, $date, $complaint, $medication, $quantity, $treatment, $laboratory, $bloodPressure, $pulse, $weight, $temperature, $respiration, $oximetry)
+    public function createRecord($schoolYear, $name, $date, $complaint, $medication, $quantity, $treatment, $laboratory, $bloodPressure, $pulse, $weight, $temperature, $respiration, $oximetry)
     {
         $sql = 'INSERT INTO records (sYear, name, date, complaint, medication, quantity, treatment, laboratory, bloodPressure, pulse, weight, temperature, respiration, oximetry) VALUES (:sYear, :name, :date, :complaint, :medication, :quantity, :treatment, :laboratory, :bloodPressure, :pulse, :weight, :temperature, :respiration, :oximetry)';
 
@@ -41,7 +41,7 @@ class RecordModel extends RecordTableInitializer
         try {
             $stmt = $pdo->prepare($sql);
             $params = [
-                ':sYear' => $sYear,
+                ':sYear' => $schoolYear,
                 ':name' => $name,
                 ':date' => $date,
                 ':complaint' => $complaint,

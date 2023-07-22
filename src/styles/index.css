@@ -12,6 +12,11 @@ button{
     color: white;
     padding: 5px;
 }
+.button-danger{
+    background-color: red;
+    color: white;
+    padding: 5px;
+}
 a{
     font-size: 20px;
 }
@@ -20,4 +25,7 @@ a{
 }
 .text-primary{
     color: blue;
+}
+.notes{
+    max-width: 800px;
 }

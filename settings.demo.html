@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Settings</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="./src/styles/index.css" />
+  </head>
+  <body>
+    <div>
+      <h1>SETTINGS</h1>
+      <h2>API ENDPOINT : "./backend/route/settings.php"</h2>
+      <hr />
+      <h4 class="text-danger">FETCH COMPLAINTS TABLE DATA</h4>
+      <h4>REQUEST TYPE: GET</h4>
+      <h4>REQUIRED PARAMETERS:</h4>
+      <ul>
+        <li>route = "getComplaints"</li>
+      </ul>
+      <h4>
+        RESPONSE: destructure using {data} with value = {success:bool,
+        message="string", complaints={}}
+      </h4>
+      <hr />
+
+      <h4 class="text-danger">DELETE COMPLAINT DATA</h4>
+      <h4>REQUEST TYPE: POST</h4>
+      <h4>REQUIRED PARAMETERS:</h4>
+      <ul>
+        <li>id</li>
+        <li>route = "deleteComplaint"</li>
+      </ul>
+      <h4>
+        RESPONSE: destructure using {data} with value = {success:bool,
+        message="string"}
+      </h4>
+      <hr />
+      <h4 class="text-danger">ADD COMPLAINT DATA</h4>
+      <h4>REQUEST TYPE: POST</h4>
+      <h4>REQUIRED PARAMETERS:</h4>
+      <ul>
+        <li>description</li>
+        <li>route = "addComplaint"</li>
+      </ul>
+      <h4>
+        RESPONSE: destructure using {data} with value = {success:bool,
+        message="string"}
+      </h4>
+      <p></p>
+      <hr />
+      <button type="button" onclick="(getComplaints())">Complaints</button>
+      <div id="complaintsContainer" hidden>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Complaint</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody id="complaintsTable"></tbody>
+        </table>
+        <p></p>
+        <span id="complaintsMessage" class="message"></span>
+        <p>
+          <input
+            type="text"
+            id="newComplaintValue"
+            placeholder="Text..."
+          /><button type="button" onclick="(addComplaint())">
+            Add Complaint
+          </button>
+        </p>
+      </div>
+      <p></p>
+      <hr />
+      <button type="button" onclick="(getTreatments())">Treatments</button>
+      <div id="treatmentsContainer" hidden>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Treatment</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody id="treatmentsTable"></tbody>
+        </table>
+        <p></p>
+        <span id="treatmentsMessage" class="message"></span>
+        <p>
+          <input
+            type="text"
+            id="newTreatmentValue"
+            placeholder="Text..."
+          /><button type="button" onclick="(addTreatment())">
+            Add Treatment
+          </button>
+        </p>
+      </div>
+      <p></p>
+      <hr />
+      <button type="button" onclick="(getLaboratories())">Laboratories</button>
+      <div id="laboratoriesContainer" hidden>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Laboratory</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody id="laboratoriesTable"></tbody>
+        </table>
+        <p></p>
+        <span id="laboratoriesMessage" class="message"></span>
+        <p>
+          <input
+            type="text"
+            id="newLaboratoryValue"
+            placeholder="Text..."
+          /><button type="button" onclick="(addLaboratory())">
+            Add Laboratory
+          </button>
+        </p>
+      </div>
+      <p></p>
+      <hr />
+
+      <a href="./">Back to home page</a>
+    </div>
+    <script src="./JavaScript/settings.js"></script>
+  </body>
+</html>

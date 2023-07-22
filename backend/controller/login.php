@@ -1,5 +1,5 @@
 <?php
-class LoginController
+class LoginController extends Utility
 {
     private $userModel;
 
@@ -32,15 +32,5 @@ class LoginController
         } else {
             return $this->errorResponse("Invalid password.");
         }
-    }
-
-    private function successResponse(string $message): array
-    {
-        return ['success' => true, 'message' => $message];
-    }
-
-    private function errorResponse(string $message): array
-    {
-        return ['success' => false, 'message' => $message];
     }
 }

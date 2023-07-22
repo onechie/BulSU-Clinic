@@ -1,5 +1,5 @@
 <?php 
-class RegisterController
+class RegisterController extends Utility
 {
     private $userModel;
 
@@ -41,15 +41,5 @@ class RegisterController
         } else {
             return $this->errorResponse("Internal Error: Unable to register user.");
         }
-    }
-
-    private function successResponse(string $message): array
-    {
-        return ['success' => true, 'message' => $message];
-    }
-
-    private function errorResponse(string $message): array
-    {
-        return ['success' => false, 'message' => $message];
     }
 }
