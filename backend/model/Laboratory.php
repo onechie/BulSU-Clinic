@@ -19,7 +19,8 @@ class LaboratoryModel extends LaboratoryTableInitializer
         parent::__construct();
     }
 
-    public function addLaboratory($description){
+    public function addLaboratory($description)
+    {
         $sql = 'INSERT INTO laboratories (description) VALUES (:description)';
 
         $pdo = $this->connect();
@@ -39,7 +40,8 @@ class LaboratoryModel extends LaboratoryTableInitializer
             throw new Exception('Database error: ' . $error->getMessage());
         }
     }
-    public function getAllLaboratories(){
+    public function getAllLaboratories()
+    {
         $sql = 'SELECT * FROM laboratories';
 
         $pdo = $this->connect();
@@ -49,6 +51,37 @@ class LaboratoryModel extends LaboratoryTableInitializer
             $stmt->execute();
             $laboratories = $stmt->fetchAll();
             return $laboratories;
+        } catch (PDOException $error) {
+            throw new Exception('Database error: ' . $error->getMessage());
+        }
+    }
+    public function getLaboratory($description)
+    {
+        $sql = 'SELECT * FROM laboratories WHERE description = :description';
+
+        $pdo = $this->connect();
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            $params = [':description' => $description];
+            $stmt->execute($params);
+            $laboratory = $stmt->fetch();
+            return $laboratory;
+        } catch (PDOException $error) {
+            throw new Exception('Database error: ' . $error->getMessage());
+        }
+    }
+    public function deleteLaboratory($id)
+    {
+        $sql = 'DELETE FROM laboratories WHERE id = :id';
+
+        $pdo = $this->connect();
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            $params = [':id' => $id];
+            $stmt->execute($params);
+            return true;
         } catch (PDOException $error) {
             throw new Exception('Database error: ' . $error->getMessage());
         }

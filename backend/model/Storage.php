@@ -1,9 +1,9 @@
 <?php
-class TreatmentTableInitializer extends DatabaseInitializer
+class StorageTableInitializer extends DatabaseInitializer
 {
     public function __construct()
     {
-        $tableName = 'treatments';
+        $tableName = 'storages';
         $columns = [
             'description TEXT NOT NULL',
         ];
@@ -12,16 +12,16 @@ class TreatmentTableInitializer extends DatabaseInitializer
     }
 }
 
-class TreatmentModel extends TreatmentTableInitializer
+class StorageModel extends StorageTableInitializer
 {
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function addTreatment($description)
+    public function addStorage($description)
     {
-        $sql = 'INSERT INTO treatments (description) VALUES (:description)';
+        $sql = 'INSERT INTO storages (description) VALUES (:description)';
 
         $pdo = $this->connect();
 
@@ -40,24 +40,24 @@ class TreatmentModel extends TreatmentTableInitializer
             throw new Exception('Database error: ' . $error->getMessage());
         }
     }
-    public function getAllTreatments()
+    public function getAllStorages()
     {
-        $sql = 'SELECT * FROM treatments';
+        $sql = 'SELECT * FROM storages';
 
         $pdo = $this->connect();
 
         try {
             $stmt = $pdo->prepare($sql);
             $stmt->execute();
-            $treatments = $stmt->fetchAll();
-            return $treatments;
+            $storages = $stmt->fetchAll();
+            return $storages;
         } catch (PDOException $error) {
             throw new Exception('Database error: ' . $error->getMessage());
         }
     }
-    public function getTreatment($description)
+    public function getStorage($description)
     {
-        $sql = 'SELECT * FROM treatments WHERE description = :description';
+        $sql = 'SELECT * FROM storages WHERE description = :description';
 
         $pdo = $this->connect();
 
@@ -65,15 +65,15 @@ class TreatmentModel extends TreatmentTableInitializer
             $stmt = $pdo->prepare($sql);
             $params = [':description' => $description];
             $stmt->execute($params);
-            $treatment = $stmt->fetch();
-            return $treatment;
+            $storage = $stmt->fetch();
+            return $storage;
         } catch (PDOException $error) {
             throw new Exception('Database error: ' . $error->getMessage());
         }
     }
-    public function deleteTreatment($id)
+    public function deleteStorage($id)
     {
-        $sql = 'DELETE FROM treatments WHERE id = :id';
+        $sql = 'DELETE FROM storages WHERE id = :id';
 
         $pdo = $this->connect();
 

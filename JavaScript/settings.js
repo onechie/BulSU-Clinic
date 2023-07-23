@@ -1,6 +1,10 @@
 const endPoint = "./backend/route/settings.php";
 const complaintsMessage = document.getElementById("complaintsMessage");
+const treatmentsMessage = document.getElementById("treatmentsMessage");
+const laboratoriesMessage = document.getElementById("laboratoriesMessage");
+const storagesMessage = document.getElementById("storagesMessage");
 
+//COMPLAINTS
 const getComplaints = async () => {
   const complaintsContainer = document.getElementById("complaintsContainer");
   const complaintsTable = document.getElementById("complaintsTable");
@@ -24,9 +28,9 @@ const getComplaints = async () => {
       const row = createTableRow(item);
       complaintsTable.appendChild(row);
 
-      const viewHistoryButton = createButton("Delete");
+      const deleteButton = createButton("Delete");
 
-      viewHistoryButton.addEventListener("click", async () => {
+      deleteButton.addEventListener("click", async () => {
         const route = "deleteComplaint";
         const { data } = await axios.post(
           endPoint,
@@ -44,7 +48,7 @@ const getComplaints = async () => {
         complaintsMessage.innerText = data.message;
       });
 
-      addCellToRow(row, viewHistoryButton);
+      addCellToRow(row, deleteButton);
     });
 
     complaintsContainer.removeAttribute("hidden");
@@ -54,15 +58,180 @@ const getComplaints = async () => {
   }
 };
 
-const addComplaint = async () => {
-  const newComplaintValue = document.getElementById("newComplaintValue").value;
-  const route = "addComplaint";
+//TREATMENTS
+const getTreatments = async () => {
+  const treatmentsContainer = document.getElementById("treatmentsContainer");
+  const treatmentsTable = document.getElementById("treatmentsTable");
+
+  const route = "getTreatments";
+
+  try {
+    const { data } = await axios.get(endPoint, {
+      params: {
+        route,
+      },
+    });
+
+    const filteredTreatments = data.treatments.map(({ id, description }) => ({
+      id,
+      description,
+    }));
+    treatmentsTable.innerHTML = "";
+
+    filteredTreatments.forEach((item) => {
+      const row = createTableRow(item);
+      treatmentsTable.appendChild(row);
+
+      const deleteButton = createButton("Delete");
+
+      deleteButton.addEventListener("click", async () => {
+        const route = "deleteTreatment";
+        const { data } = await axios.post(
+          endPoint,
+          {
+            id: item.id,
+            route,
+          },
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+          }
+        );
+        await getTreatments();
+        treatmentsMessage.innerText = data.message;
+      });
+
+      addCellToRow(row, deleteButton);
+    });
+
+    treatmentsContainer.removeAttribute("hidden");
+    treatmentsMessage.innerText = data.message;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+//LABORATORIES
+const getLaboratories = async () => {
+  const laboratoriesContainer = document.getElementById(
+    "laboratoriesContainer"
+  );
+  const laboratoriesTable = document.getElementById("laboratoriesTable");
+
+  const route = "getLaboratories";
+
+  try {
+    const { data } = await axios.get(endPoint, {
+      params: {
+        route,
+      },
+    });
+
+    const filteredLaboratories = data.laboratories.map(
+      ({ id, description }) => ({
+        id,
+        description,
+      })
+    );
+    laboratoriesTable.innerHTML = "";
+
+    filteredLaboratories.forEach((item) => {
+      const row = createTableRow(item);
+      laboratoriesTable.appendChild(row);
+
+      const deleteButton = createButton("Delete");
+
+      deleteButton.addEventListener("click", async () => {
+        const route = "deleteLaboratory";
+        const { data } = await axios.post(
+          endPoint,
+          {
+            id: item.id,
+            route,
+          },
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+          }
+        );
+        await getLaboratories();
+        laboratoriesMessage.innerText = data.message;
+      });
+
+      addCellToRow(row, deleteButton);
+    });
+
+    laboratoriesContainer.removeAttribute("hidden");
+    laboratoriesMessage.innerText = data.message;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+//STORAGES
+const getStorages = async () => {
+  const storagesContainer = document.getElementById("storagesContainer");
+  const storagesTable = document.getElementById("storagesTable");
+
+  const route = "getStorages";
+
+  try {
+    const { data } = await axios.get(endPoint, {
+      params: {
+        route,
+      },
+    });
+
+    const filteredStorages = data.storages.map(({ id, description }) => ({
+      id,
+      description,
+    }));
+    storagesTable.innerHTML = "";
+
+    filteredStorages.forEach((item) => {
+      const row = createTableRow(item);
+      storagesTable.appendChild(row);
+
+      const deleteButton = createButton("Delete");
+
+      deleteButton.addEventListener("click", async () => {
+        const route = "deleteStorage";
+        const { data } = await axios.post(
+          endPoint,
+          {
+            id: item.id,
+            route,
+          },
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+          }
+        );
+        await getStorages();
+        storagesMessage.innerText = data.message;
+      });
+
+      addCellToRow(row, deleteButton);
+    });
+
+    storagesContainer.removeAttribute("hidden");
+    storagesMessage.innerText = data.message;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const addItem = async (route, inputId, fetchDataFunction, messageId) => {
+  const newDescriptionValue = document.getElementById(inputId).value;
   try {
     const { data } = await axios.post(
       endPoint,
       {
         route,
-        description: newComplaintValue,
+        description: newDescriptionValue,
       },
       {
         headers: {
@@ -70,8 +239,8 @@ const addComplaint = async () => {
         },
       }
     );
-    await getComplaints();
-    complaintsMessage.innerText = data.message;
+    await fetchDataFunction();
+    messageId.innerText = data.message;
   } catch (error) {
     console.log(error);
   }
@@ -103,3 +272,36 @@ const addCellToRow = (row, cell) => {
   viewHistoryCell.appendChild(cell);
   row.appendChild(viewHistoryCell);
 };
+
+const addComplaint = async () => {
+  await addItem(
+    "addComplaint",
+    "newComplaintValue",
+    getComplaints,
+    complaintsMessage
+  );
+};
+const addTreatment = async () => {
+  await addItem(
+    "addTreatment",
+    "newTreatmentValue",
+    getTreatments,
+    treatmentsMessage
+  );
+};
+const addLaboratory = async () => {
+  await addItem(
+    "addLaboratory",
+    "newLaboratoryValue",
+    getLaboratories,
+    laboratoriesMessage
+  );
+};
+const addStorage = async () => {
+  await addItem("addStorage", "newStorageValue", getStorages, storagesMessage);
+};
+
+getComplaints();
+getTreatments();
+getLaboratories();
+getStorages();
