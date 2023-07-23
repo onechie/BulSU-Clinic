@@ -9,13 +9,18 @@ const getAllMedicine = async () => {
     const { data } = await axios.get(endPoint, { params: { route } });
 
     if (data.success) {
-      const filteredMedicines = data.medicines.map(({ brand, itemsC, expiration }) => ({
-        brand,
-        itemsC,
-        expiration,
-      }));
+      const filteredMedicines = data.medicines.map(
+        ({ brand, itemsC, expiration, storage }) => ({
+          brand,
+          itemsC,
+          expiration,
+          storage,
+        })
+      );
 
-      filteredMedicines.sort((a, b) => new Date(a.expiration) - new Date(b.expiration));
+      filteredMedicines.sort(
+        (a, b) => new Date(a.expiration) - new Date(b.expiration)
+      );
 
       tableBody.textContent = ""; // Clear the table before adding new rows
 
@@ -25,7 +30,7 @@ const getAllMedicine = async () => {
         for (const [key, value] of Object.entries(item)) {
           const cell = document.createElement("td");
           cell.textContent = value;
-          
+
           if (key === "expiration") {
             const daysDiff = calculateDaysDifference(value);
             if (daysDiff <= 1) {

@@ -13,6 +13,7 @@ class MedicineTableInitializer extends DatabaseInitializer
             'itemsPerB INT NOT NULL',
             'itemsC INT NOT NULL',
             'itemsD INT NOT NULL DEFAULT 0',
+            'storage VARCHAR(255) NOT NULL',
         ];
 
         parent::__construct($tableName, $columns);
@@ -26,9 +27,9 @@ class MedicineModel extends MedicineTableInitializer
         parent::__construct();
     }
 
-    public function addMedicine($name, $brand, $unit, $expiration, $boxesCount, $itemsPerBox, $currentItemsCount)
+    public function addMedicine($name, $brand, $unit, $expiration, $boxesCount, $itemsPerBox, $currentItemsCount, $storage)
     {
-        $sql = 'INSERT INTO medicines (name, brand, unit, expiration, boxesC, itemsPerB, itemsC) VALUES (:name, :brand, :unit, :expiration, :boxesC, :itemsPerB, :itemsC)';
+        $sql = 'INSERT INTO medicines (name, brand, unit, expiration, boxesC, itemsPerB, itemsC, storage) VALUES (:name, :brand, :unit, :expiration, :boxesC, :itemsPerB, :itemsC, :storage)';
 
         $pdo = $this->connect();
 
@@ -42,6 +43,7 @@ class MedicineModel extends MedicineTableInitializer
                 ':boxesC' => $boxesCount,
                 ':itemsPerB' => $itemsPerBox,
                 ':itemsC' => $currentItemsCount,
+                ':storage' => $storage,
             ];
 
             if ($stmt->execute($params)) {

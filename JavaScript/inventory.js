@@ -10,6 +10,28 @@ const boxesCountInput = document.getElementById("boxesCount");
 const itemsPerBoxInput = document.getElementById("itemsPerBox");
 const itemsCountInput = document.getElementById("itemsCount");
 
+const storageSuggestions = document.getElementById("storageSuggestions");
+
+const populateFormSuggestions = async () => {
+  const route = "getFormSuggestions";
+  try {
+    const { data } = await axios.get(endPoint, { params: { route } });
+    const { storages } = data;
+    populateDropdownOptions(storageSuggestions, storages, "description");
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const populateDropdownOptions = (selectElement, optionsArray, property) => {
+  optionsArray.forEach((option) => {
+    const optionElement = document.createElement("option");
+    optionElement.value = option[property];
+    optionElement.textContent = option[property];
+    selectElement.appendChild(optionElement);
+  });
+};
+
 const createMedicine = async () => {
   const route = "createMedicine";
 
@@ -20,6 +42,7 @@ const createMedicine = async () => {
   const boxesCount = boxesCountInput.value;
   const itemsPerBox = itemsPerBoxInput.value;
   const itemsCount = itemsCountInput.value;
+  const storage = storageSuggestions.value;
 
   try {
     const { data } = await axios.post(
@@ -32,6 +55,7 @@ const createMedicine = async () => {
         boxesCount,
         itemsPerBox,
         itemsCount,
+        storage,
         route,
       },
       {
@@ -110,3 +134,5 @@ const createTableRow = (medicine) => {
   }
   return row;
 };
+
+populateFormSuggestions();
