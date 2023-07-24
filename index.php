@@ -1,5 +1,5 @@
 <?php
-require_once 'router.php';
+require_once 'page-router.php';
 
 session_start();
 
@@ -40,5 +40,5 @@ $pageRouter->set404(function () {
 });
 
 // Run the router
-$router->run();
+$pageRouter->run();
 ?>
