@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Summarization</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../src/styles/index.css" />
+    <script src="../src/js/summarization.js"></script>
+  </head>
+  <body>
+    <h1>SUMMARIZATION</h1>
+    <hr />
+    <h2>API ENDPOINT : "./backend/route/summarization.php"</h2>
+    <hr />
+    <h3>REQUEST TYPE: GET</h3>
+    <h3>REQUIRED PARAMETERS:</h3>
+    <ul>
+      <li>route = "getMedicines"</li>
+    </ul>
+    <h3>
+      RESPONSE: destructure using {data} with value = {success:bool,
+      message="string", medicines=[array]}
+    </h3>
+    <hr />
+    <h3>Chart</h3>
+    <div style="position: relative; height: 60vh; width: 80vw">
+      <canvas id="barChart"></canvas>
+    </div>
+    <button onclick="(getAndDisplaySummarization())">Refresh</button>
+    <hr />
+    <a href="../">Back to home page</a>
+  </body>
+</html>

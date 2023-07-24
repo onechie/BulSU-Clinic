@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Settings</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="../src/styles/index.css" />
+  </head>
+  <body>
+    <div>
+      <h1>SETTINGS</h1>
+      <h2>API ENDPOINT : "./backend/route/settings.php"</h2>
+
+      <hr />
+      <!-- USERS SETTINGS-->
+      <details>
+        <summary>USER SETTINGS</summary>
+        <div>
+          <h3>Personal and account information</h3>
+          <p>Username : <span>[value]</span></p>
+          <p>Email : <span>[value]</span></p>
+          <h3>Change password</h3>
+          <p>Current password : <input type="password" id="currentPassword"></p>
+          <p>New password : <input type="password" id="newPassword"></p>
+          <p>Re-type New password : <input type="password" id="RetypeNewPassword"></p>
+        </div>
+      </details>
+
+      <hr />
+      <!-- COMPLAINTS SETTINGS-->
+      <details>
+        <summary>COMPLAINT SETTINGS</summary>
+        <div>
+          <h4 class="text-primary">FETCH COMPLAINTS TABLE DATA</h4>
+          <h4>REQUEST TYPE: GET</h4>
+          <h4>REQUIRED PARAMETERS:</h4>
+          <ul>
+            <li>route = "getComplaints"</li>
+          </ul>
+          <h4>
+            RESPONSE: destructure using {data} with value = {success:bool,
+            message="string", complaints={}}
+          </h4>
+          <hr />
+
+          <h4 class="text-primary">DELETE COMPLAINT DATA</h4>
+          <h4>REQUEST TYPE: POST</h4>
+          <h4>REQUIRED PARAMETERS:</h4>
+          <ul>
+            <li>id</li>
+            <li>route = "deleteComplaint"</li>
+          </ul>
+          <h4>
+            RESPONSE: destructure using {data} with value = {success:bool,
+            message="string"}
+          </h4>
+          <hr />
+          <h4 class="text-primary">ADD COMPLAINT DATA</h4>
+          <h4>REQUEST TYPE: POST</h4>
+          <h4>REQUIRED PARAMETERS:</h4>
+          <ul>
+            <li>description</li>
+            <li>route = "addComplaint"</li>
+          </ul>
+          <h4>
+            RESPONSE: destructure using {data} with value = {success:bool,
+            message="string"}
+          </h4>
+          <hr />
+          <div id="complaintsContainer" hidden>
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Complaint</th>
+                  <th>Remove</th>
+                </tr>
+              </thead>
+              <tbody id="complaintsTable"></tbody>
+            </table>
+            <p></p>
+            <span id="complaintsMessage" class="message"></span>
+            <p>
+              <input
+                type="text"
+                id="newComplaintValue"
+                placeholder="Text..."
+              /><button type="button" onclick="(addComplaint())">
+                Add Complaint
+              </button>
+            </p>
+          </div>
+        </div>
+      </details>
+
+      <hr />
+      <!-- TREATMENTS SETTINGS-->
+      <details>
+        <summary>TREATMENT SETTINGS</summary>
+        <div>
+          <h4 class="text-primary">FETCH TREATMENTS TABLE DATA</h4>
+          <h4>REQUEST TYPE: GET</h4>
+          <h4>REQUIRED PARAMETERS:</h4>
+          <ul>
+            <li>route = "getTreatments"</li>
+          </ul>
+          <h4>
+            RESPONSE: destructure using {data} with value = {success:bool,
+            message="string", treatments={}}
+          </h4>
+          <hr />
+
+          <h4 class="text-primary">DELETE TREATMENT DATA</h4>
+          <h4>REQUEST TYPE: POST</h4>
+          <h4>REQUIRED PARAMETERS:</h4>
+          <ul>
+            <li>id</li>
+            <li>route = "deleteTreatment"</li>
+          </ul>
+          <h4>
+            RESPONSE: destructure using {data} with value = {success:bool,
+            message="string"}
+          </h4>
+          <hr />
+          <h4 class="text-primary">ADD TREATMENT DATA</h4>
+          <h4>REQUEST TYPE: POST</h4>
+          <h4>REQUIRED PARAMETERS:</h4>
+          <ul>
+            <li>description</li>
+            <li>route = "addTreatment"</li>
+          </ul>
+          <h4>
+            RESPONSE: destructure using {data} with value = {success:bool,
+            message="string"}
+          </h4>
+          <hr />
+          <div id="treatmentsContainer" hidden>
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Treatment</th>
+                  <th>Remove</th>
+                </tr>
+              </thead>
+              <tbody id="treatmentsTable"></tbody>
+            </table>
+            <p></p>
+            <span id="treatmentsMessage" class="message"></span>
+            <p>
+              <input
+                type="text"
+                id="newTreatmentValue"
+                placeholder="Text..."
+              /><button type="button" onclick="(addTreatment())">
+                Add Treatment
+              </button>
+            </p>
+          </div>
+        </div>
+      </details>
+
+      <hr />
+      <!-- LABORATORIES SETTINGS-->
+      <details>
+        <summary>LABORATORY SETTINGS</summary>
+        <div>
+          <h4 class="text-primary">FETCH LABORATORIES TABLE DATA</h4>
+          <h4>REQUEST TYPE: GET</h4>
+          <h4>REQUIRED PARAMETERS:</h4>
+          <ul>
+            <li>route = "getLaboratories"</li>
+          </ul>
+          <h4>
+            RESPONSE: destructure using {data} with value = {success:bool,
+            message="string", laboratories={}}
+          </h4>
+          <hr />
+
+          <h4 class="text-primary">DELETE LABORATORY DATA</h4>
+          <h4>REQUEST TYPE: POST</h4>
+          <h4>REQUIRED PARAMETERS:</h4>
+          <ul>
+            <li>id</li>
+            <li>route = "deleteLaboratory"</li>
+          </ul>
+          <h4>
+            RESPONSE: destructure using {data} with value = {success:bool,
+            message="string"}
+          </h4>
+          <hr />
+          <h4 class="text-primary">ADD LABORATORY DATA</h4>
+          <h4>REQUEST TYPE: POST</h4>
+          <h4>REQUIRED PARAMETERS:</h4>
+          <ul>
+            <li>description</li>
+            <li>route = "addLaboratory"</li>
+          </ul>
+          <h4>
+            RESPONSE: destructure using {data} with value = {success:bool,
+            message="string"}
+          </h4>
+          <hr />
+          <div id="laboratoriesContainer" hidden>
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Laboratory</th>
+                  <th>Remove</th>
+                </tr>
+              </thead>
+              <tbody id="laboratoriesTable"></tbody>
+            </table>
+            <p></p>
+            <span id="laboratoriesMessage" class="message"></span>
+            <p>
+              <input
+                type="text"
+                id="newLaboratoryValue"
+                placeholder="Text..."
+              /><button type="button" onclick="(addLaboratory())">
+                Add Laboratory
+              </button>
+            </p>
+          </div>
+        </div>
+      </details>
+
+      <hr />
+      <!-- STORAGES SETTINGS-->
+      <details>
+        <summary>STORAGE SETTINGS</summary>
+        <div>
+          <h4 class="text-primary">FETCH STORAGES TABLE DATA</h4>
+          <h4>REQUEST TYPE: GET</h4>
+          <h4>REQUIRED PARAMETERS:</h4>
+          <ul>
+            <li>route = "getStorages"</li>
+          </ul>
+          <h4>
+            RESPONSE: destructure using {data} with value = {success:bool,
+            message="string", storages={}}
+          </h4>
+          <hr />
+
+          <h4 class="text-primary">DELETE STORAGE DATA</h4>
+          <h4>REQUEST TYPE: POST</h4>
+          <h4>REQUIRED PARAMETERS:</h4>
+          <ul>
+            <li>id</li>
+            <li>route = "deleteStorage"</li>
+          </ul>
+          <h4>
+            RESPONSE: destructure using {data} with value = {success:bool,
+            message="string"}
+          </h4>
+          <hr />
+          <h4 class="text-primary">ADD STORAGE DATA</h4>
+          <h4>REQUEST TYPE: POST</h4>
+          <h4>REQUIRED PARAMETERS:</h4>
+          <ul>
+            <li>description</li>
+            <li>route = "addStorage"</li>
+          </ul>
+          <h4>
+            RESPONSE: destructure using {data} with value = {success:bool,
+            message="string"}
+          </h4>
+          <hr />
+          <div id="storagesContainer" hidden>
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Storage</th>
+                  <th>Remove</th>
+                </tr>
+              </thead>
+              <tbody id="storagesTable"></tbody>
+            </table>
+            <p></p>
+            <span id="storagesMessage" class="message"></span>
+            <p>
+              <input
+                type="text"
+                id="newStorageValue"
+                placeholder="Text..."
+              /><button type="button" onclick="(addStorage())">
+                Add Storage
+              </button>
+            </p>
+          </div>
+        </div>
+      </details>
+
+      <hr />
+
+      <a href="../">Back to home page</a>
+    </div>
+    <script src="../src/js/settings.js"></script>
+  </body>
+</html>

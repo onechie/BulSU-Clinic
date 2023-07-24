@@ -1,4 +1,7 @@
 <?php
+// Check if the file is being directly accessed via URL
+require_once("../utils/utility.php");
+Utility::preventDirectAccess();
 class ClinicRecordController extends Utility
 {
     private $recordModel;

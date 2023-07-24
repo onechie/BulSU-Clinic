@@ -1,4 +1,7 @@
 <?php
+// Check if the file is being directly accessed via URL
+require_once("../utils/utility.php");
+Utility::preventDirectAccess();
 class ClinicFormController extends Utility
 {
     private const ALLOWED_EXTENSIONS = ['pdf', 'txt', 'jpg', 'jpeg', 'png', 'gif', 'docx'];

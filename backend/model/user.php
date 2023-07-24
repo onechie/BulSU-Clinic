@@ -1,4 +1,8 @@
-<?php class UserTableInitializer extends DatabaseInitializer
+<?php
+// Check if the file is being directly accessed via URL
+require_once("../utils/utility.php");
+Utility::preventDirectAccess();
+class UserTableInitializer extends DatabaseInitializer
 {
     public function __construct()
     {
