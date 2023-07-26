@@ -22,28 +22,7 @@ class TreatmentModel extends TreatmentTableInitializer
         parent::__construct();
     }
 
-    public function addTreatment($description)
-    {
-        $sql = 'INSERT INTO treatments (description) VALUES (:description)';
-
-        $pdo = $this->connect();
-
-        try {
-            $stmt = $pdo->prepare($sql);
-            $params = [
-                ':description' => $description,
-            ];
-
-            if ($stmt->execute($params)) {
-                return true;
-            } else {
-                throw new Exception('Error while adding the complaint.');
-            }
-        } catch (PDOException $error) {
-            throw new Exception('Database error: ' . $error->getMessage());
-        }
-    }
-    public function getAllTreatments()
+    public function getTreatments()
     {
         $sql = 'SELECT * FROM treatments';
 
@@ -58,9 +37,9 @@ class TreatmentModel extends TreatmentTableInitializer
             throw new Exception('Database error: ' . $error->getMessage());
         }
     }
-    public function getTreatment($description)
+    public function getTreatment(int $id)
     {
-        $sql = 'SELECT * FROM treatments WHERE description = :description';
+        $sql = 'SELECT * FROM treatments WHERE id = :id';
 
         $pdo = $this->connect();
 

@@ -1,6 +1,4 @@
 <?php
-<<<<<<< HEAD
-=======
 //successResponse = Returns a success response with a message
 //successResponseWithData = Returns a success response with a message and data
 //errorResponse = Returns an error response with a message
@@ -11,7 +9,6 @@
 //onlyDate() = Check a string if it is a valid date
 
 //preventDirectAccess() = Prevents direct access to the file
->>>>>>> test
 class Utility
 {
     protected function successResponse(string $message): array
@@ -26,8 +23,6 @@ class Utility
     {
         return ['success' => false, 'message' => $message];
     }
-<<<<<<< HEAD
-=======
 
     protected function onlyAlpha($key, $value, $allowEmpty = false)
     {
@@ -80,7 +75,6 @@ class Utility
             throw new Exception($key . ' value is not a valid date in the format ' . $format . '.');
         }
     }
->>>>>>> test
     public static function preventDirectAccess()
     {
         $isDirectAccess = (count(debug_backtrace()) <= 1);
