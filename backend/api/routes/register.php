@@ -9,6 +9,7 @@ $router = new ApiRouter($registerController);
 //POST REQUESTS
 $router->post("register", function ($controller) {
     $response = $controller->registerUser($_POST);
+    sleep(2);
     return $response;
 });
 

@@ -44,6 +44,11 @@ class ApiRouter extends Utility
 
         if ($callback && is_callable($callback)) {
             $response = $callback($this->controller); // Pass the controller instance to the callback
+            if ($response['success']) {
+                http_response_code(200);
+            } else {
+                http_response_code(400);
+            }
             echo json_encode($response);
             exit();
         } else {

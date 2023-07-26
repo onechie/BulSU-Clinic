@@ -12,10 +12,10 @@ class MedicineTableInitializer extends DatabaseInitializer
             'brand VARCHAR(255) NOT NULL',
             'unit VARCHAR(255) NOT NULL',
             'expiration DATE NOT NULL',
-            'boxesC INT NOT NULL',
-            'itemsPerB INT NOT NULL',
-            'itemsC INT NOT NULL',
-            'itemsD INT NOT NULL DEFAULT 0',
+            'boxesCount INT NOT NULL',
+            'itemsPerBox INT NOT NULL',
+            'itemsCount INT NOT NULL',
+            'itemsDeducted INT NOT NULL DEFAULT 0',
             'storage VARCHAR(255) NOT NULL',
         ];
 
@@ -30,36 +30,8 @@ class MedicineModel extends MedicineTableInitializer
         parent::__construct();
     }
 
-    public function addMedicine($name, $brand, $unit, $expiration, $boxesCount, $itemsPerBox, $currentItemsCount, $storage)
-    {
-        $sql = 'INSERT INTO medicines (name, brand, unit, expiration, boxesC, itemsPerB, itemsC, storage) VALUES (:name, :brand, :unit, :expiration, :boxesC, :itemsPerB, :itemsC, :storage)';
-
-        $pdo = $this->connect();
-
-        try {
-            $stmt = $pdo->prepare($sql);
-            $params = [
-                ':name' => $name,
-                ':brand' => $brand,
-                ':unit' => $unit,
-                ':expiration' => $expiration,
-                ':boxesC' => $boxesCount,
-                ':itemsPerB' => $itemsPerBox,
-                ':itemsC' => $currentItemsCount,
-                ':storage' => $storage,
-            ];
-
-            if ($stmt->execute($params)) {
-                return true;
-            } else {
-                throw new Exception('Error while adding the medicine.');
-            }
-        } catch (PDOException $error) {
-            throw new Exception('Database error: ' . $error->getMessage());
-        }
-    }
-
-    public function getAllMedicines()
+    // NEW METHODS
+    public function getMedicines()
     {
         $sql = 'SELECT * FROM medicines';
 
@@ -74,7 +46,118 @@ class MedicineModel extends MedicineTableInitializer
             throw new Exception('Database error: ' . $error->getMessage());
         }
     }
-    public function getMedicineByName($name)
+    public function getMedicine(int $id)
+    {
+        $sql = 'SELECT * FROM medicines WHERE id = :id';
+
+        $pdo = $this->connect();
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            $params = [
+                ':id' => $id,
+            ];
+            $stmt->execute($params);
+            $medicine = $stmt->fetch();
+            return $medicine;
+        } catch (PDOException $error) {
+            throw new Exception('Database error: ' . $error->getMessage());
+        }
+    }
+    public function addMedicine(string $name, string $brand, string $unit, string $expiration, int $boxesCount, int $itemsPerBox, int $itemsCount, string $storage)
+    {
+        $sql = 'INSERT INTO medicines (name, brand, unit, expiration, boxesCount, itemsPerBox, itemsCount, storage) VALUES (:name, :brand, :unit, :expiration, :boxesCount, :itemsPerBox, :itemsCount, :storage)';
+
+        $pdo = $this->connect();
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            $params = [
+                ':name' => $name,
+                ':brand' => $brand,
+                ':unit' => $unit,
+                ':expiration' => $expiration,
+                ':boxesCount' => $boxesCount,
+                ':itemsPerBox' => $itemsPerBox,
+                ':itemsCount' => $itemsCount,
+                ':storage' => $storage,
+            ];
+
+            if ($stmt->execute($params)) {
+                return true;
+            } else {
+                throw new Exception('Error while adding the medicine.');
+            }
+        } catch (PDOException $error) {
+            throw new Exception('Database error: ' . $error->getMessage());
+        }
+    }
+
+    public function updateMedicine(int $id, string $name, string $brand, string $unit, string $expiration, int $boxesCount, int $itemsPerBox, int $itemsCount, int $itemsDeducted, string $storage)
+    {
+        $sql = 'UPDATE medicines SET 
+        name = :name, 
+        brand = :brand, 
+        unit = :unit,
+        expiration = :expiration,
+        boxesCount = :boxesCount,
+        itemsPerBox = :itemsPerBox,
+        itemsCount = :itemsCount,
+        itemsDeducted = :itemsDeducted,
+        storage = :storage 
+        WHERE id = :id';
+
+        $pdo = $this->connect();
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            $params = [
+                ':name' => $name,
+                ':brand' => $brand,
+                ':unit' => $unit,
+                ':expiration' => $expiration,
+                ':boxesCount' => $boxesCount,
+                ':itemsPerBox' => $itemsPerBox,
+                ':itemsCount' => $itemsCount,
+                ':itemsDeducted' => $itemsDeducted,
+                ':storage' => $storage,
+                ':id' => $id,
+            ];
+
+            if ($stmt->execute($params)) {
+                return true;
+            } else {
+                throw new Exception('Error while updating the medicine.');
+            }
+        } catch (PDOException $error) {
+            throw new Exception('Database error: ' . $error->getMessage());
+        }
+    }
+
+    public function deleteMedicine(int $id)
+    {
+        $sql = 'DELETE FROM medicines WHERE id = :id';
+
+        $pdo = $this->connect();
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            $params = [
+                ':id' => $id,
+            ];
+
+            if ($stmt->execute($params)) {
+                return true;
+            } else {
+                throw new Exception('Error while deleting the medicine.');
+            }
+        } catch (PDOException $error) {
+            throw new Exception('Database error: ' . $error->getMessage());
+        }
+    }
+
+    // CUSTOM METHODS
+    public function getMedicineByName(string $name)
     {
         $sql = 'SELECT * FROM medicines WHERE name = :name';
 
@@ -92,27 +175,90 @@ class MedicineModel extends MedicineTableInitializer
             throw new Exception('Database error: ' . $error->getMessage());
         }
     }
-    public function updateMedicineById($id, $quantity, $deducted)
-    {
-        $sql = 'UPDATE medicines SET itemsC = :quantity, itemsD = :deducted WHERE id = :id';
+    //OLD METHODS
+    // public function addMedicine($name, $brand, $unit, $expiration, $boxesCount, $itemsPerBox, $currentItemsCount, $storage)
+    // {
+    //     $sql = 'INSERT INTO medicines (name, brand, unit, expiration, boxesC, itemsPerB, itemsC, storage) VALUES (:name, :brand, :unit, :expiration, :boxesC, :itemsPerB, :itemsC, :storage)';
 
-        $pdo = $this->connect();
+    //     $pdo = $this->connect();
 
-        try {
-            $stmt = $pdo->prepare($sql);
-            $params = [
-                ':quantity' => $quantity,
-                ':deducted' => $deducted,
-                ':id' => $id,
-            ];
+    //     try {
+    //         $stmt = $pdo->prepare($sql);
+    //         $params = [
+    //             ':name' => $name,
+    //             ':brand' => $brand,
+    //             ':unit' => $unit,
+    //             ':expiration' => $expiration,
+    //             ':boxesC' => $boxesCount,
+    //             ':itemsPerB' => $itemsPerBox,
+    //             ':itemsC' => $currentItemsCount,
+    //             ':storage' => $storage,
+    //         ];
 
-            if ($stmt->execute($params)) {
-                return true;
-            } else {
-                throw new Exception('Error while updating the medicine.');
-            }
-        } catch (PDOException $error) {
-            throw new Exception('Database error: ' . $error->getMessage());
-        }
-    }
+    //         if ($stmt->execute($params)) {
+    //             return true;
+    //         } else {
+    //             throw new Exception('Error while adding the medicine.');
+    //         }
+    //     } catch (PDOException $error) {
+    //         throw new Exception('Database error: ' . $error->getMessage());
+    //     }
+    // }
+
+    // public function getAllMedicines()
+    // {
+    //     $sql = 'SELECT * FROM medicines';
+
+    //     $pdo = $this->connect();
+
+    //     try {
+    //         $stmt = $pdo->prepare($sql);
+    //         $stmt->execute();
+    //         $medicines = $stmt->fetchAll();
+    //         return $medicines;
+    //     } catch (PDOException $error) {
+    //         throw new Exception('Database error: ' . $error->getMessage());
+    //     }
+    // }
+    // public function getMedicineByName($name)
+    // {
+    //     $sql = 'SELECT * FROM medicines WHERE name = :name';
+
+    //     $pdo = $this->connect();
+
+    //     try {
+    //         $stmt = $pdo->prepare($sql);
+    //         $params = [
+    //             ':name' => $name,
+    //         ];
+    //         $stmt->execute($params);
+    //         $medicine = $stmt->fetch();
+    //         return $medicine;
+    //     } catch (PDOException $error) {
+    //         throw new Exception('Database error: ' . $error->getMessage());
+    //     }
+    // }
+    // public function updateMedicineById($id, $quantity, $deducted)
+    // {
+    //     $sql = 'UPDATE medicines SET itemsC = :quantity, itemsD = :deducted WHERE id = :id';
+
+    //     $pdo = $this->connect();
+
+    //     try {
+    //         $stmt = $pdo->prepare($sql);
+    //         $params = [
+    //             ':quantity' => $quantity,
+    //             ':deducted' => $deducted,
+    //             ':id' => $id,
+    //         ];
+
+    //         if ($stmt->execute($params)) {
+    //             return true;
+    //         } else {
+    //             throw new Exception('Error while updating the medicine.');
+    //         }
+    //     } catch (PDOException $error) {
+    //         throw new Exception('Database error: ' . $error->getMessage());
+    //     }
+    // }
 }

@@ -9,6 +9,7 @@ $router = new ApiRouter($loginController);
 //POST REQUESTS
 $router->post("login", function ($controller) {
     $response = $controller->loginUser($_POST);
+    sleep(2);
     return $response;
 });
 

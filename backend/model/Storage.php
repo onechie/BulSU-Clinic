@@ -21,29 +21,7 @@ class StorageModel extends StorageTableInitializer
     {
         parent::__construct();
     }
-
-    public function addStorage($description)
-    {
-        $sql = 'INSERT INTO storages (description) VALUES (:description)';
-
-        $pdo = $this->connect();
-
-        try {
-            $stmt = $pdo->prepare($sql);
-            $params = [
-                ':description' => $description,
-            ];
-
-            if ($stmt->execute($params)) {
-                return true;
-            } else {
-                throw new Exception('Error while adding the complaint.');
-            }
-        } catch (PDOException $error) {
-            throw new Exception('Database error: ' . $error->getMessage());
-        }
-    }
-    public function getAllStorages()
+    public function getStorages()
     {
         $sql = 'SELECT * FROM storages';
 
@@ -58,15 +36,17 @@ class StorageModel extends StorageTableInitializer
             throw new Exception('Database error: ' . $error->getMessage());
         }
     }
-    public function getStorage($description)
+    public function getStorage(int $id)
     {
-        $sql = 'SELECT * FROM storages WHERE description = :description';
+        $sql = 'SELECT * FROM storages WHERE id = :id';
 
         $pdo = $this->connect();
 
         try {
             $stmt = $pdo->prepare($sql);
-            $params = [':description' => $description];
+            $params = [
+                ':id' => $id,
+            ];
             $stmt->execute($params);
             $storage = $stmt->fetch();
             return $storage;
@@ -74,7 +54,50 @@ class StorageModel extends StorageTableInitializer
             throw new Exception('Database error: ' . $error->getMessage());
         }
     }
-    public function deleteStorage($id)
+    public function addStorage(string $description)
+    {
+        $sql = 'INSERT INTO storages (description) VALUES (:description)';
+
+        $pdo = $this->connect();
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            $params = [
+                ':description' => $description,
+            ];
+
+            if ($stmt->execute($params)) {
+                return true;
+            } else {
+                throw new Exception('Error while adding the storages.');
+            }
+        } catch (PDOException $error) {
+            throw new Exception('Database error: ' . $error->getMessage());
+        }
+    }
+    public function updateStorage(int $id, string $description)
+    {
+        $sql = 'UPDATE storages SET description = :description WHERE id = :id';
+
+        $pdo = $this->connect();
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            $params = [
+                ':id' => $id,
+                ':description' => $description,
+            ];
+
+            if ($stmt->execute($params)) {
+                return true;
+            } else {
+                throw new Exception('Error while updating the storage.');
+            }
+        } catch (PDOException $error) {
+            throw new Exception('Database error: ' . $error->getMessage());
+        }
+    }
+    public function deleteStorage(int $id)
     {
         $sql = 'DELETE FROM storages WHERE id = :id';
 
@@ -82,11 +105,121 @@ class StorageModel extends StorageTableInitializer
 
         try {
             $stmt = $pdo->prepare($sql);
-            $params = [':id' => $id];
-            $stmt->execute($params);
-            return true;
+            $params = [
+                ':id' => $id,
+            ];
+
+            if ($stmt->execute($params)) {
+                return true;
+            } else {
+                throw new Exception('Error while deleting the storage.');
+            }
         } catch (PDOException $error) {
             throw new Exception('Database error: ' . $error->getMessage());
         }
     }
+
+    // CUSTOM METHODS
+    public function getStorageByDescription(string $description)
+    {
+        $sql = 'SELECT * FROM storages WHERE description = :description';
+
+        $pdo = $this->connect();
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            $params = [
+                ':description' => $description,
+            ];
+            $stmt->execute($params);
+            $storage = $stmt->fetch();
+            return $storage;
+        } catch (PDOException $error) {
+            throw new Exception('Database error: ' . $error->getMessage());
+        }
+    }
+
+    // public function getStorages()
+    // {
+    //     $sql = 'SELECT * FROM storages';
+
+    //     $pdo = $this->connect();
+
+    //     try {
+    //         $stmt = $pdo->prepare($sql);
+    //         $stmt->execute();
+    //         $storages = $stmt->fetchAll();
+    //         return $storages;
+    //     } catch (PDOException $error) {
+    //         throw new Exception('Database error: ' . $error->getMessage());
+    //     }
+    // }
+
+    // public function addStorage($description)
+    // {
+    //     $sql = 'INSERT INTO storages (description) VALUES (:description)';
+
+    //     $pdo = $this->connect();
+
+    //     try {
+    //         $stmt = $pdo->prepare($sql);
+    //         $params = [
+    //             ':description' => $description,
+    //         ];
+
+    //         if ($stmt->execute($params)) {
+    //             return true;
+    //         } else {
+    //             throw new Exception('Error while adding the complaint.');
+    //         }
+    //     } catch (PDOException $error) {
+    //         throw new Exception('Database error: ' . $error->getMessage());
+    //     }
+    // }
+    // public function getAllStorages()
+    // {
+    //     $sql = 'SELECT * FROM storages';
+
+    //     $pdo = $this->connect();
+
+    //     try {
+    //         $stmt = $pdo->prepare($sql);
+    //         $stmt->execute();
+    //         $storages = $stmt->fetchAll();
+    //         return $storages;
+    //     } catch (PDOException $error) {
+    //         throw new Exception('Database error: ' . $error->getMessage());
+    //     }
+    // }
+    // public function getStorage($description)
+    // {
+    //     $sql = 'SELECT * FROM storages WHERE description = :description';
+
+    //     $pdo = $this->connect();
+
+    //     try {
+    //         $stmt = $pdo->prepare($sql);
+    //         $params = [':description' => $description];
+    //         $stmt->execute($params);
+    //         $storage = $stmt->fetch();
+    //         return $storage;
+    //     } catch (PDOException $error) {
+    //         throw new Exception('Database error: ' . $error->getMessage());
+    //     }
+    // }
+    // public function deleteStorage($id)
+    // {
+    //     $sql = 'DELETE FROM storages WHERE id = :id';
+
+    //     $pdo = $this->connect();
+
+    //     try {
+    //         $stmt = $pdo->prepare($sql);
+    //         $params = [':id' => $id];
+    //         $stmt->execute($params);
+    //         return true;
+    //     } catch (PDOException $error) {
+    //         throw new Exception('Database error: ' . $error->getMessage());
+    //     }
+    // }
 }
