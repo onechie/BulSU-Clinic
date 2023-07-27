@@ -1,13 +1,13 @@
 <?php
 //TODO list
-// laboratoriesRouter.php
-// laboratoriesController.php
+// laboratoriesRouter.php DONE
+// laboratoriesController.php DONE
 
-// storagesRouter.php
-// storagesController.php
+// storagesRouter.php DONE
+// storagesController.php DONE
 
-// treatmentsRouter.php
-// treatmentsController.php
+// treatmentsRouter.php DONE
+// treatmentsController.php DONE
 
 // recordsRouter.php
 // recordsController.php

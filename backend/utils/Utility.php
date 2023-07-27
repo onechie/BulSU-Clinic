@@ -40,7 +40,7 @@ class Utility
     protected function onlyNum($key, $value, $allowEmpty = false)
     {
         if (!$allowEmpty) {
-            if (($value == "" || $value == null || empty($value)) && $value != 0) {
+            if (($value == "" || $value == null || empty($value)) && $value != "0") {
                 throw new Exception($key . ' value is empty.');
             }
         }

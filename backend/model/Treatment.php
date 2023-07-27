@@ -120,6 +120,26 @@ class TreatmentModel extends TreatmentTableInitializer
         }
     }
 
+    //CUSTOM METHODS
+    public function getTreatmentByDescription(string $description)
+    {
+        $sql = 'SELECT * FROM treatments WHERE description = :description';
+
+        $pdo = $this->connect();
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            $params = [
+                ':description' => $description,
+            ];
+            $stmt->execute($params);
+            $treatment = $stmt->fetch();
+            return $treatment;
+        } catch (PDOException $error) {
+            throw new Exception('Database error: ' . $error->getMessage());
+        }
+    }
+
     // public function addTreatment($description)
     // {
     //     $sql = 'INSERT INTO treatments (description) VALUES (:description)';

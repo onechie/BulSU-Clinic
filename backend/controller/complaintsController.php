@@ -114,7 +114,7 @@ class ComplaintsController extends Utility
         try {
             //REMOVE UNEXPECTED KEY VALUE PAIRS
             $req = array_intersect_key($req, array_flip($expectedKeys));
-
+            
             //INPUT VALIDATION
             $this->onlyNum("ID", $req['id'] ?? null);
 

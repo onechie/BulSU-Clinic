@@ -118,6 +118,24 @@ class LaboratoryModel extends LaboratoryTableInitializer
             throw new Exception('Database error: ' . $error->getMessage());
         }
     }
+
+    //CUSTOM METHODS
+    public function getLaboratoryByDescription(string $description)
+    {
+        $sql = 'SELECT * FROM laboratories WHERE description = :description';
+
+        $pdo = $this->connect();
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            $params = [':description' => $description];
+            $stmt->execute($params);
+            $laboratory = $stmt->fetch();
+            return $laboratory;
+        } catch (PDOException $error) {
+            throw new Exception('Database error: ' . $error->getMessage());
+        }
+    }
     // public function get
 
     // public function addLaboratory($description)
