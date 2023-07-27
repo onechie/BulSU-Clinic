@@ -32,6 +32,7 @@ require_once '../controller/complaintsController.php';
 require_once '../controller/laboratoriesController.php';
 require_once '../controller/storagesController.php';
 require_once '../controller/treatmentsController.php';
+require_once '../controller/recordsController.php';
 
 // SET HEADERS
 header('Content-Type: application/json');
@@ -87,12 +88,22 @@ header('Content-Type: application/json');
 //NEW ROUTER
 $router = new Router();
 
+//MODEL INSTANCES
+$medicineModel = new MedicineModel();
+$complaintModel = new ComplaintModel();
+$laboratoryModel = new LaboratoryModel();
+$storageModel = new StorageModel();
+$treatmentModel = new TreatmentModel();
+$recordModel = new RecordModel();
+$attachmentModel = new AttachmentModel();
+
 //ROUTES
 require_once './routes/medicinesRoute.php';
 require_once './routes/complaintsRoute.php';
 require_once './routes/laboratoriesRoute.php';
 require_once './routes/storagesRoute.php';
 require_once './routes/treatmentsRoute.php';
+require_once './routes/recordsRoute.php';
 
 
 // Handle 404 Not Found

@@ -15,10 +15,7 @@ class TreatmentsController extends Utility
         try {
             //TRY TO GET ALL TREATMENTS
             $treatments = $this->treatmentModel->getTreatments();
-            if (!$treatments) {
-                return $this->errorResponse("No treatments found.");
-            }
-            return $this->successResponseWithData("Treatments successfully fetched.", ['treatments' => $treatments]);
+            return $treatments ? $this->successResponseWithData("Treatments successfully fetched.", ['treatments' => $treatments]) : $this->errorResponse("No treatments found.");
         } catch (Exception $error) {
             return $this->errorResponse($error->getMessage());
         }
@@ -26,124 +23,74 @@ class TreatmentsController extends Utility
     public function getTreatment($req)
     {
         $expectedKeys = ['id'];
+        $req = $this->filterData($req, $expectedKeys);
         try {
-            //REMOVE UNEXPECTED KEY VALUE PAIRS
-            $req = array_intersect_key($req, array_flip($expectedKeys));
-
-            //INPUT VALIDATION
             $this->onlyNum("ID", $req['id'] ?? null);
 
             //TRY TO GET TREATMENT BY ID
-            $treatment = $this->treatmentModel->getTreatment($req['id']);
-            if (!$treatment) {
-                return $this->errorResponse("Treatment does not exist.");
-            }
+            $treatment = $this->getTreatmentIfExists($req['id']);
             return $this->successResponseWithData("Treatment successfully fetched.", ['treatment' => $treatment]);
         } catch (Exception $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
-
     public function addTreatment($req)
     {
         $expectedKeys = ['description'];
+        $req = $this->filterData($req, $expectedKeys);
         try {
-            //REMOVE UNEXPECTED KEY VALUE PAIRS
-            $req = array_intersect_key($req, array_flip($expectedKeys));
-
-            //INPUT VALIDATION
             $this->onlyAlphaNum("Description", $req['description'] ?? null);
-
-            //CHECK IF TREATMENT ALREADY EXISTS
-            $this->treatmentDescriptionExists($req['description']);
+            $this->isTreatmentDescriptionExists($req['description']);
 
             //TRY TO ADD TREATMENT
             $treatment = $this->treatmentModel->addTreatment($req['description']);
-            if (!$treatment) {
-                return $this->errorResponse("Failed to add treatment.");
-            }
-            return $this->successResponse("Treatment successfully added.");
+            return $treatment ? $this->successResponse("Treatment successfully added.") : $this->errorResponse("Treatment failed to add.");
         } catch (Exception $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
-
     public function updateTreatment($req)
     {
         $expectedKeys = ['id', 'description'];
+        $req = $this->filterData($req, $expectedKeys);
         try {
-            //REMOVE UNEXPECTED KEY VALUE PAIRS
-            $req = array_intersect_key($req, array_flip($expectedKeys));
-
-            //INPUT VALIDATION
             $this->onlyNum("ID", $req['id'] ?? null);
+            $oldTreatment = $this->getTreatmentIfExists($req['id']);
 
-            //CHECK IF TREATMENT EXISTS
-            $oldTreatment = $this->treatmentModel->getTreatment($req['id']);
-            if (!$oldTreatment) {
-                throw new Exception("Treatment does not exist.");
-            }
-
-            //REMOVE EMPTY ARRAY VALUES TO PREPARE FOR MERGE
-            $req = array_filter($req, function ($value) {
-                return !empty($value);
-            });
-
-            //MERGE OLD TREATMENT DATA WITH NEW STORAGE DATA ONLY
-            $newTreatmentData = array_merge($oldTreatment, $req);
-
-            //CHECK IF THERE ARE ANY CHANGES
-            $differences = array_diff_assoc($oldTreatment, $newTreatmentData);
-            if (empty($differences)) {
-                return $this->errorResponse("No changes were made.");
-            }
-
-            //INPUT VALIDATION
-            $this->onlyAlphaNum("Description", $newTreatmentData['description']);
+            $newData = $this->mergeData($oldTreatment, $req);
+            $this->onlyAlphaNum("Description", $newData['description']);
 
             //TRY TO UPDATE TREATMENT
-            $result = $this->treatmentModel->updateTreatment(...array_values($newTreatmentData));
-            if (!$result) {
-                return $this->errorResponse("Treatment failed to update.");
-            }
-            return $this->successResponse("Treatment successfully updated.");
+            $result = $this->treatmentModel->updateTreatment(...array_values($newData));
+            return $result ? $this->successResponse("Treatment successfully updated.") : $this->errorResponse("Treatment failed to update.");
         } catch (Exception $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
-
     public function deleteTreatment($req)
     {
         $expectedKeys = ['id'];
+        $req = $this->filterData($req, $expectedKeys);
         try {
-            //REMOVE UNEXPECTED KEY VALUE PAIRS
-            $req = array_intersect_key($req, array_flip($expectedKeys));
-
-            //INPUT VALIDATION
             $this->onlyNum("ID", $req['id'] ?? null);
-
-            //CHECK IF TREATMENT EXISTS
-            $treatment = $this->treatmentModel->getTreatment($req['id']);
-            if (!$treatment) {
-                throw new Exception("Treatment does not exist.");
-            }
+            $this->getTreatmentIfExists($req['id']);
 
             //TRY TO DELETE TREATMENT
             $result = $this->treatmentModel->deleteTreatment($req['id']);
-            if (!$result) {
-                return $this->errorResponse("Treatment failed to delete.");
-            }
-            return $this->successResponse("Treatment successfully deleted.");
+            return $result ? $this->successResponse("Treatment successfully deleted.") : $this->errorResponse("Treatment failed to delete.");
         } catch (Exception $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
-
-    private function treatmentDescriptionExists($description)
+    private function isTreatmentDescriptionExists($description)
     {
         $treatment = $this->treatmentModel->getTreatmentByDescription($description);
-        if ($treatment) {
-            throw new Exception("Treatment already exists.");
-        }
+        if ($treatment) throw new Exception("Treatment already exists.");
+    }
+    private function getTreatmentIfExists($id)
+    {
+        $treatment = $this->treatmentModel->getTreatment($id);
+        if (!$treatment) throw new Exception("Treatment does not exist.");
+        return $treatment;
     }
 }

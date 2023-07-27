@@ -8,9 +8,10 @@ class AttachmentTableInitializer extends DatabaseInitializer
     {
         $tableName = 'attachments';
         $columns = [
-            'record_id INT NOT NULL',
-            'attachment_name VARCHAR(255) NOT NULL',
-            'attachment_url VARCHAR(255) NOT NULL',
+            'recordId INT NOT NULL',
+            'name VARCHAR(255) NOT NULL',
+            'url VARCHAR(255) NOT NULL',
+            'FOREIGN KEY (recordId) REFERENCES records(id) ON DELETE CASCADE'
         ];
 
         parent::__construct($tableName, $columns);
@@ -24,9 +25,40 @@ class AttachmentModel extends AttachmentTableInitializer
         parent::__construct();
     }
 
-    public function addAttachment($recordId, $attachmentName, $attachmentUrl)
+    public function getAttachments()
     {
-        $sql = 'INSERT INTO attachments (record_id, attachment_name, attachment_url) VALUES (:recordId, :attachmentName, :attachmentUrl)';
+        $sql = 'SELECT * FROM attachments';
+
+        $pdo = $this->connect();
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+            $attachments = $stmt->fetchAll();
+            return $attachments;
+        } catch (PDOException $error) {
+            throw new Exception('Database error: ' . $error->getMessage());
+        }
+    }
+    public function getAttachment(int $id)
+    {
+        $sql = 'SELECT * FROM attachments WHERE id = :id';
+
+        $pdo = $this->connect();
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            $params = [':id' => $id];
+            $stmt->execute($params);
+            $attachment = $stmt->fetch();
+            return $attachment;
+        } catch (PDOException $error) {
+            throw new Exception('Database error: ' . $error->getMessage());
+        }
+    }
+    public function addAttachment(int $recordId, string $name, string $url)
+    {
+        $sql = 'INSERT INTO attachments (recordId, name, url) VALUES (:recordId, :name, :url)';
 
         $pdo = $this->connect();
 
@@ -34,8 +66,8 @@ class AttachmentModel extends AttachmentTableInitializer
             $stmt = $pdo->prepare($sql);
             $params = [
                 ':recordId' => $recordId,
-                ':attachmentName' => $attachmentName,
-                ':attachmentUrl' => $attachmentUrl,
+                ':name' => $name,
+                ':url' => $url,
             ];
 
             if ($stmt->execute($params)) {
@@ -47,10 +79,55 @@ class AttachmentModel extends AttachmentTableInitializer
             throw new Exception('Database error: ' . $error->getMessage());
         }
     }
-
-    public function getAttachmentsByRecordId($recordId)
+    public function updateAttachment(int $id, int $recordId, string $name, string $url)
     {
-        $sql = 'SELECT * FROM attachments WHERE record_id = :recordId';
+        $sql = 'UPDATE attachments SET recordId = :recordId, name = :name, url = :url WHERE id = :id';
+
+        $pdo = $this->connect();
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            $params = [
+                ':id' => $id,
+                ':recordId' => $recordId,
+                ':name' => $name,
+                ':url' => $url,
+            ];
+
+            if ($stmt->execute($params)) {
+                return true;
+            } else {
+                throw new Exception('Error while updating the attachment.');
+            }
+        } catch (PDOException $error) {
+            throw new Exception('Database error: ' . $error->getMessage());
+        }
+    }
+
+    public function deleteAttachment(int $id)
+    {
+        $sql = 'DELETE FROM attachments WHERE id = :id';
+
+        $pdo = $this->connect();
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            $params = [':id' => $id];
+
+            if ($stmt->execute($params)) {
+                return true;
+            } else {
+                throw new Exception('Error while deleting the attachment.');
+            }
+        } catch (PDOException $error) {
+            throw new Exception('Database error: ' . $error->getMessage());
+        }
+    }
+
+    // CUSTOM METHODS
+    public function getAttachmentByRecordId(int $recordId)
+    {
+        $sql = 'SELECT * FROM attachments WHERE recordId = :recordId';
 
         $pdo = $this->connect();
 
@@ -58,10 +135,72 @@ class AttachmentModel extends AttachmentTableInitializer
             $stmt = $pdo->prepare($sql);
             $params = [':recordId' => $recordId];
             $stmt->execute($params);
-            $attachments = $stmt->fetchAll();
-            return $attachments;
+            $attachment = $stmt->fetchAll();
+            return $attachment;
         } catch (PDOException $error) {
             throw new Exception('Database error: ' . $error->getMessage());
         }
     }
+    public function deleteAttachmentByRecordId(int $recordId)
+    {
+        $sql = 'DELETE FROM attachments WHERE recordId = :recordId';
+
+        $pdo = $this->connect();
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            $params = [':recordId' => $recordId];
+
+            if ($stmt->execute($params)) {
+                return true;
+            } else {
+                throw new Exception('Error while deleting the attachment.');
+            }
+        } catch (PDOException $error) {
+            throw new Exception('Database error: ' . $error->getMessage());
+        }
+    }
+
+    //OLD METHODS
+
+    // public function addAttachment($recordId, $attachmentName, $attachmentUrl)
+    // {
+    //     $sql = 'INSERT INTO attachments (record_id, attachment_name, attachment_url) VALUES (:recordId, :attachmentName, :attachmentUrl)';
+
+    //     $pdo = $this->connect();
+
+    //     try {
+    //         $stmt = $pdo->prepare($sql);
+    //         $params = [
+    //             ':recordId' => $recordId,
+    //             ':attachmentName' => $attachmentName,
+    //             ':attachmentUrl' => $attachmentUrl,
+    //         ];
+
+    //         if ($stmt->execute($params)) {
+    //             return true;
+    //         } else {
+    //             throw new Exception('Error while adding the attachment.');
+    //         }
+    //     } catch (PDOException $error) {
+    //         throw new Exception('Database error: ' . $error->getMessage());
+    //     }
+    // }
+
+    // public function getAttachmentsByRecordId($recordId)
+    // {
+    //     $sql = 'SELECT * FROM attachments WHERE record_id = :recordId';
+
+    //     $pdo = $this->connect();
+
+    //     try {
+    //         $stmt = $pdo->prepare($sql);
+    //         $params = [':recordId' => $recordId];
+    //         $stmt->execute($params);
+    //         $attachments = $stmt->fetchAll();
+    //         return $attachments;
+    //     } catch (PDOException $error) {
+    //         throw new Exception('Database error: ' . $error->getMessage());
+    //     }
+    // }
 }

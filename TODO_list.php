@@ -9,8 +9,8 @@
 // treatmentsRouter.php DONE
 // treatmentsController.php DONE
 
-// recordsRouter.php
-// recordsController.php
+// recordsRouter.php DONE
+// recordsController.php DONE
 
 // attachmentsRouter.php
 // attachmentsController.php

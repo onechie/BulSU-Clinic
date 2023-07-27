@@ -10,16 +10,12 @@ class LaboratoriesController extends Utility
     {
         $this->laboratoryModel = $laboratoryModel;
     }
-
     public function getLaboratories()
     {
         try {
             //TRY TO GET ALL LABORATORIES
             $laboratories = $this->laboratoryModel->getLaboratories();
-            if (!$laboratories) {
-                return $this->errorResponse("No laboratories found.");
-            }
-            return $this->successResponseWithData("Laboratories successfully fetched.", ['laboratories' => $laboratories]);
+            return $laboratories ? $this->successResponseWithData("Laboratories successfully fetched.", ['laboratories' => $laboratories]) : $this->errorResponse("No laboratories found.");
         } catch (Exception $error) {
             return $this->errorResponse($error->getMessage());
         }
@@ -27,18 +23,12 @@ class LaboratoriesController extends Utility
     public function getLaboratory($req)
     {
         $expectedKeys = ['id'];
+        $req = $this->filterData($req, $expectedKeys);
         try {
-            //REMOVE UNEXPECTED KEY VALUE PAIRS
-            $req = array_intersect_key($req, array_flip($expectedKeys));
-
-            //INPUT VALIDATION
             $this->onlyNum("ID", $req['id'] ?? null);
 
             //TRY TO GET LABORATORY BY ID
-            $laboratory = $this->laboratoryModel->getLaboratory($req['id']);
-            if (!$laboratory) {
-                return $this->errorResponse("Laboratory does not exist.");
-            }
+            $laboratory = $this->getLaboratoryIfExists($req['id']);
             return $this->successResponseWithData("Laboratory successfully fetched.", ['laboratory' => $laboratory]);
         } catch (Exception $error) {
             return $this->errorResponse($error->getMessage());
@@ -47,103 +37,60 @@ class LaboratoriesController extends Utility
     public function addLaboratory($req)
     {
         $expectedKeys = ['description'];
+        $req = $this->filterData($req, $expectedKeys);
         try {
-            //REMOVE UNEXPECTED KEY VALUE PAIRS
-            $req = array_intersect_key($req, array_flip($expectedKeys));
-
-            //INPUT VALIDATION
             $this->onlyAlphaNum("Description", $req['description'] ?? null);
-
-            //CHECK IF LABORATORY ALREADY EXISTS
-            $this->laboratoryDescriptionExists($req['description']);
+            $this->isLaboratoryDescriptionExists($req['description']);
 
             //TRY TO ADD LABORATORY
             $result = $this->laboratoryModel->addLaboratory(...array_values($req));
-            if (!$result) {
-                return $this->errorResponse("Laboratory failed to add.");
-            }
-            return $this->successResponse("Laboratory successfully added.");
+            return $result ? $this->successResponse("Laboratory successfully added.") : $this->errorResponse("Laboratory failed to add.");
         } catch (Exception $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
-
     public function updateLaboratory($req)
     {
         $expectedKeys = ['id', 'description'];
+        $req = $this->filterData($req, $expectedKeys);
         try {
-            //REMOVE UNEXPECTED KEY VALUE PAIRS
-            $req = array_intersect_key($req, array_flip($expectedKeys));
-
-            //INPUT VALIDATION
             $this->onlyNum("ID", $req['id'] ?? null);
+            $oldLaboratory = $this->getLaboratoryIfExists($req['id']);
 
-            //CHECK IF LABORATORY EXISTS
-            $oldLaboratory = $this->laboratoryModel->getLaboratory($req['id']);
-            if (!$oldLaboratory) {
-                throw new Exception("Laboratory does not exist.");
-            }
-
-            //REMOVE EMPTY ARRAY VALUES TO PREPARE FOR MERGE
-            $req = array_filter($req, function ($value) {
-                return !empty($value);
-            });
-
-            //MERGE OLD LABORATORY DATA WITH NEW LABORATORY DATA ONLY
-            $newLaboratoryData = array_merge($oldLaboratory, $req);
-
-            //CHECK IF THERE ARE ANY CHANGES
-            $differences = array_diff_assoc($oldLaboratory, $newLaboratoryData);
-            if (empty($differences)) {
-                return $this->errorResponse("No changes were made.");
-            }
-
-            //INPUT VALIDATION
-            $this->onlyAlphaNum("Description", $newLaboratoryData['description']);
+            $newData = $this->mergeData($oldLaboratory, $req);
+            $this->onlyAlphaNum("Description", $newData['description']);
 
             //TRY TO UPDATE LABORATORY
-            $result = $this->laboratoryModel->updateLaboratory(...array_values($newLaboratoryData));
-            if (!$result) {
-                return $this->errorResponse("Laboratory failed to update.");
-            }
-            return $this->successResponse("Laboratory successfully updated.");
+            $result = $this->laboratoryModel->updateLaboratory(...array_values($newData));
+            return $result ? $this->successResponse("Laboratory successfully updated.") : $this->errorResponse("Laboratory failed to update.");
         } catch (Exception $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
-
     public function deleteLaboratory($req)
     {
         $expectedKeys = ['id'];
+        $req = $this->filterData($req, $expectedKeys);
         try {
-            //REMOVE UNEXPECTED KEY VALUE PAIRS
-            $req = array_intersect_key($req, array_flip($expectedKeys));
-
-            //INPUT VALIDATION
             $this->onlyNum("ID", $req['id'] ?? null);
-
-            //CHECK IF LABORATORY EXISTS
-            $laboratory = $this->laboratoryModel->getLaboratory($req['id']);
-            if (!$laboratory) {
-                return $this->errorResponse("Laboratory does not exist.");
-            }
+            $this->getLaboratoryIfExists($req['id']);
 
             //TRY TO DELETE LABORATORY
             $result = $this->laboratoryModel->deleteLaboratory($req['id']);
-            if (!$result) {
-                return $this->errorResponse("Laboratory failed to delete.");
-            }
-            return $this->successResponse("Laboratory successfully deleted.");
+            return $result ? $this->successResponse("Laboratory successfully deleted.") : $this->errorResponse("Laboratory failed to delete.");
         } catch (Exception $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
-
-    private function laboratoryDescriptionExists($description)
+    private function isLaboratoryDescriptionExists($description)
     {
-        $result = $this->laboratoryModel->getLaboratoryByDescription($description);
-        if ($result) {
-            throw new Exception("Laboratory already exists.");
-        }
+        $laboratory = $this->laboratoryModel->getLaboratoryByDescription($description);
+        if ($laboratory) throw new Exception("Laboratory already exists.");
+    }
+    private function getLaboratoryIfExists($id)
+    {
+        $laboratory = $this->laboratoryModel->getLaboratory($id);
+        if (!$laboratory) throw new Exception("Laboratory does not exist.");
+        return $laboratory;
     }
 }

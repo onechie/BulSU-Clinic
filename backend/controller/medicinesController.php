@@ -17,10 +17,7 @@ class MedicinesController extends Utility
         try {
             //TRY TO GET ALL MEDICINES
             $medicines = $this->medicineModel->getMedicines();
-            if (!$medicines) {
-                return $this->errorResponse("No medicines found.");
-            }
-            return $this->successResponseWithData("Medicines successfully fetched.", ['medicines' => $medicines]);
+            return $medicines ? $this->successResponseWithData("Medicines successfully fetched.", ['medicines' => $medicines]) : $this->errorResponse("No medicines found.");
         } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
@@ -28,17 +25,12 @@ class MedicinesController extends Utility
     public function getMedicine($req)
     {
         $expectedKeys = ['id'];
+        $req = $this->filterData($req, $expectedKeys);
         try {
-            //REMOVE UNEXPECTED KEY VALUE PAIRS
-            $req = array_intersect_key($req, array_flip($expectedKeys));
-
-            //INPUT VALIDATION
             $this->onlyNum("ID", $req['id'] ?? null);
+
             //TRY TO GET MEDICINE BY ID
-            $medicine = $this->medicineModel->getMedicine($req['id']);
-            if (!$medicine) {
-                return $this->errorResponse("Medicine does not exist.");
-            }
+            $medicine = $this->getMedicineIfExists($req['id']);
             return $this->successResponseWithData("Medicine successfully fetched.", ['medicine' => $medicine]);
         } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
@@ -47,68 +39,32 @@ class MedicinesController extends Utility
     public function addMedicine($req)
     {
         $expectedKeys = ['name', 'brand', 'unit', 'expiration', 'boxesCount', 'itemsPerBox', 'itemsCount', 'storage'];
-
+        $req = $this->filterData($req, $expectedKeys);
         try {
-            //REMOVE UNEXPECTED KEY VALUE PAIRS
-            $req = array_intersect_key($req, array_flip($expectedKeys));
-
-            //INPUT VALIDATION
             $this->validateMedicineData($req);
-
-            //CHECK IF MEDICINE ALREADY EXISTS
-            $this->medicineNameExists($req['name']);
+            $this->isMedicineNameExists($req['name']);
 
             //TRY TO ADD MEDICINE
             $result = $this->medicineModel->addMedicine(...array_values($req));
-            if (!$result) {
-                return $this->errorResponse("Medicine failed to add.");
-            }
-            return $this->successResponse("Medicine successfully added.");
+            return $result ? $this->successResponse("Medicine successfully added.") : $this->errorResponse("Medicine failed to add.");
         } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
-
     public function updateMedicine($req)
     {
         $expectedKeys = ['id', 'name', 'brand', 'unit', 'expiration', 'boxesCount', 'itemsPerBox', 'itemsCount', 'itemsDeducted', 'storage'];
-
+        $req = $this->filterData($req, $expectedKeys);
         try {
-            //REMOVE UNEXPECTED KEY VALUE PAIRS
-            $req = array_intersect_key($req, array_flip($expectedKeys));
-
-            //INPUT VALIDATION
             $this->onlyNum("ID", $req['id'] ?? null);
+            $oldMedicine = $this->getMedicineIfExists($req['id']);
 
-            //CHECK IF MEDICINE EXISTS
-            $oldMedicine = $this->medicineModel->getMedicine($req['id']);
-            if (!$oldMedicine) {
-                throw new Exception("Medicine does not exist.");
-            }
-
-            //REMOVE EMPTY ARRAY VALUES TO PREPARE FOR MERGE
-            $req = array_filter($req, function ($value) {
-                return !empty($value);
-            });
-
-            //MERGE OLD MEDICINE DATA WITH NEW MEDICINE DATA ONLY
-            $newMedicineData = array_merge($oldMedicine, $req);
-
-            //CHECK IF THERE ARE ANY CHANGES
-            $differences = array_diff_assoc($oldMedicine, $newMedicineData);
-            if (empty($differences)) {
-                return $this->errorResponse("No changes were made.");
-            }
-
-            //INPUT VALIDATION
-            $this->validateMedicineData($newMedicineData);
+            $newData = $this->mergeData($oldMedicine, $req);
+            $this->validateMedicineData($newData);
 
             //TRY TO UPDATE MEDICINE
-            $result = $this->medicineModel->updateMedicine(...array_values($newMedicineData));
-            if (!$result) {
-                return $this->errorResponse("Medicine failed to update.");
-            }
-            return $this->successResponse("Medicine successfully updated.");
+            $result = $this->medicineModel->updateMedicine(...array_values($newData));
+            return $result ? $this->successResponse("Medicine successfully updated.") : $this->errorResponse("Medicine failed to update.");
         } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
@@ -117,25 +73,14 @@ class MedicinesController extends Utility
     public function deleteMedicine($req)
     {
         $expectedKeys = ['id'];
+        $req = $this->filterData($req, $expectedKeys);
         try {
-            //REMOVE UNEXPECTED KEY VALUE PAIRS
-            $req = array_intersect_key($req, array_flip($expectedKeys));
-
-            //INPUT VALIDATION
             $this->onlyNum("ID", $req['id'] ?? null);
-
-            //CHECK IF MEDICINE EXISTS
-            $medicine = $this->medicineModel->getMedicine($req['id']);
-            if (!$medicine) {
-                return $this->errorResponse("Medicine does not exist.");
-            }
+            $this->getMedicineIfExists($req['id']);
 
             //TRY TO DELETE MEDICINE
             $result = $this->medicineModel->deleteMedicine($req['id']);
-            if (!$result) {
-                return $this->errorResponse("Medicine failed to delete.");
-            }
-            return $this->successResponse("Medicine successfully deleted.");
+            return $result ? $this->successResponse("Medicine successfully deleted.") : $this->errorResponse("Medicine failed to delete.");
         } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
@@ -159,6 +104,8 @@ class MedicinesController extends Utility
         // if ($expiration < date("Y-m-d")) {
         //     throw new Exception("Expiration date must be greater than or equal to today.");
         // }
+        
+        $this->onlyDate("Expiration date", $expiration);
         $today = new DateTime();
         $expirationDate = new DateTime($expiration);
         if ($expirationDate < $today) {
@@ -194,11 +141,17 @@ class MedicinesController extends Utility
             throw new Exception("Storage does not exist.");
         }
     }
-    private function medicineNameExists($name)
+    private function isMedicineNameExists($name)
     {
         $medicine = $this->medicineModel->getMedicineByName($name);
         if ($medicine) {
             throw new Exception("Medicine name already exists.");
         }
+    }
+    private function getMedicineIfExists($id)
+    {
+        $medicine = $this->medicineModel->getMedicine($id);
+        if (!$medicine) throw new Exception("Medicine does not exist.");
+        return $medicine;
     }
 }

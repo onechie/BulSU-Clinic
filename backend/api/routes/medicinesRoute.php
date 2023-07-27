@@ -1,6 +1,4 @@
 <?php
-$medicineModel = new MedicineModel();
-$storageModel = new StorageModel();
 $medicinesController = new MedicinesController($medicineModel, $storageModel);
 
 $router->get('/medicines', function () use ($medicinesController) {

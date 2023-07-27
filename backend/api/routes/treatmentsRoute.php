@@ -1,5 +1,4 @@
 <?php 
-$treatmentModel = new TreatmentModel();
 $treatmentsController = new TreatmentsController($treatmentModel);
 
 $router->get('/treatments', function () use ($treatmentsController) {

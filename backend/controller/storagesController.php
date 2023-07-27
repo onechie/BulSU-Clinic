@@ -10,16 +10,12 @@ class StoragesController extends Utility
     {
         $this->storageModel = $storageModel;
     }
-
     public function getStorages()
     {
         try {
             //TRY TO GET ALL STORAGES
             $storages = $this->storageModel->getStorages();
-            if (!$storages) {
-                return $this->errorResponse("No storages found.");
-            }
-            return $this->successResponseWithData("Storages successfully fetched.", ['storages' => $storages]);
+            return $storages ? $this->successResponseWithData("Storages successfully fetched.", ['storages' => $storages]) : $this->errorResponse("No storages found.");
         } catch (Exception $error) {
             return $this->errorResponse($error->getMessage());
         }
@@ -27,123 +23,74 @@ class StoragesController extends Utility
     public function getStorage($req)
     {
         $expectedKeys = ['id'];
+        $req = $this->filterData($req, $expectedKeys);
         try {
-            //REMOVE UNEXPECTED KEY VALUE PAIRS
-            $req = array_intersect_key($req, array_flip($expectedKeys));
-
-            //INPUT VALIDATION
             $this->onlyNum("ID", $req['id'] ?? null);
 
             //TRY TO GET STORAGE BY ID
-            $storage = $this->storageModel->getStorage($req['id']);
-            if (!$storage) {
-                return $this->errorResponse("Storage does not exist.");
-            }
+            $storage = $this->getStorageIfExists($req['id']);
             return $this->successResponseWithData("Storage successfully fetched.", ['storage' => $storage]);
         } catch (Exception $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
-
     public function addStorage($req)
     {
         $expectedKeys = ['description'];
+        $req = $this->filterData($req, $expectedKeys);
         try {
-            //REMOVE UNEXPECTED KEY VALUE PAIRS
-            $req = array_intersect_key($req, array_flip($expectedKeys));
-
-            //INPUT VALIDATION
             $this->onlyAlphaNum("Description", $req['description'] ?? null);
-
-            //CHECK IF STORAGE ALREADY EXISTS
-            $this->storageDescriptionExists($req['description']);
+            $this->isStorageDescriptionExists($req['description']);
 
             //TRY TO ADD STORAGE
             $storage = $this->storageModel->addStorage($req['description']);
-            if (!$storage) {
-                return $this->errorResponse("Failed to add storage.");
-            }
-            return $this->successResponse("Storage successfully added.");
+            return $storage ? $this->successResponse("Storage successfully added.") : $this->errorResponse("Storage failed to add.");
         } catch (Exception $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
-
     public function updateStorage($req)
     {
         $expectedKeys = ['id', 'description'];
+        $req = $this->filterData($req, $expectedKeys);
         try {
-            //REMOVE UNEXPECTED KEY VALUE PAIRS
-            $req = array_intersect_key($req, array_flip($expectedKeys));
-
-            //INPUT VALIDATION
             $this->onlyNum("ID", $req['id'] ?? null);
-
-            //CHECK IF STORAGE EXISTS
-            $oldStorage = $this->storageModel->getStorage($req['id']);
-            if (!$oldStorage) {
-                throw new Exception("Storage does not exist.");
-            }
-
-            //REMOVE EMPTY ARRAY VALUES TO PREPARE FOR MERGE
-            $req = array_filter($req, function ($value) {
-                return !empty($value);
-            });
-
-            //MERGE OLD STORAGE DATA WITH NEW STORAGE DATA ONLY
-            $newStorageData = array_merge($oldStorage, $req);
-
-            //CHECK IF THERE ARE ANY CHANGES
-            $differences = array_diff_assoc($oldStorage, $newStorageData);
-            if (empty($differences)) {
-                return $this->errorResponse("No changes were made.");
-            }
-
-            //INPUT VALIDATION
-            $this->onlyAlphaNum("Description", $newStorageData['description']);
+            $oldStorage = $this->getStorageIfExists($req['id']);
+            
+            $newData = $this->mergeData($oldStorage, $req);
+            $this->onlyAlphaNum("Description", $newData['description']);
 
             //TRY TO UPDATE STORAGE
-            $result = $this->storageModel->updateStorage(...array_values($newStorageData));
-            if (!$result) {
-                return $this->errorResponse("Storage failed to update.");
-            }
-            return $this->successResponse("Storage successfully updated.");
+            $result = $this->storageModel->updateStorage(...array_values($newData));
+            return $result ? $this->successResponse("Storage successfully updated.") : $this->errorResponse("Storage failed to update.");
         } catch (Exception $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
-
-    public function deleteStorage($req){
+    public function deleteStorage($req)
+    {
         $expectedKeys = ['id'];
+        $req = $this->filterData($req, $expectedKeys);
         try {
-            //REMOVE UNEXPECTED KEY VALUE PAIRS
-            $req = array_intersect_key($req, array_flip($expectedKeys));
-
-            //INPUT VALIDATION
             $this->onlyNum("ID", $req['id'] ?? null);
-
-            //CHECK IF STORAGE EXISTS
-            $storage = $this->storageModel->getStorage($req['id']);
-            if (!$storage) {
-                throw new Exception("Storage does not exist.");
-            }
+            $this->getStorageIfExists($req['id']);
 
             //TRY TO DELETE STORAGE
             $result = $this->storageModel->deleteStorage($req['id']);
-            if (!$result) {
-                return $this->errorResponse("Storage failed to delete.");
-            }
-            return $this->successResponse("Storage successfully deleted.");
+            return $result ? $this->successResponse("Storage successfully deleted.") : $this->errorResponse("Storage failed to delete.");
         } catch (Exception $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
-
-    private function storageDescriptionExists($description)
+    private function isStorageDescriptionExists($description)
     {
         $storage = $this->storageModel->getStorageByDescription($description);
-        if ($storage) {
-            throw new Exception("Storage already exists.");
-        }
+        if ($storage) throw new Exception("Storage already exists.");
+    }
+    private function getStorageIfExists($id)
+    {
+        $storage = $this->storageModel->getStorage($id);
+        if (!$storage) throw new Exception("Storage does not exist.");
+        return $storage;
     }
 }

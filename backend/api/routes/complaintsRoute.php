@@ -1,5 +1,4 @@
 <?php 
-$complaintModel = new ComplaintModel();
 $complaintsController = new ComplaintsController($complaintModel);
 
 $router->get('/complaints', function () use ($complaintsController) {
