@@ -28,12 +28,12 @@
         <div class="w-full h-full flex justify-between max-w-[1200px]">
           <div class="h-full w-full pt-[120px] pb-[100px]">
             <div class="flex w-full gap-[40px] opacity-75 text-gray-500">
-              <p>Sed do eiusmod</p>
-              <p>Incididunt</p>
-              <p>Exercitation</p>
+              <p>Endpoints</p>
+              <p>Parameters</p>
+              <p>Response</p>
             </div>
             <h1 class="text-4xl font-bold text-lime-950 my-5">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Backend API Guide: BulSU Clinic Documentation
             </h1>
             <div class="flex w-full gap-[40px] text-gray-900 mt-10">
               <p class="flex text-lime-900">
@@ -51,7 +51,7 @@
                     d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"
                   />
                 </svg>
-                Excepteur sint
+                Bulacan State University
               </p>
               <p class="flex text-lime-900">
                 <svg
@@ -60,15 +60,20 @@
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
-                  class="w-6 h-6 me-1"
+                  class="w-6 h-6"
                 >
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"
+                    d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
                   />
                 </svg>
-                Officia
+                Hagonoy Campus
               </p>
             </div>
           </div>
@@ -83,33 +88,57 @@
     <div class="w-full bg-white flex justify-center">
       <div class="w-full max-w-[1200px] h-auto]">
         <h1 class="text-2xl font-bold text-center my-5 text-lime-900">
-          BulSU Clinic Backend API
+          API Endpoint Details and Examples
         </h1>
         <details>
           <summary class="border rounded p-3 hover:bg-gray-100 font-medium">
-            Register
+            backend/api/users
           </summary>
           <div class="bg-slate-100 p-5 text-slate-600">
-            <div>
+            <div class="py-3">
               <div class="font-medium">
                 <span
                   class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
                   >POST</span
-                >../backend/api/register
+                >backend/api/users/login
               </div>
               <div class="flex mt-2">
                 <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
+                  <p class="text-red-500">parameters :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>usernameOrEmail</li>
+                    <li>password</li>
+                  </ul>
+                </div>
+                <div class="ps-10 text-sm mt-1">
+                  <p class="text-green-500">response :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>"success":bool</li>
+                    <li>"message":"String"</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="py-3">
+              <div class="font-medium">
+                <span
+                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
+                  >POST</span
+                >backend/api/users/register
+              </div>
+              <div class="flex mt-2">
+                <div class="ps-10 text-sm w-[300px]">
+                  <p class="text-red-500">parameters :</p>
                   <ul class="list-disc list-inside ps-5">
                     <li>username</li>
                     <li>email</li>
                     <li>password</li>
                     <li>confirmPassword</li>
-                    <li>route="register"</li>
                   </ul>
                 </div>
                 <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
+                  <p class="text-green-500">response :</p>
                   <ul class="list-disc list-inside ps-5">
                     <li>"success":bool</li>
                     <li>"message":"String"</li>
@@ -121,130 +150,48 @@
         </details>
         <details>
           <summary class="border rounded p-3 hover:bg-gray-100 font-medium">
-            Login
+            backend/api/medicines
           </summary>
           <div class="bg-slate-100 p-5 text-slate-600">
-            <div>
+            <div class="py-3">
+              <div class="font-medium">
+                <span
+                  class="bg-green-500 rounded text-xs p-1 text-white font-medium me-1"
+                  >GET</span
+                >backend/api/medicines
+              </div>
+              <div class="flex mt-2">
+                <div class="ps-10 text-sm w-[300px]">
+                  <p class="text-red-500">parameters :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>id=(<span class="text-blue-500">optional</span>)</li>
+                  </ul>
+                </div>
+                <div class="ps-10 text-sm mt-1">
+                  <p class="text-green-500">response :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>"success":bool</li>
+                    <li>"message":"String"</li>
+                    <li>
+                      "medicine":{<span class="text-blue-500"
+                        >if request has id parameter this is the response</span
+                      >}
+                    </li>
+                    <li>"medicines:{array of medicine objects}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="py-3">
               <div class="font-medium">
                 <span
                   class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
                   >POST</span
-                >../backend/api/login
+                >backend/api/medicines
               </div>
               <div class="flex mt-2">
                 <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>usernameOrEmail</li>
-                    <li>password</li>
-                    <li>route="login"</li>
-                  </ul>
-                </div>
-                <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>"success":bool</li>
-                    <li>"message":"String"</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </details>
-        <details>
-          <summary class="border rounded p-3 hover:bg-gray-100 font-medium">
-            Dashboard
-          </summary>
-          <div class="bg-slate-100 p-5 text-slate-600">
-            <div>
-              <div class="font-medium">
-                <span
-                  class="bg-green-500 rounded text-xs p-1 text-white font-medium me-1"
-                  >GET</span
-                >../backend/api/dashboard
-              </div>
-              <div class="flex mt-2">
-                <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>route="getAllMedicine"</li>
-                  </ul>
-                </div>
-                <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>"success":bool</li>
-                    <li>"message":"String"</li>
-                    <li>"medicines":[{array of object medicines}]</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </details>
-        <details>
-          <summary class="border rounded p-3 hover:bg-gray-100 font-medium">
-            Inventory
-          </summary>
-          <div class="bg-slate-100 p-5 text-slate-600">
-            <div>
-              <div class="font-medium">
-                <span
-                  class="bg-green-500 rounded text-xs p-1 text-white font-medium me-1"
-                  >GET</span
-                >../backend/api/inventory
-              </div>
-              <div class="flex mt-2">
-                <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>route="getFormSuggestions"</li>
-                  </ul>
-                </div>
-                <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>"success":bool</li>
-                    <li>"message":"String"</li>
-                    <li>"storages":[{array of object storages}]</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="font-medium">
-                <span
-                  class="bg-green-500 rounded text-xs p-1 text-white font-medium me-1"
-                  >GET</span
-                >../backend/api/inventory
-              </div>
-              <div class="flex mt-2">
-                <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>route="getAllMedicine"</li>
-                  </ul>
-                </div>
-                <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>"success":bool</li>
-                    <li>"message":"String"</li>
-                    <li>"medicines":[{array of object medicines}]</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="font-medium">
-                <span
-                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
-                  >POST</span
-                >../backend/api/inventory
-              </div>
-              <div class="flex mt-2">
-                <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
+                  <p class="text-red-500">parameters :</p>
                   <ul class="list-disc list-inside ps-5">
                     <li>name</li>
                     <li>brand</li>
@@ -254,11 +201,10 @@
                     <li>itemsPerBox</li>
                     <li>itemsCount</li>
                     <li>storage</li>
-                    <li>route="createMedicine"</li>
                   </ul>
                 </div>
                 <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
+                  <p class="text-green-500">response :</p>
                   <ul class="list-disc list-inside ps-5">
                     <li>"success":bool</li>
                     <li>"message":"String"</li>
@@ -266,82 +212,169 @@
                 </div>
               </div>
             </div>
-          </div>
-        </details>
-        <details>
-          <summary class="border rounded p-3 hover:bg-gray-100 font-medium">
-            Summarization
-          </summary>
-          <div class="bg-slate-100 p-5 text-slate-600">
-            <div>
-              <div class="font-medium">
-                <span
-                  class="bg-green-500 rounded text-xs p-1 text-white font-medium me-1"
-                  >GET</span
-                >../backend/api/summarization
-              </div>
-              <div class="flex mt-2">
-                <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>route="getMedicines"</li>
-                  </ul>
-                </div>
-                <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>"success":bool</li>
-                    <li>"message":"String"</li>
-                    <li>"medicines":[{array of medicine objects}]</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </details>
-        <details>
-          <summary class="border rounded p-3 hover:bg-gray-100 font-medium">
-            Clinic Form
-          </summary>
-          <div class="bg-slate-100 p-5 text-slate-600">
-            <div>
-              <div class="font-medium">
-                <span
-                  class="bg-green-500 rounded text-xs p-1 text-white font-medium me-1"
-                  >GET</span
-                >../backend/api/clinicForm
-              </div>
-              <div class="flex mt-2">
-                <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>route="getFormSuggestions"</li>
-                  </ul>
-                </div>
-                <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>"success":bool</li>
-                    <li>"message":"String"</li>
-                    <li>"complaints":[{array of complaint objects}]</li>
-                    <li>"medications":[{array of medication objects}]</li>
-                    <li>"treatments":[{array of treatment objects}]</li>
-                    <li>"laboratories":[{array of laboratory objects}]</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div>
+            <div class="py-3">
               <div class="font-medium">
                 <span
                   class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
                   >POST</span
-                >../backend/api/clinicForm
+                >backend/api/medicines/update
               </div>
               <div class="flex mt-2">
                 <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
+                  <p class="text-red-500">parameters :</p>
                   <ul class="list-disc list-inside ps-5">
+                    <li>id</li>
+                    <li>name</li>
+                    <li>brand</li>
+                    <li>unit</li>
+                    <li>expiration</li>
+                    <li>boxesCount</li>
+                    <li>itemsPerBox</li>
+                    <li>itemsCount</li>
+                    <li>itemsDeducted</li>
+                    <li>storage</li>
+                    <li class="text-blue-500">
+                      All parameters are optional since this is just update
+                      method, only id is required
+                    </li>
+                  </ul>
+                </div>
+                <div class="ps-10 text-sm mt-1">
+                  <p class="text-green-500">response :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>"success":bool</li>
+                    <li>"message":"String"</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="py-3">
+              <div class="font-medium">
+                <span
+                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
+                  >POST</span
+                >backend/api/medicines/delete
+              </div>
+              <div class="flex mt-2">
+                <div class="ps-10 text-sm w-[300px]">
+                  <p class="text-red-500">parameters :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>id</li>
+                  </ul>
+                </div>
+                <div class="ps-10 text-sm mt-1">
+                  <p class="text-green-500">response :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>"success":bool</li>
+                    <li>"message":"String"</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </details>
+        <details>
+          <summary class="border rounded p-3 hover:bg-gray-100 font-medium">
+            backend/api/records
+          </summary>
+          <div class="bg-slate-100 p-5 text-slate-600">
+            <div>
+              <div class="font-medium">
+                <span
+                  class="bg-green-500 rounded text-xs p-1 text-white font-medium me-1"
+                  >GET</span
+                >backend/api/records
+              </div>
+              <div class="flex mt-2">
+                <div class="ps-10 text-sm w-[300px]">
+                  <p class="text-red-500">parameters :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>id=(<span class="text-blue-500">optional</span>)</li>
+                  </ul>
+                </div>
+                <div class="ps-10 text-sm mt-1">
+                  <p class="text-green-500">response :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>"success":bool</li>
+                    <li>"message":"String"</li>
+                    <li>
+                      "record":{<span class="text-blue-500"
+                        >if request has id parameter this is the response</span
+                      >}
+                    </li>
+                    <li>"records":[{array of object records}]</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="py-3">
+              <div class="font-medium">
+                <span
+                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
+                  >POST</span
+                >backend/api/records
+              </div>
+              <div class="flex mt-2">
+                <div class="ps-10 text-sm w-[300px]">
+                  <p class="text-red-500">parameters :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>schoolYear</li>
+                    <li>name</li>
+                    <li>date</li>
+                    <li>complaint</li>
+                    <li>medication</li>
+                    <li>quantity</li>
+                    <li>
+                      treatment=(<span class="text-blue-500">optional</span>)
+                    </li>
+                    <li>
+                      laboratory=(<span class="text-blue-500">optional</span>)
+                    </li>
+                    <li>
+                      bloodPressure=(<span class="text-blue-500">optional</span
+                      >)
+                    </li>
+                    <li>pulse=(<span class="text-blue-500">optional</span>)</li>
+                    <li>
+                      weight=(<span class="text-blue-500">optional</span>)
+                    </li>
+                    <li>
+                      temperature=(<span class="text-blue-500">optional</span>)
+                    </li>
+                    <li>
+                      respiration=(<span class="text-blue-500">optional</span>)
+                    </li>
+                    <li>
+                      oximetry=(<span class="text-blue-500">optional</span>)
+                    </li>
+                    <li>
+                      attachments[]=(<span class="text-blue-500">optional</span
+                      >)
+                    </li>
+                  </ul>
+                </div>
+                <div class="ps-10 text-sm mt-1">
+                  <p class="text-green-500">response JSON data :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>"success":bool</li>
+                    <li>"message":"String"</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="py-3">
+              <div class="font-medium">
+                <span
+                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
+                  >POST</span
+                >backend/api/records/update
+              </div>
+              <div class="flex mt-2">
+                <div class="ps-10 text-sm w-[300px]">
+                  <p class="text-red-500">parameters :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>id</li>
                     <li>schoolYear</li>
                     <li>name</li>
                     <li>date</li>
@@ -356,9 +389,33 @@
                     <li>temperature</li>
                     <li>respiration</li>
                     <li>oximetry</li>
-                    <li>attachments[]</li>
-                    <li>route = "createRecord"</li>
-                    <li>route="getFormSuggestions"</li>
+                    <li class="text-blue-500">
+                      All parameters are optional since this is just update
+                      method, only id is required
+                    </li>
+                  </ul>
+                </div>
+                <div class="ps-10 text-sm mt-1">
+                  <p class="text-green-500">response JSON data :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>"success":bool</li>
+                    <li>"message":"String"</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="py-3">
+              <div class="font-medium">
+                <span
+                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
+                  >POST</span
+                >backend/api/records/delete
+              </div>
+              <div class="flex mt-2">
+                <div class="ps-10 text-sm w-[300px]">
+                  <p class="text-red-500">parameters :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>id</li>
                   </ul>
                 </div>
                 <div class="ps-10 text-sm mt-1">
@@ -374,107 +431,90 @@
         </details>
         <details>
           <summary class="border rounded p-3 hover:bg-gray-100 font-medium">
-            Clinic Record
+            backend/api/attachments
           </summary>
           <div class="bg-slate-100 p-5 text-slate-600">
-            <div>
+            <div class="py-3">
               <div class="font-medium">
                 <span
                   class="bg-green-500 rounded text-xs p-1 text-white font-medium me-1"
                   >GET</span
-                >../backend/api/clinicRecord
+                >backend/api/attachments
               </div>
               <div class="flex mt-2">
                 <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
+                  <p class="text-red-500">parameters :</p>
                   <ul class="list-disc list-inside ps-5">
-                    <li>route="getAllRecords"</li>
+                    <li>id=(<span class="text-blue-500">optional</span>)</li>
+                    <li>
+                      recordId=(<span class="text-blue-500">optional</span>)
+                    </li>
+                    <li class="text-blue-500">
+                      if you include both, id is the first priority
+                    </li>
                   </ul>
                 </div>
                 <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
+                  <p class="text-green-500">response :</p>
                   <ul class="list-disc list-inside ps-5">
                     <li>"success":bool</li>
                     <li>"message":"String"</li>
-                    <li>"records":[{array of record objects}]</li>
+                    <li>"attachment":object only if id is used to fetch</li>
+                    <li>
+                      "attachment":[{array of objects if recordId is used to
+                      fetch}]
+                    </li>
+                    <li>"attachments":[{array of object attachments}]</li>
                   </ul>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="bg-slate-100 p-5 text-slate-600">
-            <div>
-              <div class="font-medium">
-                <span
-                  class="bg-green-500 rounded text-xs p-1 text-white font-medium me-1"
-                  >GET</span
-                >../backend/api/clinicRecord
-              </div>
-              <div class="flex mt-2">
-                <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>name</li>
-                    <li>route="getRecordsByName"</li>
-                  </ul>
-                </div>
-                <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>"success":bool</li>
-                    <li>"message":"String"</li>
-                    <li>"records":[{array of record objects}]</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="bg-slate-100 p-5 text-slate-600">
-            <div>
-              <div class="font-medium">
-                <span
-                  class="bg-green-500 rounded text-xs p-1 text-white font-medium me-1"
-                  >GET</span
-                >../backend/api/clinicRecord
-              </div>
-              <div class="flex mt-2">
-                <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>id</li>
-                    <li>route="getRecordById"</li>
-                  </ul>
-                </div>
-                <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>"success":bool</li>
-                    <li>"message":"String"</li>
-                    <li>"record":{record object}</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="bg-slate-100 p-5 text-slate-600">
-            <div>
+            <div class="py-3">
               <div class="font-medium">
                 <span
                   class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
                   >POST</span
-                >../backend/api/clinicRecord
+                >backend/api/attachments
               </div>
               <div class="flex mt-2">
                 <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
+                  <p class="text-red-500">parameters :</p>
                   <ul class="list-disc list-inside ps-5">
-                    <li>id</li>
+                    <li>recordId</li>
                     <li>attachments[]</li>
-                    <li>route="addAttachment"</li>
                   </ul>
                 </div>
                 <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
+                  <p class="text-green-500">response :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>"success":bool</li>
+                    <li>"message":"String"</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="py-3">
+              <div class="font-medium">
+                <span
+                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
+                  >POST</span
+                >backend/api/attachments/delete
+              </div>
+              <div class="flex mt-2">
+                <div class="ps-10 text-sm w-[300px]">
+                  <p class="text-red-500">parameters :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>id=(<span class="text-blue-500">optional</span>)</li>
+                    <li>
+                      recordId=(<span class="text-blue-500">optional</span>)
+                    </li>
+                    <li class="text-blue-500">
+                      if you include both, id is the first priority
+                    </li>
+                  </ul>
+                </div>
+                <div class="ps-10 text-sm mt-1">
+                  <p class="text-green-500">response :</p>
                   <ul class="list-disc list-inside ps-5">
                     <li>"success":bool</li>
                     <li>"message":"String"</li>
@@ -486,122 +526,384 @@
         </details>
         <details>
           <summary class="border rounded p-3 hover:bg-gray-100 font-medium">
-            Settings
+            backend/api/complaints
           </summary>
           <div class="bg-slate-100 p-5 text-slate-600">
-            <div>
+            <div class="py-3">
               <div class="font-medium">
                 <span
                   class="bg-green-500 rounded text-xs p-1 text-white font-medium me-1"
                   >GET</span
-                >../backend/api/settings
+                >backend/api/complaints
               </div>
               <div class="flex mt-2">
                 <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
+                  <p class="text-red-500">parameters :</p>
                   <ul class="list-disc list-inside ps-5">
-                    <li>route="getComplaints"</li>
+                    <li>id=(<span class="text-blue-500">optional</span>)</li>
                   </ul>
                 </div>
                 <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
+                  <p class="text-green-500">response :</p>
                   <ul class="list-disc list-inside ps-5">
                     <li>"success":bool</li>
                     <li>"message":"String"</li>
-                    <li>"complaints":[{array of complaint objects}]</li>
+                    <li>
+                      "complaint":{<span class="text-blue-500"
+                        >if request has id parameter this is the response</span
+                      >}
+                    </li>
+                    <li>"complaints":[{array of medicine objects}]</li>
                   </ul>
                 </div>
               </div>
             </div>
-            <div>
+            <div class="py-3">
+              <div class="font-medium">
+                <span
+                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
+                  >POST</span
+                >backend/api/complaints
+              </div>
+              <div class="flex mt-2">
+                <div class="ps-10 text-sm w-[300px]">
+                  <p class="text-red-500">parameters :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>description</li>
+                  </ul>
+                </div>
+                <div class="ps-10 text-sm mt-1">
+                  <p class="text-green-500">response :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>"success":bool</li>
+                    <li>"message":"String"</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="py-3">
+              <div class="font-medium">
+                <span
+                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
+                  >POST</span
+                >backend/api/complaints/update
+              </div>
+              <div class="flex mt-2">
+                <div class="ps-10 text-sm w-[300px]">
+                  <p class="text-red-500">parameters :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>id</li>
+                    <li>description</li>
+                    <li class="text-blue-500">
+                      All parameters are optional since this is just update
+                      method, only id is required
+                    </li>
+                  </ul>
+                </div>
+                <div class="ps-10 text-sm mt-1">
+                  <p class="text-green-500">response :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>"success":bool</li>
+                    <li>"message":"String"</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="py-3">
+              <div class="font-medium">
+                <span
+                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
+                  >POST</span
+                >backend/api/complaints/delete
+              </div>
+              <div class="flex mt-2">
+                <div class="ps-10 text-sm w-[300px]">
+                  <p class="text-red-500">parameters :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>id</li>
+                  </ul>
+                </div>
+                <div class="ps-10 text-sm mt-1">
+                  <p class="text-green-500">response :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>"success":bool</li>
+                    <li>"message":"String"</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </details>
+        <details>
+          <summary class="border rounded p-3 hover:bg-gray-100 font-medium">
+            backend/api/laboratories
+          </summary>
+          <div class="bg-slate-100 p-5 text-slate-600">
+            <div class="py-3">
               <div class="font-medium">
                 <span
                   class="bg-green-500 rounded text-xs p-1 text-white font-medium me-1"
                   >GET</span
-                >../backend/api/settings
+                >backend/api/laboratories
               </div>
               <div class="flex mt-2">
                 <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
+                  <p class="text-red-500">parameters :</p>
                   <ul class="list-disc list-inside ps-5">
-                    <li>route="getTreatments"</li>
+                    <li>id=(<span class="text-blue-500">optional</span>)</li>
                   </ul>
                 </div>
                 <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
+                  <p class="text-green-500">response :</p>
                   <ul class="list-disc list-inside ps-5">
                     <li>"success":bool</li>
                     <li>"message":"String"</li>
-                    <li>"treatments":[{array of treatment objects}]</li>
+                    <li>
+                      "laboratory":{<span class="text-blue-500"
+                        >if request has id parameter this is the response</span
+                      >}
+                    </li>
+                    <li>"laboratories":[{array of medicine objects}]</li>
                   </ul>
                 </div>
               </div>
             </div>
-            <div>
+            <div class="py-3">
+              <div class="font-medium">
+                <span
+                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
+                  >POST</span
+                >backend/api/laboratories
+              </div>
+              <div class="flex mt-2">
+                <div class="ps-10 text-sm w-[300px]">
+                  <p class="text-red-500">parameters :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>description</li>
+                  </ul>
+                </div>
+                <div class="ps-10 text-sm mt-1">
+                  <p class="text-green-500">response :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>"success":bool</li>
+                    <li>"message":"String"</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="py-3">
+              <div class="font-medium">
+                <span
+                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
+                  >POST</span
+                >backend/api/laboratories/update
+              </div>
+              <div class="flex mt-2">
+                <div class="ps-10 text-sm w-[300px]">
+                  <p class="text-red-500">parameters :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>id</li>
+                    <li>description</li>
+                    <li class="text-blue-500">
+                      All parameters are optional since this is just update
+                      method, only id is required
+                    </li>
+                  </ul>
+                </div>
+                <div class="ps-10 text-sm mt-1">
+                  <p class="text-green-500">response :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>"success":bool</li>
+                    <li>"message":"String"</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="py-3">
+              <div class="font-medium">
+                <span
+                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
+                  >POST</span
+                >backend/api/laboratories/delete
+              </div>
+              <div class="flex mt-2">
+                <div class="ps-10 text-sm w-[300px]">
+                  <p class="text-red-500">parameters :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>id</li>
+                  </ul>
+                </div>
+                <div class="ps-10 text-sm mt-1">
+                  <p class="text-green-500">response :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>"success":bool</li>
+                    <li>"message":"String"</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </details>
+        <details>
+          <summary class="border rounded p-3 hover:bg-gray-100 font-medium">
+            backend/api/storages
+          </summary>
+          <div class="bg-slate-100 p-5 text-slate-600">
+            <div class="py-3">
               <div class="font-medium">
                 <span
                   class="bg-green-500 rounded text-xs p-1 text-white font-medium me-1"
                   >GET</span
-                >../backend/api/settings
+                >backend/api/storages
               </div>
               <div class="flex mt-2">
                 <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
+                  <p class="text-red-500">parameters :</p>
                   <ul class="list-disc list-inside ps-5">
-                    <li>route="getLaboratories"</li>
+                    <li>id=(<span class="text-blue-500">optional</span>)</li>
                   </ul>
                 </div>
                 <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
+                  <p class="text-green-500">response :</p>
                   <ul class="list-disc list-inside ps-5">
                     <li>"success":bool</li>
                     <li>"message":"String"</li>
-                    <li>"laboratories":[{array of laboratory objects}]</li>
+                    <li>
+                      "storage":{<span class="text-blue-500"
+                        >if request has id parameter this is the response</span
+                      >}
+                    </li>
+                    <li>"storages":[{array of medicine objects}]</li>
                   </ul>
                 </div>
               </div>
             </div>
-            <div>
+            <div class="py-3">
+              <div class="font-medium">
+                <span
+                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
+                  >POST</span
+                >backend/api/storages
+              </div>
+              <div class="flex mt-2">
+                <div class="ps-10 text-sm w-[300px]">
+                  <p class="text-red-500">parameters :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>description</li>
+                  </ul>
+                </div>
+                <div class="ps-10 text-sm mt-1">
+                  <p class="text-green-500">response :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>"success":bool</li>
+                    <li>"message":"String"</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="py-3">
+              <div class="font-medium">
+                <span
+                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
+                  >POST</span
+                >backend/api/storages/update
+              </div>
+              <div class="flex mt-2">
+                <div class="ps-10 text-sm w-[300px]">
+                  <p class="text-red-500">parameters :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>id</li>
+                    <li>description</li>
+                    <li class="text-blue-500">
+                      All parameters are optional since this is just update
+                      method, only id is required
+                    </li>
+                  </ul>
+                </div>
+                <div class="ps-10 text-sm mt-1">
+                  <p class="text-green-500">response :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>"success":bool</li>
+                    <li>"message":"String"</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="py-3">
+              <div class="font-medium">
+                <span
+                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
+                  >POST</span
+                >backend/api/storages/delete
+              </div>
+              <div class="flex mt-2">
+                <div class="ps-10 text-sm w-[300px]">
+                  <p class="text-red-500">parameters :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>id</li>
+                  </ul>
+                </div>
+                <div class="ps-10 text-sm mt-1">
+                  <p class="text-green-500">response :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>"success":bool</li>
+                    <li>"message":"String"</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </details>
+        <details>
+          <summary class="border rounded p-3 hover:bg-gray-100 font-medium">
+            backend/api/treatments
+          </summary>
+          <div class="bg-slate-100 p-5 text-slate-600">
+            <div class="py-3">
               <div class="font-medium">
                 <span
                   class="bg-green-500 rounded text-xs p-1 text-white font-medium me-1"
                   >GET</span
-                >../backend/api/settings
+                >backend/api/treatments
               </div>
               <div class="flex mt-2">
                 <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
+                  <p class="text-red-500">parameters :</p>
                   <ul class="list-disc list-inside ps-5">
-                    <li>route="getStorages"</li>
+                    <li>id=(<span class="text-blue-500">optional</span>)</li>
                   </ul>
                 </div>
                 <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
+                  <p class="text-green-500">response :</p>
                   <ul class="list-disc list-inside ps-5">
                     <li>"success":bool</li>
                     <li>"message":"String"</li>
-                    <li>"storages":[{array of storage objects}]</li>
+                    <li>
+                      "treatment":{<span class="text-blue-500"
+                        >if request has id parameter this is the response</span
+                      >}
+                    </li>
+                    <li>"treatments":[{array of medicine objects}]</li>
                   </ul>
                 </div>
               </div>
             </div>
-            <div>
+            <div class="py-3">
               <div class="font-medium">
                 <span
                   class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
                   >POST</span
-                >../backend/api/settings
+                >backend/api/treatments
               </div>
               <div class="flex mt-2">
                 <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
+                  <p class="text-red-500">parameters :</p>
                   <ul class="list-disc list-inside ps-5">
                     <li>description</li>
-                    <li>route="addComplaint"</li>
                   </ul>
                 </div>
                 <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
+                  <p class="text-green-500">response :</p>
                   <ul class="list-disc list-inside ps-5">
                     <li>"success":bool</li>
                     <li>"message":"String"</li>
@@ -609,23 +911,27 @@
                 </div>
               </div>
             </div>
-            <div>
+            <div class="py-3">
               <div class="font-medium">
                 <span
                   class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
                   >POST</span
-                >../backend/api/settings
+                >backend/api/treatments/update
               </div>
               <div class="flex mt-2">
                 <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
+                  <p class="text-red-500">parameters :</p>
                   <ul class="list-disc list-inside ps-5">
+                    <li>id</li>
                     <li>description</li>
-                    <li>route="addTreatment"</li>
+                    <li class="text-blue-500">
+                      All parameters are optional since this is just update
+                      method, only id is required
+                    </li>
                   </ul>
                 </div>
                 <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
+                  <p class="text-green-500">response :</p>
                   <ul class="list-disc list-inside ps-5">
                     <li>"success":bool</li>
                     <li>"message":"String"</li>
@@ -633,143 +939,22 @@
                 </div>
               </div>
             </div>
-            <div>
+            <div class="py-3">
               <div class="font-medium">
                 <span
                   class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
                   >POST</span
-                >../backend/api/settings
+                >backend/api/treatments/delete
               </div>
               <div class="flex mt-2">
                 <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>description</li>
-                    <li>route="addLaboratory"</li>
-                  </ul>
-                </div>
-                <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>"success":bool</li>
-                    <li>"message":"String"</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="font-medium">
-                <span
-                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
-                  >POST</span
-                >../backend/api/settings
-              </div>
-              <div class="flex mt-2">
-                <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>description</li>
-                    <li>route="addStorage"</li>
-                  </ul>
-                </div>
-                <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>"success":bool</li>
-                    <li>"message":"String"</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="font-medium">
-                <span
-                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
-                  >POST</span
-                >../backend/api/settings
-              </div>
-              <div class="flex mt-2">
-                <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
+                  <p class="text-red-500">parameters :</p>
                   <ul class="list-disc list-inside ps-5">
                     <li>id</li>
-                    <li>route="deleteComplaint"</li>
                   </ul>
                 </div>
                 <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>"success":bool</li>
-                    <li>"message":"String"</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="font-medium">
-                <span
-                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
-                  >POST</span
-                >../backend/api/settings
-              </div>
-              <div class="flex mt-2">
-                <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>id</li>
-                    <li>route="deleteTreatment"</li>
-                  </ul>
-                </div>
-                <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>"success":bool</li>
-                    <li>"message":"String"</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="font-medium">
-                <span
-                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
-                  >POST</span
-                >../backend/api/settings
-              </div>
-              <div class="flex mt-2">
-                <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>id</li>
-                    <li>route="deleteLaboratory"</li>
-                  </ul>
-                </div>
-                <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>"success":bool</li>
-                    <li>"message":"String"</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="font-medium">
-                <span
-                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
-                  >POST</span
-                >../backend/api/settings
-              </div>
-              <div class="flex mt-2">
-                <div class="ps-10 text-sm w-[300px]">
-                  <p class="text-red-500">required parameters :</p>
-                  <ul class="list-disc list-inside ps-5">
-                    <li>id</li>
-                    <li>route="deleteStorage"</li>
-                  </ul>
-                </div>
-                <div class="ps-10 text-sm mt-1">
-                  <p class="text-green-500">response JSON data :</p>
+                  <p class="text-green-500">response :</p>
                   <ul class="list-disc list-inside ps-5">
                     <li>"success":bool</li>
                     <li>"message":"String"</li>
@@ -780,69 +965,13 @@
           </div>
         </details>
         <br />
-        <span
-          class="bg-green-500 rounded text-xs p-1 text-white font-medium me-1"
-          >GET</span
-        >
-        <span
-          class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
-          >POST</span
-        >
-        <span
-          class="bg-blue-500 rounded text-xs p-1 text-white font-medium me-1"
-          >PUT</span
-        >
-        <span class="bg-red-500 rounded text-xs p-1 text-white font-medium me-1"
-          >DELETE</span
-        >
       </div>
     </div>
     <div class="w-full h-full flex justify-center mt-5">
       <div
         class="w-full h-full max-w-[1200px] grid grid-cols-4 grid-rows-6 gap-5 p-5"
       >
-        <a
-          href="./register"
-          class="flex justify-center items-center rounded opacity-75 text-slate-600 ring-1 ring-gray-500/20 hover:ring-2 hover:ring-lime-800/50 hover:border"
-          >REGISTER API</a
-        >
-        <a
-          href="./login"
-          class="flex justify-center items-center rounded opacity-75 text-slate-600 ring-1 ring-gray-500/20 hover:ring-2 hover:ring-lime-800/50 hover:border"
-          >LOGIN API</a
-        >
-
-        <a
-          href="./home"
-          class="flex justify-center items-center rounded opacity-75 text-slate-600 ring-1 ring-gray-500/20 hover:ring-2 hover:ring-lime-800/50 hover:border"
-          >DASHBOARD API</a
-        >
-
-        <a
-          href="./inventory"
-          class="flex justify-center items-center rounded opacity-75 text-slate-600 ring-1 ring-gray-500/20 hover:ring-2 hover:ring-lime-800/50 hover:border"
-          >INVENTORY API</a
-        >
-        <a
-          href="./summarization"
-          class="flex justify-center items-center rounded opacity-75 text-slate-600 ring-1 ring-gray-500/20 hover:ring-2 hover:ring-lime-800/50 hover:border"
-          >SUMMARIZATION API</a
-        >
-        <a
-          href="./clinicForm"
-          class="flex justify-center items-center rounded opacity-75 text-slate-600 ring-1 ring-gray-500/20 hover:ring-2 hover:ring-lime-800/50 hover:border"
-          >CLINIC FORM API</a
-        >
-        <a
-          href="./clinicRecord"
-          class="flex justify-center items-center rounded opacity-75 text-slate-600 ring-1 ring-gray-500/20 hover:ring-2 hover:ring-lime-800/50 hover:border"
-          >CLINIC RECORD API</a
-        >
-        <a
-          href="./settings"
-          class="flex justify-center items-center rounded opacity-75 text-slate-600 ring-1 ring-gray-500/20 hover:ring-2 hover:ring-lime-800/50 hover:border"
-          >SETTINGS API</a
-        >
+        <!-- BOTTOM -->
       </div>
     </div>
   </body>

@@ -17,23 +17,26 @@ class PageRouter
         $url = preg_replace('/[^a-zA-Z0-9\/]/', '', $url);
 
         // Include the 'handleAuth' check for specific routes
-        if ($this->requiresAuth($url)) {
-            $this->routes[$url] = function () use ($callback) {
-                $this->redirectToDashboardIfLoggedIn(); // Redirect if logged in, else allow access
-                $callback();
-            };
-        } else {
-            $this->routes[$url] = function () use ($callback) {
-                $this->redirectToLoginIfNotLoggedIn(); // Redirect if not logged in, else allow access
-                $callback();
-            };
-        }
+        // if ($this->requiresAuth($url)) {
+        //     $this->routes[$url] = function () use ($callback) {
+        //         $this->redirectToDashboardIfLoggedIn(); // Redirect if logged in, else allow access
+        //         $callback();
+        //     };
+        // } else {
+        //     $this->routes[$url] = function () use ($callback) {
+        //         $this->redirectToLoginIfNotLoggedIn(); // Redirect if not logged in, else allow access
+        //         $callback();
+        //     };
+        // }
+
+        //basic route
+        $this->routes[$url] = $callback;
     }
 
     // Check if a specific route requires authentication (e.g., login or register page)
     private function requiresAuth($url)
     {
-        return in_array($url, ['/','/login', '/register']);
+        return in_array($url, ['/', '/login', '/register']);
     }
 
     // Set a callback for 404 Not Found page
@@ -71,23 +74,23 @@ class PageRouter
         }
     }
 
-    // Redirect to the dashboard if the user is logged in
-    private function redirectToDashboardIfLoggedIn()
-    {
-        if (isset($this->session['user_id'])) {
-            header("Location: /home"); // Redirect to dashboard
-            exit();
-        }
-    }
+    // // Redirect to the dashboard if the user is logged in
+    // private function redirectToDashboardIfLoggedIn()
+    // {
+    //     if (isset($this->session['user_id'])) {
+    //         header("Location: /home"); // Redirect to dashboard
+    //         exit();
+    //     }
+    // }
 
-    // Redirect to the login page if the user is not logged in
-    private function redirectToLoginIfNotLoggedIn()
-    {
-        if (!isset($this->session['user_id'])) {
-            header("Location: /login"); // Redirect to login
-            exit();
-        }
-    }
+    // // Redirect to the login page if the user is not logged in
+    // private function redirectToLoginIfNotLoggedIn()
+    // {
+    //     if (!isset($this->session['user_id'])) {
+    //         header("Location: /login"); // Redirect to login
+    //         exit();
+    //     }
+    // }
 
     // Handle 404 Not Found page
     private function handleNotFound()

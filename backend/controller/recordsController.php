@@ -37,10 +37,7 @@ class RecordsController extends Utility
         try {
             $this->onlyNum("ID", $req['id'] ?? null);
             //TRY TO GET RECORD BY ID
-            $record = $this->recordModel->getRecord($req['id']);
-            if (!$record) {
-                return $this->errorResponse("Record does not exist.");
-            }
+            $record = $this->getRecordIfExists($req['id']);
             $attachments = $this->attachmentModel->getAttachmentByRecordId($req['id']);
             $record['attachments'] = $attachments ?? [];
             return $this->successResponseWithData("Record successfully fetched.", ['record' => $record]);
@@ -79,7 +76,7 @@ class RecordsController extends Utility
         $req = $this->filterData($req, $expectedKeys);
         try {
             $this->onlyNum("ID", $req['id'] ?? null);
-            $oldRecord = $this->recordModel->getRecord($req['id']);
+            $oldRecord = $this->getRecordIfExists($req['id']);
 
             $newData = $this->mergeData($oldRecord, $req);
             $this->validateRecordData($newData);
@@ -101,7 +98,7 @@ class RecordsController extends Utility
             
             //DELETE ATTACHMENTS
             $attachments = $this->attachmentModel->getAttachmentByRecordId($req['id']);
-            $this->deleteFiles($attachments, $req['id']);
+            $this->deleteFiles($attachments, $req['id'], true);
             //TRY TO DELETE RECORD
             $record = $this->recordModel->deleteRecord($req['id']);
             return $record ? $this->successResponse("Record successfully deleted.") : $this->errorResponse("Record failed to delete.");

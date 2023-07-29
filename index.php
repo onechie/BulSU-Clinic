@@ -2,6 +2,7 @@
 require_once 'page-router.php';
 
 session_start();
+// For testing purposes
 // Clear the session data (user_id, etc.)
 // session_unset();
 // session_destroy();
@@ -22,30 +23,6 @@ $pageRouter = new PageRouter($_SESSION);
 
 $pageRouter->get('/', function () {
   PageRouter::displayPage('home.html');
-});
-$pageRouter->get('/register', function () {
-  PageRouter::displayPage('register.php');
-});
-$pageRouter->get('/login', function () {
-  PageRouter::displayPage('login.php');
-});
-$pageRouter->get('/home', function () {
-  PageRouter::displayPage('dashboard.demo.html');
-});
-$pageRouter->get('/inventory', function () {
-  PageRouter::displayPage('inventory.demo.html');
-});
-$pageRouter->get('/summarization', function () {
-  PageRouter::displayPage('summarization.demo.html');
-});
-$pageRouter->get('/clinicForm', function () {
-  PageRouter::displayPage('clinicForm.demo.html');
-});
-$pageRouter->get('/clinicRecord', function () {
-  PageRouter::displayPage('clinicRecord.demo.html');
-});
-$pageRouter->get('/settings', function () {
-  PageRouter::displayPage('settings.demo.html');
 });
 
 // Handle 404 Not Found

@@ -1,5 +1,15 @@
 <?php
 //TODO list
+
+// usersRouter.php DONE
+// usersController.php DONE
+
+// medicinesRouter.php DONE
+// medicinesController.php DONE
+
+// complaintsRouter.php DONE
+// complaintsController.php DONE
+
 // laboratoriesRouter.php DONE
 // laboratoriesController.php DONE
 
@@ -12,5 +22,5 @@
 // recordsRouter.php DONE
 // recordsController.php DONE
 
-// attachmentsRouter.php
-// attachmentsController.php
+// attachmentsRouter.php DONE
+// attachmentsController.php DONE

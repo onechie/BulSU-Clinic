@@ -41,48 +41,55 @@ class Utility
         $value = str_replace(' ', '', $value);
         if (!$allowEmpty) {
             if ($value == "" || $value == null || empty($value)) {
-                throw new Exception($key . ' value is empty.');
+                throw new Exception($key . ' is empty.');
             }
         }
         if (!ctype_alpha($value)) {
-            throw new Exception($key . ' value is not valid.');
+            throw new Exception($key . ' must be letters.');
         }
     }
     protected function onlyNum($key, $value, $allowEmpty = false)
     {
         if (!$allowEmpty) {
             if (($value == "" || $value == null || empty($value)) && $value != "0") {
-                throw new Exception($key . ' value is empty.');
+                throw new Exception($key . ' is empty.');
             }
         }
-        if (!ctype_digit($value)) {
-            throw new Exception($key . ' value is not valid.');
+        // if (!ctype_digit($value)) {
+        //     throw new Exception($key . ' must be a number.');
+        // }
+        if (!filter_var($value, FILTER_VALIDATE_INT)) {
+            throw new Exception($key . ' must be a number(integer).');
         }
     }
-    protected function onlyAlphaNum($key, $value, $allowEmpty = false)
+    protected function onlyAlphaNum($key, $value, $allowEmpty = false, $allowSpace = true)
     {
-        $value = str_replace(' ', '', $value);
+        $pattern = '/^[A-Za-z0-9\/._@+&-]+$/';
+
+        if ($allowSpace) {
+            $pattern = '/^[A-Za-z0-9 \/._@+&-]+$/';
+        }
         if (!$allowEmpty) {
             if ($value == "" || $value == null || empty($value)) {
-                throw new Exception($key . ' value is empty.');
+                throw new Exception($key . ' is empty.');
             }
         }
-        if (!ctype_alnum($value)) {
-            throw new Exception($key . ' value is not valid.');
+        if (!preg_match($pattern, $value)) {
+            throw new Exception($key . ' should only contain(a-z A-Z 0-9 @+&_./-)');
         }
     }
     protected function onlyDate($key, $value, $allowEmpty = false, $format = 'Y-m-d')
     {
         if (!$allowEmpty) {
             if ($value == "" || $value == null || empty($value)) {
-                throw new Exception($key . ' value is empty.');
+                throw new Exception($key . ' is empty.');
             }
         }
 
         $date = DateTime::createFromFormat($format, $value);
 
         if ($date === false || $date->format($format) !== $value) {
-            throw new Exception($key . ' value is not a valid date in the format ' . $format . '.');
+            throw new Exception($key . ' is not valid in the format ' . $format . '.');
         }
     }
     protected function filterData($data, $expectedKeys)
@@ -217,16 +224,25 @@ class Utility
         }
         return $uploadedFilesData;
     }
-    protected function deleteFiles($files, $id){
+    protected function deleteFiles($files, $recordId, $alsoDirectory = false)
+    {
         foreach ($files as $key => $value) {
             $file = $value['url'];
             if (file_exists($file)) {
                 unlink($file);
             }
         }
-        $fileDirectory = '../../src/attachments/' . $id . '/';
-        if (is_dir($fileDirectory)) {
-            rmdir($fileDirectory);
+        if ($alsoDirectory) {
+            $fileDirectory = '../../src/attachments/' . $recordId . '/';
+            if (is_dir($fileDirectory)) {
+                rmdir($fileDirectory);
+            }
+        }
+    }
+    protected function deleteFile($url)
+    {
+        if (file_exists($url)) {
+            unlink($url);
         }
     }
     public static function preventDirectAccess()
