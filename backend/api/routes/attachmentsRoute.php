@@ -7,13 +7,13 @@ $router->get('/attachments', function () use ($attachmentsController) {
     } else {
         return $attachmentsController->getAttachments();
     }
-});
+}, true);
 $router->post('/attachments', function () use ($attachmentsController) {
     return $attachmentsController->addAttachment($_POST, $_FILES);
-});
+}, true);
 // $router->post('/attachments/update', function () use ($attachmentsController) {
 //     return $attachmentsController->updateAttachment($_POST);
 // });
 $router->post('/attachments/delete', function () use ($attachmentsController) {
     return $attachmentsController->deleteAttachment($_POST);
-});
+}, true);

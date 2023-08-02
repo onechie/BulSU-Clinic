@@ -16,27 +16,27 @@ class PageRouter
         // Sanitize and validate the URL path (only allow alphanumeric characters and slashes)
         $url = preg_replace('/[^a-zA-Z0-9\/]/', '', $url);
 
-        // Include the 'handleAuth' check for specific routes
-        // if ($this->requiresAuth($url)) {
-        //     $this->routes[$url] = function () use ($callback) {
-        //         $this->redirectToDashboardIfLoggedIn(); // Redirect if logged in, else allow access
-        //         $callback();
-        //     };
-        // } else {
-        //     $this->routes[$url] = function () use ($callback) {
-        //         $this->redirectToLoginIfNotLoggedIn(); // Redirect if not logged in, else allow access
-        //         $callback();
-        //     };
-        // }
+        //Include the 'handleAuth' check for specific routes
+        if ($this->requiresAuth($url)) {
+            $this->routes[$url] = function () use ($callback) {
+                $this->redirectToDashboardIfLoggedIn(); // Redirect if logged in, else allow access
+                $callback();
+            };
+        } else {
+            $this->routes[$url] = function () use ($callback) {
+                $this->redirectToLoginIfNotLoggedIn(); // Redirect if not logged in, else allow access
+                $callback();
+            };
+        }
 
         //basic route
-        $this->routes[$url] = $callback;
+        //$this->routes[$url] = $callback;
     }
 
     // Check if a specific route requires authentication (e.g., login or register page)
     private function requiresAuth($url)
     {
-        return in_array($url, ['/', '/login', '/register']);
+        return in_array($url, ['/login', '/register']);
     }
 
     // Set a callback for 404 Not Found page
@@ -74,23 +74,31 @@ class PageRouter
         }
     }
 
-    // // Redirect to the dashboard if the user is logged in
-    // private function redirectToDashboardIfLoggedIn()
-    // {
-    //     if (isset($this->session['user_id'])) {
-    //         header("Location: /home"); // Redirect to dashboard
-    //         exit();
-    //     }
-    // }
+    // Redirect to the dashboard if the user is logged in
+    private function redirectToDashboardIfLoggedIn()
+    {
+        if (isset($this->session['ACCESS']['token']) && isset($_COOKIE['access_token'])) {
+            $sessionAuthToken = $this->session['ACCESS']['token'];
+            $cookieAuthToken = $_COOKIE['access_token'];
+            if (!hash_equals($sessionAuthToken, $cookieAuthToken)) {
+                header("Location: /login"); // Redirect to login
+                exit();
+            }
+            header("Location: /"); // Redirect to dashboard
+            exit();
+        }
+    }
 
-    // // Redirect to the login page if the user is not logged in
-    // private function redirectToLoginIfNotLoggedIn()
-    // {
-    //     if (!isset($this->session['user_id'])) {
-    //         header("Location: /login"); // Redirect to login
-    //         exit();
-    //     }
-    // }
+    // Redirect to the login page if the user is not logged in
+    private function redirectToLoginIfNotLoggedIn()
+    {
+        if (!isset($this->session['ACCESS']['token']) || !isset($_COOKIE['access_token']) || !hash_equals($this->session['ACCESS']['token'], $_COOKIE['access_token'])) {
+            session_unset();
+            session_destroy();
+            header("Location: /login"); // Redirect to login
+            exit();
+        }
+    }
 
     // Handle 404 Not Found page
     private function handleNotFound()

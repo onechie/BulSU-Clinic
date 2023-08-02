@@ -161,46 +161,4 @@ class AttachmentModel extends AttachmentTableInitializer
         }
     }
 
-    //OLD METHODS
-
-    // public function addAttachment($recordId, $attachmentName, $attachmentUrl)
-    // {
-    //     $sql = 'INSERT INTO attachments (record_id, attachment_name, attachment_url) VALUES (:recordId, :attachmentName, :attachmentUrl)';
-
-    //     $pdo = $this->connect();
-
-    //     try {
-    //         $stmt = $pdo->prepare($sql);
-    //         $params = [
-    //             ':recordId' => $recordId,
-    //             ':attachmentName' => $attachmentName,
-    //             ':attachmentUrl' => $attachmentUrl,
-    //         ];
-
-    //         if ($stmt->execute($params)) {
-    //             return true;
-    //         } else {
-    //             throw new Exception('Error while adding the attachment.');
-    //         }
-    //     } catch (PDOException $error) {
-    //         throw new Exception('Database error: ' . $error->getMessage());
-    //     }
-    // }
-
-    // public function getAttachmentsByRecordId($recordId)
-    // {
-    //     $sql = 'SELECT * FROM attachments WHERE record_id = :recordId';
-
-    //     $pdo = $this->connect();
-
-    //     try {
-    //         $stmt = $pdo->prepare($sql);
-    //         $params = [':recordId' => $recordId];
-    //         $stmt->execute($params);
-    //         $attachments = $stmt->fetchAll();
-    //         return $attachments;
-    //     } catch (PDOException $error) {
-    //         throw new Exception('Database error: ' . $error->getMessage());
-    //     }
-    // }
 }

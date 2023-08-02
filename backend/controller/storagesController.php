@@ -16,7 +16,7 @@ class StoragesController extends Utility
             //TRY TO GET ALL STORAGES
             $storages = $this->storageModel->getStorages();
             return $storages ? $this->successResponseWithData("Storages successfully fetched.", ['storages' => $storages]) : $this->errorResponse("No storages found.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -30,7 +30,7 @@ class StoragesController extends Utility
             //TRY TO GET STORAGE BY ID
             $storage = $this->getStorageIfExists($req['id']);
             return $this->successResponseWithData("Storage successfully fetched.", ['storage' => $storage]);
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -45,7 +45,7 @@ class StoragesController extends Utility
             //TRY TO ADD STORAGE
             $storage = $this->storageModel->addStorage($req['description']);
             return $storage ? $this->successResponse("Storage successfully added.") : $this->errorResponse("Storage failed to add.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -63,7 +63,7 @@ class StoragesController extends Utility
             //TRY TO UPDATE STORAGE
             $result = $this->storageModel->updateStorage(...array_values($newData));
             return $result ? $this->successResponse("Storage successfully updated.") : $this->errorResponse("Storage failed to update.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -78,7 +78,7 @@ class StoragesController extends Utility
             //TRY TO DELETE STORAGE
             $result = $this->storageModel->deleteStorage($req['id']);
             return $result ? $this->successResponse("Storage successfully deleted.") : $this->errorResponse("Storage failed to delete.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }

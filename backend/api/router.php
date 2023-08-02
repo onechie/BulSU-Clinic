@@ -5,22 +5,26 @@ Utility::preventDirectAccess();
 class Router extends Utility
 {
     private $routes = [];
+    private $requireAuthRoutes = [];
     private $notFoundCallback;
 
-    public function get($url, $callback)
+    public function get($url, $callback, $requireAuthentication = false)
     {
-        $this->addRoute('GET', $url, $callback);
+        $this->addRoute('GET', $url, $callback, $requireAuthentication);
     }
 
-    public function post($url, $callback)
+    public function post($url, $callback, $requireAuthentication = false)
     {
-        $this->addRoute('POST', $url, $callback);
+        $this->addRoute('POST', $url, $callback, $requireAuthentication);
     }
 
-    private function addRoute($method, $url, $callback)
+    private function addRoute($method, $url, $callback, $requireAuthentication)
     {
         $url = preg_replace('/[^a-zA-Z0-9\/]/', '', $url);
         $this->routes[$method][$url] = $callback;
+        if ($requireAuthentication) {
+            array_push($this->requireAuthRoutes, $url);
+        }
     }
 
     public function set404($callback)
@@ -41,7 +45,12 @@ class Router extends Utility
         $path = preg_replace('/[^a-zA-Z0-9\/]/', '', $path);
 
         $callback = $this->routes[$method][$path] ?? null;
-
+        //CHECK IF THE PATH REQUIRES AUTHORIZATION IF YES CHECK THE AUTH TOKEN
+        if (in_array($path, $this->requireAuthRoutes) && !$this->validateAuthToken()) {
+            http_response_code(401);
+            echo json_encode($this->errorResponse("Unauthorized"));
+            return;
+        }
         if ($callback && is_callable($callback)) {
             // Implement CSRF protection here if needed
             try {
@@ -54,6 +63,21 @@ class Router extends Utility
         } else {
             $this->handleNotFound();
         }
+    }
+    private function validateAuthToken()
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        $authToken = $_COOKIE['access_token'] ?? null;
+        if (!$authToken) {
+            return false;
+        }
+        $sessionAuthToken = $_SESSION['ACCESS']['token'] ?? null;
+        if ($sessionAuthToken && hash_equals($authToken, $sessionAuthToken)) {
+            return true;
+        }
+        return false;
     }
 
     private function handleNotFound()

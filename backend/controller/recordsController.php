@@ -26,7 +26,7 @@ class RecordsController extends Utility
             //TRY TO GET ALL RECORDS
             $records = $this->recordModel->getRecords();
             return $records ? $this->successResponseWithData("Records successfully fetched.", ['records' => $records]) : $this->errorResponse("No records found.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -41,7 +41,7 @@ class RecordsController extends Utility
             $attachments = $this->attachmentModel->getAttachmentByRecordId($req['id']);
             $record['attachments'] = $attachments ?? [];
             return $this->successResponseWithData("Record successfully fetched.", ['record' => $record]);
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -66,7 +66,7 @@ class RecordsController extends Utility
                 return $this->successResponse("Record and files successfully added.");
             }
             return $record ? $this->successResponse("Record successfully added.") : $this->errorResponse("Record failed to add.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -84,7 +84,7 @@ class RecordsController extends Utility
             //TRY TO UPDATE RECORD
             $record = $this->recordModel->updateRecord(...array_values($newData));
             return $record ? $this->successResponse("Record successfully updated.") : $this->errorResponse("Record failed to update.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -102,7 +102,7 @@ class RecordsController extends Utility
             //TRY TO DELETE RECORD
             $record = $this->recordModel->deleteRecord($req['id']);
             return $record ? $this->successResponse("Record successfully deleted.") : $this->errorResponse("Record failed to delete.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }

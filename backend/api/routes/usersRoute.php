@@ -1,5 +1,5 @@
 <?php
-$usersController = new UsersController($userModel);
+$usersController = new UsersController($userModel, $tokenModel);
 
 $router->post('/users/login', function () use ($usersController) {
     return $usersController->loginUser($_POST);

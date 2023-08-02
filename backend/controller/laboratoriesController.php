@@ -16,7 +16,7 @@ class LaboratoriesController extends Utility
             //TRY TO GET ALL LABORATORIES
             $laboratories = $this->laboratoryModel->getLaboratories();
             return $laboratories ? $this->successResponseWithData("Laboratories successfully fetched.", ['laboratories' => $laboratories]) : $this->errorResponse("No laboratories found.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -30,7 +30,7 @@ class LaboratoriesController extends Utility
             //TRY TO GET LABORATORY BY ID
             $laboratory = $this->getLaboratoryIfExists($req['id']);
             return $this->successResponseWithData("Laboratory successfully fetched.", ['laboratory' => $laboratory]);
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -45,7 +45,7 @@ class LaboratoriesController extends Utility
             //TRY TO ADD LABORATORY
             $result = $this->laboratoryModel->addLaboratory(...array_values($req));
             return $result ? $this->successResponse("Laboratory successfully added.") : $this->errorResponse("Laboratory failed to add.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -63,7 +63,7 @@ class LaboratoriesController extends Utility
             //TRY TO UPDATE LABORATORY
             $result = $this->laboratoryModel->updateLaboratory(...array_values($newData));
             return $result ? $this->successResponse("Laboratory successfully updated.") : $this->errorResponse("Laboratory failed to update.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -78,7 +78,7 @@ class LaboratoriesController extends Utility
             //TRY TO DELETE LABORATORY
             $result = $this->laboratoryModel->deleteLaboratory($req['id']);
             return $result ? $this->successResponse("Laboratory successfully deleted.") : $this->errorResponse("Laboratory failed to delete.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }

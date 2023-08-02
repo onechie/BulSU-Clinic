@@ -5,10 +5,12 @@ Utility::preventDirectAccess();
 class UsersController extends Utility
 {
     private $userModel;
+    private $tokenModel;
 
-    public function __construct(UserModel $userModel)
+    public function __construct(UserModel $userModel, TokenModel $tokenModel)
     {
         $this->userModel = $userModel;
+        $this->tokenModel = $tokenModel;
     }
 
     public function registerUser($req)
@@ -26,16 +28,16 @@ class UsersController extends Utility
             } else {
                 return $this->errorResponse("User registration failed.");
             }
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
     public function loginUser($req)
     {
-        $expectedKeys = ['usernameOrEmail', 'password'];
+        $expectedKeys = ['usernameOrEmail', 'password', 'X-CSRF-TOKEN'];
         $req = $this->filterData($req, $expectedKeys);
         try {
-            $this->onlyAlphaNum("Username or email", $req['usernameOrEmail']);
+            $this->onlyAlphaNum("Username or email", $req['usernameOrEmail'] ?? null);
             if (!$req['password']) {
                 return $this->errorResponse("Password is empty.");
             }
@@ -44,19 +46,30 @@ class UsersController extends Utility
                 $user = $this->userModel->getUserByUsername($req['usernameOrEmail']);
             }
             if (!$user) {
-                throw new Exception("Invalid Credentials.");
+                return $this->errorResponse("Invalid Credentials.");
             }
             if (password_verify($req['password'], $user['password'])) {
+                $refreshToken = $this->generateRefreshToken();
+                $token = $this->tokenModel->addToken($refreshToken, $user['id'], date('Y-m-d', strtotime('+1 week')));
+                if (!$token) {
+                    return $this->errorResponse("User logged in failed.");
+                }
+                setcookie('refresh_token', $refreshToken, time() + 60 * 60 * 24 * 7, '/', '', false, true);
                 session_start();
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['username'] = $user['username'];
-                $_SESSION['email'] = $user['email'];
-                $token = $this->generateCSRFToken();
-                $_SESSION['csrf_token'] = $token;
+                $auth = [];
+                $one_hour_expiration = time() + 60 * 60;
+
+                $auth['token'] = $this->generateAuthToken();
+                $auth['expiry'] = $one_hour_expiration;
+                $auth['user_id'] = $user['id'];
+
+                setcookie('access_token', $auth['token'], $auth['expiry'], '/', '', false, true);
+                $_SESSION['ACCESS'] = $auth;
+
                 return $this->successResponse("User logged in successfully.");
             }
             return $this->errorResponse("Invalid Credentials.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -114,5 +127,41 @@ class UsersController extends Utility
         $csrfToken = hash('sha256', $randomBytes);
 
         return $csrfToken;
+    }
+    private function generateAuthToken($length = 32)
+    {
+        if (function_exists('random_bytes')) {
+            // Generate 32 bytes of random data using a cryptographically secure function
+            $randomBytes = random_bytes(32);
+        } elseif (function_exists('openssl_random_pseudo_bytes')) {
+            // Generate 32 bytes of random data using OpenSSL
+            $randomBytes = openssl_random_pseudo_bytes(32);
+        } else {
+            // If neither random_bytes nor OpenSSL is available, fallback to a less secure method
+            $randomBytes = uniqid(mt_rand(), true);
+        }
+
+        // Convert the random bytes to a hexadecimal string
+        $authToken = bin2hex($randomBytes);
+
+        return $authToken;
+    }
+    private function generateRefreshToken($length = 32)
+    {
+        if (function_exists('random_bytes')) {
+            // Generate 32 bytes of random data using a cryptographically secure function
+            $randomBytes = random_bytes(32);
+        } elseif (function_exists('openssl_random_pseudo_bytes')) {
+            // Generate 32 bytes of random data using OpenSSL
+            $randomBytes = openssl_random_pseudo_bytes(32);
+        } else {
+            // If neither random_bytes nor OpenSSL is available, fallback to a less secure method
+            $randomBytes = uniqid(mt_rand(), true);
+        }
+
+        // Convert the random bytes to a URL-safe base64-encoded string
+        $refreshToken = rtrim(strtr(base64_encode($randomBytes), '+/', '-_'), '=');
+
+        return $refreshToken;
     }
 }

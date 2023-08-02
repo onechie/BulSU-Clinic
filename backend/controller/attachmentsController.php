@@ -18,7 +18,7 @@ class AttachmentsController extends Utility
             //TRY TO GET ALL ATTACHMENTS
             $attachments = $this->attachmentModel->getAttachments();
             return $attachments ? $this->successResponseWithData("Attachments successfully fetched.", ['attachments' => $attachments]) : $this->errorResponse("No attachments found.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -29,7 +29,7 @@ class AttachmentsController extends Utility
         try {
             $attachment =  $this->getAttachmentIfExists($req);
             return $this->successResponseWithData("Attachment successfully fetched.", ['attachment' => $attachment]);
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -51,7 +51,7 @@ class AttachmentsController extends Utility
             $uploadedFilesData  = $this->uploadFiles($formattedFiles, $req['recordId']);
             $this->addAttachmentsOfRecord($uploadedFilesData, $req['recordId']);
             return $this->successResponse("Files successfully added.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -71,7 +71,7 @@ class AttachmentsController extends Utility
                 $result = $this->attachmentModel->deleteAttachmentByRecordId($attachments[0]['recordId']);
             }
             return $result ? $this->successResponse("Attachment successfully deleted.") : $this->errorResponse("Failed to delete attachment.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }

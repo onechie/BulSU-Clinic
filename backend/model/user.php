@@ -164,48 +164,4 @@ class UserModel extends UserTableInitializer
             throw new Exception('Database error: ' . $error->getMessage());
         }
     }
-
-    public function createUserRecord($username, $email, $hashedPassword): bool
-    {
-        $sql = 'INSERT INTO users (username, email, password) VALUES (:username, :email, :hashedPassword)';
-
-        $pdo = $this->connect();
-
-        try {
-            $stmt = $pdo->prepare($sql);
-
-            $params = [
-                ':username' => $username,
-                ':email' => $email,
-                ':hashedPassword' => $hashedPassword,
-            ];
-
-            return $stmt->execute($params);
-        } catch (PDOException $error) {
-            throw new Exception('Database error: ' . $error->getMessage());
-        }
-    }
-
-    public function findUserByUsernameOrEmail($username, $email)
-    {
-        $sql = 'SELECT * FROM users WHERE username = :username OR email = :email';
-
-        $pdo = $this->connect();
-
-        try {
-            $stmt = $pdo->prepare($sql);
-
-            $params = [
-                ':username' => $username,
-                ':email' => $email,
-            ];
-
-            $stmt->execute($params);
-            $user = $stmt->fetch();
-
-            return $user !== false ? $user : null;
-        } catch (PDOException $error) {
-            throw new Exception('Database error: ' . $error->getMessage());
-        }
-    }
 }

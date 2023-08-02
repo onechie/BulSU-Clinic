@@ -16,7 +16,7 @@ class TreatmentsController extends Utility
             //TRY TO GET ALL TREATMENTS
             $treatments = $this->treatmentModel->getTreatments();
             return $treatments ? $this->successResponseWithData("Treatments successfully fetched.", ['treatments' => $treatments]) : $this->errorResponse("No treatments found.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -30,7 +30,7 @@ class TreatmentsController extends Utility
             //TRY TO GET TREATMENT BY ID
             $treatment = $this->getTreatmentIfExists($req['id']);
             return $this->successResponseWithData("Treatment successfully fetched.", ['treatment' => $treatment]);
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -45,7 +45,7 @@ class TreatmentsController extends Utility
             //TRY TO ADD TREATMENT
             $treatment = $this->treatmentModel->addTreatment($req['description']);
             return $treatment ? $this->successResponse("Treatment successfully added.") : $this->errorResponse("Treatment failed to add.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -63,7 +63,7 @@ class TreatmentsController extends Utility
             //TRY TO UPDATE TREATMENT
             $result = $this->treatmentModel->updateTreatment(...array_values($newData));
             return $result ? $this->successResponse("Treatment successfully updated.") : $this->errorResponse("Treatment failed to update.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -78,7 +78,7 @@ class TreatmentsController extends Utility
             //TRY TO DELETE TREATMENT
             $result = $this->treatmentModel->deleteTreatment($req['id']);
             return $result ? $this->successResponse("Treatment successfully deleted.") : $this->errorResponse("Treatment failed to delete.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }

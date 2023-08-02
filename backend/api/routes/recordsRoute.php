@@ -6,13 +6,13 @@ $router->get('/records', function () use ($recordsController) {
     } else {
         return $recordsController->getRecords();
     }
-});
+}, true);
 $router->post('/records', function () use ($recordsController) {
     return $recordsController->addRecord($_POST, $_FILES);
-});
+}, true);
 $router->post('/records/update', function () use ($recordsController) {
     return $recordsController->updateRecord($_POST);
-});
+}, true);
 $router->post('/records/delete', function () use ($recordsController) {
     return $recordsController->deleteRecord($_POST);
-});
+}, true);

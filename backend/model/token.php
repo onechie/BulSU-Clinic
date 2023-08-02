@@ -2,117 +2,108 @@
 // Check if the file is being directly accessed via URL
 require_once("../utils/utility.php");
 Utility::preventDirectAccess();
-class LaboratoryTableInitializer extends DatabaseInitializer
+class TokenTableInitializer extends DatabaseInitializer
 {
     public function __construct()
     {
-        $tableName = 'laboratories';
+        $tableName = 'tokens';
         $columns = [
-            'description TEXT NOT NULL',
+            'refreshToken VARCHAR(255) NOT NULL',
+            'userId INT NOT NULL',
+            'expiration DATE NOT NULL',
+            'FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE'
         ];
 
         parent::__construct($tableName, $columns);
     }
 }
 
-class LaboratoryModel extends LaboratoryTableInitializer
+class TokenModel extends TokenTableInitializer
 {
     public function __construct()
     {
         parent::__construct();
     }
-    public function getLaboratories()
+    public function getTokens()
     {
-        $sql = 'SELECT * FROM laboratories';
-
+        $sql = 'SELECT * FROM tokens';
         $pdo = $this->connect();
-
         try {
             $stmt = $pdo->prepare($sql);
             $stmt->execute();
-            $laboratories = $stmt->fetchAll();
-            return $laboratories;
+            $tokens = $stmt->fetchAll();
+            return $tokens;
         } catch (PDOException $error) {
             throw new Exception('Database error: ' . $error->getMessage());
         }
     }
-    public function getLaboratory(int $id)
-    {
-        $sql = 'SELECT * FROM laboratories WHERE id = :id';
-
+    public function getToken(int $id){
+        $sql = 'SELECT * FROM tokens WHERE id = :id';
         $pdo = $this->connect();
-
         try {
             $stmt = $pdo->prepare($sql);
             $params = [
                 ':id' => $id,
             ];
             $stmt->execute($params);
-            $laboratory = $stmt->fetch();
-            return $laboratory;
+            $token = $stmt->fetch();
+            return $token;
         } catch (PDOException $error) {
             throw new Exception('Database error: ' . $error->getMessage());
         }
     }
-    public function addLaboratory(string $description)
+    public function addToken(string $refreshToken, int $userId, string $expiration)
     {
-        $sql = 'INSERT INTO laboratories (description) VALUES (:description)';
-
+        $sql = 'INSERT INTO tokens (refreshToken, userId, expiration) VALUES (:refreshToken, :userId, :expiration)';
         $pdo = $this->connect();
-
         try {
             $stmt = $pdo->prepare($sql);
             $params = [
-                ':description' => $description,
+                ':refreshToken' => $refreshToken,
+                ':userId' => $userId,
+                ':expiration' => $expiration,
             ];
-
             if ($stmt->execute($params)) {
                 return true;
             } else {
-                throw new Exception('Error while adding the laboratory.');
+                throw new Exception('Error while adding the token.');
             }
         } catch (PDOException $error) {
             throw new Exception('Database error: ' . $error->getMessage());
         }
     }
-    public function updateLaboratory(int $id, string $description)
-    {
-        $sql = 'UPDATE laboratories SET description = :description WHERE id = :id';
-
+    public function updateToken(int $id, string $refreshToken, string $expiration){
+        $sql = 'UPDATE tokens SET refreshToken = :refreshToken, expiration = :expiration WHERE id = :id';
         $pdo = $this->connect();
-
         try {
             $stmt = $pdo->prepare($sql);
             $params = [
                 ':id' => $id,
-                ':description' => $description,
+                ':refreshToken' => $refreshToken,
+                ':expiration' => $expiration,
             ];
-
             if ($stmt->execute($params)) {
                 return true;
             } else {
-                throw new Exception('Error while updating the laboratory.');
+                throw new Exception('Error while updating the token.');
             }
         } catch (PDOException $error) {
             throw new Exception('Database error: ' . $error->getMessage());
         }
     }
-    public function deleteLaboratory(int $id)
+    public function deleteToken(int $id)
     {
-        $sql = 'DELETE FROM laboratories WHERE id = :id';
-
+        $sql = 'DELETE FROM tokens WHERE id = :id';
         $pdo = $this->connect();
-
         try {
             $stmt = $pdo->prepare($sql);
             $params = [
                 ':id' => $id,
             ];
-
             if ($stmt->execute($params)) {
                 return true;
             } else {
-                throw new Exception('Error while deleting the laboratory.');
+                throw new Exception('Error while deleting the token.');
             }
         } catch (PDOException $error) {
             throw new Exception('Database error: ' . $error->getMessage());
@@ -120,18 +111,17 @@ class LaboratoryModel extends LaboratoryTableInitializer
     }
 
     //CUSTOM METHODS
-    public function getLaboratoryByDescription(string $description)
-    {
-        $sql = 'SELECT * FROM laboratories WHERE description = :description';
-
+    public function getTokenByRefreshToken(string $refreshToken){
+        $sql = 'SELECT * FROM tokens WHERE refreshToken = :refreshToken';
         $pdo = $this->connect();
-
         try {
             $stmt = $pdo->prepare($sql);
-            $params = [':description' => $description];
+            $params = [
+                ':refreshToken' => $refreshToken,
+            ];
             $stmt->execute($params);
-            $laboratory = $stmt->fetch();
-            return $laboratory;
+            $token = $stmt->fetch();
+            return $token;
         } catch (PDOException $error) {
             throw new Exception('Database error: ' . $error->getMessage());
         }

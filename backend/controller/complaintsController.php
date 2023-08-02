@@ -16,7 +16,7 @@ class ComplaintsController extends Utility
             //TRY TO GET ALL COMPLAINTS
             $complaints = $this->complaintModel->getComplaints();
             return $complaints ? $this->successResponseWithData("Complaints successfully fetched.", ['complaints' => $complaints]) : $this->errorResponse("No complaints found.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -30,7 +30,7 @@ class ComplaintsController extends Utility
             //TRY TO GET COMPLAINT BY ID
             $complaint = $this->getComplaintIfExists($req['id']);
             return $this->successResponseWithData("Complaint successfully fetched.", ['complaint' => $complaint]);
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -45,7 +45,7 @@ class ComplaintsController extends Utility
             //TRY TO ADD COMPLAINT
             $result = $this->complaintModel->addComplaint(...array_values($req));
             return $result ? $this->successResponse("Complaint successfully added.") : $this->errorResponse("Complaint failed to add.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -62,7 +62,7 @@ class ComplaintsController extends Utility
             //TRY TO UPDATE COMPLAINT
             $result = $this->complaintModel->updateComplaint(...array_values($newData));
             return $result ? $this->successResponse("Complaint successfully updated.") : $this->errorResponse("Complaint failed to update.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
@@ -77,7 +77,7 @@ class ComplaintsController extends Utility
             //TRY TO DELETE COMPLAINT
             $result = $this->complaintModel->deleteComplaint($req['id']);
             return $result ? $this->successResponse("Complaint successfully deleted.") : $this->errorResponse("Complaint failed to delete.");
-        } catch (Exception $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }

@@ -13,6 +13,7 @@ require_once '../model/record.php';
 require_once '../model/storage.php';
 require_once '../model/treatment.php';
 require_once '../model/user.php';
+require_once '../model/token.php';
 
 // CONTROLLERS
 require_once '../controller/medicinesController.php';
@@ -23,6 +24,7 @@ require_once '../controller/treatmentsController.php';
 require_once '../controller/recordsController.php';
 require_once '../controller/attachmentsController.php';
 require_once '../controller/usersController.php';
+require_once '../controller/tokensController.php';
 
 // SET HEADERS
 header('Content-Type: application/json');
@@ -39,6 +41,7 @@ $treatmentModel = new TreatmentModel();
 $recordModel = new RecordModel();
 $attachmentModel = new AttachmentModel();
 $userModel = new UserModel();
+$tokenModel = new TokenModel();
 
 // ROUTES
 require_once './routes/medicinesRoute.php';
@@ -49,6 +52,7 @@ require_once './routes/treatmentsRoute.php';
 require_once './routes/recordsRoute.php';
 require_once './routes/attachmentsRoute.php';
 require_once './routes/usersRoute.php';
+require_once './routes/tokensRoute.php';
 
 // Handle 404 Not Found
 $router->set404(function () {
