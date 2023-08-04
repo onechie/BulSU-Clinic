@@ -1,4 +1,5 @@
 "use strict";
+
 const endPoint = "../backend/api/users/login";
 let notificationTimeout;
 const notificationIconError = document.getElementById("notificationIconError");
@@ -13,12 +14,14 @@ const loginButton = document.getElementById("loginButton");
 const submitUserData = async () => {
   const usernameOrEmailInput = document.getElementById("usernameOrEmail");
   const passwordInput = document.getElementById("password");
+  const keepLoggedInInput = document.getElementById("keepLoggedIn");
 
   loginButton.disabled = true;
 
   try {
     const usernameOrEmail = usernameOrEmailInput.value;
     const password = passwordInput.value;
+    const keepLoggedIn = keepLoggedInInput.checked;
 
     toggleLoginButton(true);
     closeNotification();
@@ -27,6 +30,7 @@ const submitUserData = async () => {
       {
         usernameOrEmail,
         password,
+        keepLoggedIn,
       },
       {
         headers: {
@@ -41,7 +45,7 @@ const submitUserData = async () => {
     toggleLoginButton(false);
     setTimeout(() => {
       location.reload();
-    }, 1000);
+    }, 2000);
   } catch (error) {
     notificationMessage.innerText = error.response.data.message;
     loginButton.disabled = false;
@@ -92,16 +96,16 @@ const closeNotification = () => {
 };
 
 //test
-const testRefreshToken = async () => {
+const refreshToken = async () => {
   try {
     const { data } = await axios.get("../../backend/api/token/refresh");
     notificationMessage.innerText = data.message;
     openNotification("User Authenticated", true);
     setTimeout(() => {
       location.reload();
-    }, 3000); 
+    }, 2000);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
-testRefreshToken();
+refreshToken();

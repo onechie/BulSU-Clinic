@@ -1,5 +1,6 @@
 <?php
-class PageRouter
+require_once 'backend/utils/Utility.php';
+class PageRouter extends Utility
 {
     private $routes = [];
     private $notFoundCallback;
@@ -11,32 +12,26 @@ class PageRouter
     }
 
     // Add a route for GET requests
-    public function get($url, $callback)
+    public function get($url, $callback, $forAuthenticated = true, $forUnauthenticated = true)
     {
         // Sanitize and validate the URL path (only allow alphanumeric characters and slashes)
         $url = preg_replace('/[^a-zA-Z0-9\/]/', '', $url);
 
-        //Include the 'handleAuth' check for specific routes
-        if ($this->requiresAuth($url)) {
+        if ($forAuthenticated && !$forUnauthenticated) {
             $this->routes[$url] = function () use ($callback) {
-                $this->redirectToDashboardIfLoggedIn(); // Redirect if logged in, else allow access
+                $this->isNotAuthenticated(); // Redirect if not authenticated in, else allow access
+                $callback();
+            };
+        } elseif ($forUnauthenticated && !$forAuthenticated) {
+            $this->routes[$url] = function () use ($callback) {
+                $this->isAuthenticated(); // Redirect if authenticated in, else allow access
                 $callback();
             };
         } else {
             $this->routes[$url] = function () use ($callback) {
-                $this->redirectToLoginIfNotLoggedIn(); // Redirect if not logged in, else allow access
                 $callback();
             };
         }
-
-        //basic route
-        //$this->routes[$url] = $callback;
-    }
-
-    // Check if a specific route requires authentication (e.g., login or register page)
-    private function requiresAuth($url)
-    {
-        return in_array($url, ['/login', '/register']);
     }
 
     // Set a callback for 404 Not Found page
@@ -73,29 +68,23 @@ class PageRouter
             $this->handleNotFound();
         }
     }
-
-    // Redirect to the dashboard if the user is logged in
-    private function redirectToDashboardIfLoggedIn()
+    private function isNotAuthenticated()
     {
-        if (isset($this->session['ACCESS']['token']) && isset($_COOKIE['access_token'])) {
-            $sessionAuthToken = $this->session['ACCESS']['token'];
-            $cookieAuthToken = $_COOKIE['access_token'];
-            if (!hash_equals($sessionAuthToken, $cookieAuthToken)) {
-                header("Location: /login"); // Redirect to login
-                exit();
-            }
-            header("Location: /"); // Redirect to dashboard
+        if (!$this->isAccessTokenValid()) {
+            header("Location: /login"); 
             exit();
         }
+        // if (!isset($this->session['ACCESS']['token']) || !isset($_COOKIE['access_token']) || !hash_equals($this->session['ACCESS']['token'], $_COOKIE['access_token'])) {
+        //     session_unset();
+        //     session_destroy();
+        //     header("Location: /login"); // Redirect to login if not authenticated
+        //     exit();
+        // }
     }
-
-    // Redirect to the login page if the user is not logged in
-    private function redirectToLoginIfNotLoggedIn()
+    private function isAuthenticated()
     {
-        if (!isset($this->session['ACCESS']['token']) || !isset($_COOKIE['access_token']) || !hash_equals($this->session['ACCESS']['token'], $_COOKIE['access_token'])) {
-            session_unset();
-            session_destroy();
-            header("Location: /login"); // Redirect to login
+        if ($this->isAccessTokenValid()) {
+            header("Location: /dashboard"); 
             exit();
         }
     }

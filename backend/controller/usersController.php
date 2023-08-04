@@ -34,7 +34,10 @@ class UsersController extends Utility
     }
     public function loginUser($req)
     {
-        $expectedKeys = ['usernameOrEmail', 'password', 'X-CSRF-TOKEN'];
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        $expectedKeys = ['usernameOrEmail', 'password', 'keepLoggedIn', 'X-CSRF-TOKEN'];
         $req = $this->filterData($req, $expectedKeys);
         try {
             $this->onlyAlphaNum("Username or email", $req['usernameOrEmail'] ?? null);
@@ -49,23 +52,16 @@ class UsersController extends Utility
                 return $this->errorResponse("Invalid Credentials.");
             }
             if (password_verify($req['password'], $user['password'])) {
-                $refreshToken = $this->generateRefreshToken();
-                $token = $this->tokenModel->addToken($refreshToken, $user['id'], date('Y-m-d', strtotime('+1 week')));
-                if (!$token) {
-                    return $this->errorResponse("User logged in failed.");
+                echo json_encode($req);
+                if (filter_var($req['keepLoggedIn'], FILTER_VALIDATE_BOOLEAN)) {
+                    $refreshToken = $this->generateRefreshToken();
+                    $token = $this->tokenModel->addToken($refreshToken, $user['id'], date('Y-m-d', strtotime('+1 week')));
+                    if (!$token) {
+                        return $this->errorResponse("User logged in failed.");
+                    }
+                    setcookie('refresh_token', $refreshToken, time() + 60 * 60 * 24 * 7, '/', '', false, true);
                 }
-                setcookie('refresh_token', $refreshToken, time() + 60 * 60 * 24 * 7, '/', '', false, true);
-                session_start();
-                $auth = [];
-                $one_hour_expiration = time() + 60 * 60;
-
-                $auth['token'] = $this->generateAuthToken();
-                $auth['expiry'] = $one_hour_expiration;
-                $auth['user_id'] = $user['id'];
-
-                setcookie('access_token', $auth['token'], $auth['expiry'], '/', '', false, true);
-                $_SESSION['ACCESS'] = $auth;
-
+                $this->generateAccessToken($user['id']);
                 return $this->successResponse("User logged in successfully.");
             }
             return $this->errorResponse("Invalid Credentials.");
@@ -127,41 +123,5 @@ class UsersController extends Utility
         $csrfToken = hash('sha256', $randomBytes);
 
         return $csrfToken;
-    }
-    private function generateAuthToken($length = 32)
-    {
-        if (function_exists('random_bytes')) {
-            // Generate 32 bytes of random data using a cryptographically secure function
-            $randomBytes = random_bytes(32);
-        } elseif (function_exists('openssl_random_pseudo_bytes')) {
-            // Generate 32 bytes of random data using OpenSSL
-            $randomBytes = openssl_random_pseudo_bytes(32);
-        } else {
-            // If neither random_bytes nor OpenSSL is available, fallback to a less secure method
-            $randomBytes = uniqid(mt_rand(), true);
-        }
-
-        // Convert the random bytes to a hexadecimal string
-        $authToken = bin2hex($randomBytes);
-
-        return $authToken;
-    }
-    private function generateRefreshToken($length = 32)
-    {
-        if (function_exists('random_bytes')) {
-            // Generate 32 bytes of random data using a cryptographically secure function
-            $randomBytes = random_bytes(32);
-        } elseif (function_exists('openssl_random_pseudo_bytes')) {
-            // Generate 32 bytes of random data using OpenSSL
-            $randomBytes = openssl_random_pseudo_bytes(32);
-        } else {
-            // If neither random_bytes nor OpenSSL is available, fallback to a less secure method
-            $randomBytes = uniqid(mt_rand(), true);
-        }
-
-        // Convert the random bytes to a URL-safe base64-encoded string
-        $refreshToken = rtrim(strtr(base64_encode($randomBytes), '+/', '-_'), '=');
-
-        return $refreshToken;
     }
 }

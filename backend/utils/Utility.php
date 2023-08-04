@@ -24,6 +24,8 @@ class Utility
     private $allowedExtensions = ['jpg', 'jpeg', 'png', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt'];
     private $allowedMimeTypes = ['image/jpeg', 'image/png', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'];
     private $maxFileSize = 1048576 * 5; //1MB * 5 = 5MB
+
+    //RESPONSE TEMPLATE
     protected function successResponse(string $message): array
     {
         return ['success' => true, 'message' => $message];
@@ -36,6 +38,8 @@ class Utility
     {
         return ['success' => false, 'message' => $message];
     }
+
+    //VALIDATIONS
     protected function onlyAlpha($key, $value, $allowEmpty = false)
     {
         $value = str_replace(' ', '', $value);
@@ -92,6 +96,8 @@ class Utility
             throw new Exception($key . ' is not valid in the format ' . $format . '.');
         }
     }
+
+    //DATA SANITATION
     protected function filterData($data, $expectedKeys)
     {
         // REMOVE WHITE SPACES
@@ -114,6 +120,8 @@ class Utility
 
         return $finalData;
     }
+
+    //DATA FILLER
     protected function fillMissingDataKeys($data, $expectedKeys)
     {
         $finalData = [];
@@ -126,6 +134,8 @@ class Utility
         }
         return $finalData;
     }
+
+    //DATA UPDATE CHECKER AND MERGER
     protected function mergeData($old, $new)
     {
         $finalData = array_merge($old, $new);
@@ -138,6 +148,8 @@ class Utility
         unset($finalData['updated_at']);
         return $finalData;
     }
+
+    //FILE HANDLING
     protected function hasFiles($files)
     {
         $files = $files['attachments']['name'][0] ?? null;
@@ -245,6 +257,72 @@ class Utility
             unlink($url);
         }
     }
+
+    //AUTHENTICATION HANDLING
+    protected function generateRandomBytes($length)
+    {
+        if (function_exists('random_bytes')) {
+            return random_bytes($length);
+        } elseif (function_exists('openssl_random_pseudo_bytes')) {
+            return openssl_random_pseudo_bytes($length);
+        } else {
+            return uniqid(mt_rand(), true);
+        }
+    }
+
+    protected function generateRefreshToken($length = 32)
+    {
+        $randomBytes = $this->generateRandomBytes($length);
+        $refreshToken = rtrim(strtr(base64_encode($randomBytes), '+/', '-_'), '=');
+        return $refreshToken;
+    }
+
+    protected function generateAccessToken(int $userId)
+    {
+        
+        $randomBytes = $this->generateRandomBytes(32);
+        $authToken = bin2hex($randomBytes);
+
+        $half_hour_expiration = time() + 1800; // 30 minutes
+        $tokenGracePeriod = 300; // 5 minutes
+
+        $auth = [
+            'token' => $authToken,
+            'expiry' => $half_hour_expiration,
+            'user_id' => $userId
+        ];
+
+        $_SESSION['ACCESS'] = $auth;
+        setcookie('access_token', $auth['token'], $auth['expiry'] + $tokenGracePeriod, '/', '', false, true);
+    }
+    protected function isAccessTokenValid()
+    {
+
+
+        $auth = $_SESSION['ACCESS'] ?? null;
+        if (!$auth) {
+            return false;
+        }
+
+        $tokenGracePeriod = 300;
+        $currentTime = time();
+
+        if ($auth['expiry'] + $tokenGracePeriod < $currentTime) {
+            return false;
+        }
+
+        $authToken = $_COOKIE['access_token'] ?? null;
+        if (!$authToken || !hash_equals($authToken, $auth['token'])) {
+            return false;
+        }
+
+        if ($auth['expiry'] < $currentTime) {
+            $this->generateAccessToken($auth['user_id']);
+        }
+        return true;
+    }
+
+    // FILE DIRECT ACCESS PREVENTION
     public static function preventDirectAccess()
     {
         $isDirectAccess = (count(debug_backtrace()) <= 1);

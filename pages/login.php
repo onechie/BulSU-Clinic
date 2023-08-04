@@ -28,7 +28,7 @@
           <label for="username">Password <span class="text-red-500">*</span></label>
           <input type="password" placeholder="password" id="password" class="mb-4 px-2 py-1 rounded border focus:outline-none focus:ring-1 focus:ring-lime-800" />
           <div>
-            <input type="checkbox" id="agreement" class="me-1 mt-4" />
+            <input type="checkbox" id="keepLoggedIn" class="me-1 mt-4" />
             <label class="text-sm" for="agreement">Keep me logged in.</label>
           </div>
           <button type="button" id="loginButton" onclick="(submitUserData(event))" class="h-[36px] py-1 px-5 bg-lime-900 mt-6 mb-10 rounded enabled:hover:bg-lime-950 disabled:opacity-75 disabled:bg-gray-600">

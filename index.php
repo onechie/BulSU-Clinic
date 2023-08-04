@@ -12,10 +12,13 @@ $pageRouter->get('/', function () {
 });
 $pageRouter->get('/login', function () {
   PageRouter::displayPage('login.php');
-});
+}, false);
 $pageRouter->get('/register', function () {
   PageRouter::displayPage('register.php');
-});
+}, false);
+$pageRouter->get('/dashboard', function () {
+  PageRouter::displayPage('dashboard.php');
+}, true, false);
 
 // Handle 404 Not Found
 $pageRouter->set404(function () {

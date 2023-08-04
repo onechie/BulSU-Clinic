@@ -109,9 +109,9 @@ const testRefreshToken = async () => {
     openNotification("User Authenticated", true);
     setTimeout(() => {
       location.reload();
-    }, 3000); 
+    }, 2000); 
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 testRefreshToken();
