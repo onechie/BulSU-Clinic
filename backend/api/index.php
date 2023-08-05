@@ -1,10 +1,15 @@
 <?php
 // GENERAL
-require_once '../utils/Utility.php';
 require_once '../database/database.php';
 require_once 'router.php';
 
-// MODELS
+// MIDDLEWAREs
+require_once '../middleware/responseMiddleware.php';
+require_once '../middleware/dataMiddleware.php';
+require_once '../middleware/fileMiddleware.php';
+require_once '../middleware/authMiddleware.php';
+
+// MODELs
 require_once '../model/attachment.php';
 require_once '../model/complaint.php';
 require_once '../model/laboratory.php';
@@ -15,7 +20,7 @@ require_once '../model/treatment.php';
 require_once '../model/user.php';
 require_once '../model/token.php';
 
-// CONTROLLERS
+// CONTROLLERs
 require_once '../controller/medicinesController.php';
 require_once '../controller/complaintsController.php';
 require_once '../controller/laboratoriesController.php';
@@ -57,10 +62,7 @@ require_once './routes/tokensRoute.php';
 // Handle 404 Not Found
 $router->set404(function () {
     http_response_code(404);
-    $response = [
-        "message" => "Not Found"
-    ];
-    echo json_encode($response);
+    echo json_encode(Response::errorResponse("Endpoint Not Found"));
 });
 
 // Run the router

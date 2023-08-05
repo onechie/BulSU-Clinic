@@ -1,24 +1,5 @@
 <?php
-//successResponse = Returns a success response with a message
-//successResponseWithData = Returns a success response with a message and data
-//errorResponse = Returns an error response with a message
-
-//onlyAlphaNum() = Check a string if it contains only letters and numbers
-//onlyAlpha() = Check a string if it contains only letters
-//onlyNum() = Check a string if it contains only numbers
-//onlyDate() = Check a string if it is a valid date
-
-//filterData() = Filter data based on the expected keys and sequence, trim each value, and remove empty values;
-//fillMissingDataKeys() = Fill missing keys of array base on expectedKeys
-//mergeData() = Merge old and new data (associative array), and compare the old and merged data if there are difference.
-
-//hasFiles() = Check if there are files.
-//formatFiles() = Format the files to be uploaded from default format to associative array.
-//validateFiles() = Validate the files if it is valid.
-//uploadFiles() = Upload the files to the server.
-
-
-//preventDirectAccess() = Prevents direct access to the file
+// THIS CLASS IS DIVIDED TO PARTS TO EASILY MAINTAIN THE CODE 
 class Utility
 {
     private $allowedExtensions = ['jpg', 'jpeg', 'png', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt'];

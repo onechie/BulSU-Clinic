@@ -1,9 +1,9 @@
 <?php
 // Check if the file is being directly accessed via URL
-require_once("../utils/utility.php");
-Utility::preventDirectAccess();
+require_once("../middleware/accessMiddleware.php");
+Access::preventDirectAccess();
 
-class AttachmentsController extends Utility
+class AttachmentsController 
 {
     private $attachmentModel;
     private $recordModel;
@@ -17,62 +17,62 @@ class AttachmentsController extends Utility
         try {
             //TRY TO GET ALL ATTACHMENTS
             $attachments = $this->attachmentModel->getAttachments();
-            return $attachments ? $this->successResponseWithData("Attachments successfully fetched.", ['attachments' => $attachments]) : $this->errorResponse("No attachments found.");
+            return $attachments ? Response::successResponseWithData("Attachments successfully fetched.", ['attachments' => $attachments]) :Response::errorResponse("No attachments found.");
         } catch (Throwable $error) {
-            return $this->errorResponse($error->getMessage());
+            return Response::errorResponse($error->getMessage());
         }
     }
     public function getAttachment($req)
     {
         $expectedKeys = ['id', 'recordId'];
-        $req = $this->filterData($req, $expectedKeys);
+        $req = Data::filterData($req, $expectedKeys);
         try {
             $attachment =  $this->getAttachmentIfExists($req);
-            return $this->successResponseWithData("Attachment successfully fetched.", ['attachment' => $attachment]);
+            return Response::successResponseWithData("Attachment successfully fetched.", ['attachment' => $attachment]);
         } catch (Throwable $error) {
-            return $this->errorResponse($error->getMessage());
+            return Response::errorResponse($error->getMessage());
         }
     }
     public function addAttachment($req, $files)
     {
         $expectedKeys = ['recordId'];
-        $req = $this->filterData($req, $expectedKeys);
+        $req = Data::filterData($req, $expectedKeys);
         $formattedFiles = [];
         try {
-            if ($this->hasFiles($files)) {
-                $formattedFiles = $this->formatFiles($files['attachments']);
-                $this->validateFiles($formattedFiles);
+            if (File::hasFiles($files)) {
+                $formattedFiles = File::formatFiles($files['attachments']);
+                File::validateFiles($formattedFiles);
             } else {
-                return $this->errorResponse("No files to upload.");
+                return Response::errorResponse("No files to upload.");
             }
-            $this->onlyNum("Record ID", $req['recordId'] ?? null);
+            Data::onlyNum("Record ID", $req['recordId'] ?? null);
             $this->getRecordIfExists($req['recordId']);
             //TRY TO ADD ATTACHMENT
-            $uploadedFilesData  = $this->uploadFiles($formattedFiles, $req['recordId']);
+            $uploadedFilesData  = File::uploadFiles($formattedFiles, $req['recordId']);
             $this->addAttachmentsOfRecord($uploadedFilesData, $req['recordId']);
-            return $this->successResponse("Files successfully added.");
+            return Response::successResponse("Files successfully added.");
         } catch (Throwable $error) {
-            return $this->errorResponse($error->getMessage());
+            return Response::errorResponse($error->getMessage());
         }
     }
     public function deleteAttachment($req)
     {
         $expectedKeys = ['id', 'recordId'];
-        $req = $this->filterData($req, $expectedKeys);
+        $req = Data::filterData($req, $expectedKeys);
         try {
             $result = false;
             $attachments =  $this->getAttachmentIfExists($req);
             // CHECK $ATTACHMENTS IF IT IS ONLY ONE BECAUSE IF IT'S MANY IT MEANS NO ID IS PROVIDED ONLY INDEXES
             if (isset($attachments['id'])) {
-                $this->deleteFile($attachments['url']);
+                File::deleteFile($attachments['url']);
                 $result = $this->attachmentModel->deleteAttachment($attachments['id']);
             } else {
-                $this->deleteFiles($attachments, $attachments[0]['recordId']);
+                File::deleteFiles($attachments, $attachments[0]['recordId']);
                 $result = $this->attachmentModel->deleteAttachmentByRecordId($attachments[0]['recordId']);
             }
-            return $result ? $this->successResponse("Attachment successfully deleted.") : $this->errorResponse("Failed to delete attachment.");
+            return $result ? Response::successResponse("Attachment successfully deleted.") : Response::errorResponse("Failed to delete attachment.");
         } catch (Throwable $error) {
-            return $this->errorResponse($error->getMessage());
+            return Response::errorResponse($error->getMessage());
         }
     }
     private function getAttachmentIfExists($req)
@@ -82,10 +82,10 @@ class AttachmentsController extends Utility
 
         $attachment = [];
         if ($id) {
-            $this->onlyNum("ID", $id);
+            Data::onlyNum("ID", $id);
             $attachment = $this->attachmentModel->getAttachment($id);
         } else {
-            $this->onlyNum("Record ID", $recordId);
+            Data::onlyNum("Record ID", $recordId);
             $attachment = $this->attachmentModel->getAttachmentByRecordId($recordId);
         }
         if (!$attachment) {

@@ -1,9 +1,9 @@
 <?php
 // Check if the file is being directly accessed via URL
-require_once("../utils/utility.php");
-Utility::preventDirectAccess();
+require_once("../middleware/accessMiddleware.php");
+Access::preventDirectAccess();
 
-class ComplaintsController extends Utility
+class ComplaintsController
 {
     private $complaintModel;
     public function __construct(ComplaintModel $complaintModel)
@@ -15,70 +15,70 @@ class ComplaintsController extends Utility
         try {
             //TRY TO GET ALL COMPLAINTS
             $complaints = $this->complaintModel->getComplaints();
-            return $complaints ? $this->successResponseWithData("Complaints successfully fetched.", ['complaints' => $complaints]) : $this->errorResponse("No complaints found.");
+            return $complaints ? Response::successResponseWithData("Complaints successfully fetched.", ['complaints' => $complaints]) : Response::errorResponse("No complaints found.");
         } catch (Throwable $error) {
-            return $this->errorResponse($error->getMessage());
+            return Response::errorResponse($error->getMessage());
         }
     }
     public function getComplaint($req)
     {
         $expectedKeys = ['id'];
-        $req = $this->filterData($req, $expectedKeys);
+        $req = Data::filterData($req, $expectedKeys);
         try {
-            $this->onlyNum("ID", $req['id'] ?? null);
+            Data::onlyNum("ID", $req['id'] ?? null);
 
             //TRY TO GET COMPLAINT BY ID
             $complaint = $this->getComplaintIfExists($req['id']);
-            return $this->successResponseWithData("Complaint successfully fetched.", ['complaint' => $complaint]);
+            return Response::successResponseWithData("Complaint successfully fetched.", ['complaint' => $complaint]);
         } catch (Throwable $error) {
-            return $this->errorResponse($error->getMessage());
+            return Response::errorResponse($error->getMessage());
         }
     }
     public function addComplaint($req)
     {
         $expectedKeys = ['description'];
-        $req = $this->filterData($req, $expectedKeys);
+        $req =  Data::filterData($req, $expectedKeys);
         try {
-            $this->onlyAlphaNum("Description", $req['description'] ?? null);
+            Data::onlyAlphaNum("Description", $req['description'] ?? null);
             $this->isComplaintDescriptionExists($req['description']);
 
             //TRY TO ADD COMPLAINT
             $result = $this->complaintModel->addComplaint(...array_values($req));
-            return $result ? $this->successResponse("Complaint successfully added.") : $this->errorResponse("Complaint failed to add.");
+            return $result ? Response::successResponse("Complaint successfully added.") : Response::errorResponse("Complaint failed to add.");
         } catch (Throwable $error) {
-            return $this->errorResponse($error->getMessage());
+            return Response::errorResponse($error->getMessage());
         }
     }
     public function updateComplaint($req)
     {
         $expectedKeys = ['id', 'description'];
-        $req = $this->filterData($req, $expectedKeys);
+        $req =  Data::filterData($req, $expectedKeys);
         try {
-            $this->onlyNum("ID", $req['id'] ?? null);
+             Data::onlyNum("ID", $req['id'] ?? null);
             $oldComplaint = $this->getComplaintIfExists($req['id']);
 
-            $newData = $this->mergeData($oldComplaint, $req); 
-            $this->onlyAlphaNum("Description", $newData['description']);
+            $newData =  Data::mergeData($oldComplaint, $req);
+            Data::onlyAlphaNum("Description", $newData['description']);
             //TRY TO UPDATE COMPLAINT
             $result = $this->complaintModel->updateComplaint(...array_values($newData));
-            return $result ? $this->successResponse("Complaint successfully updated.") : $this->errorResponse("Complaint failed to update.");
+            return $result ? Response::successResponse("Complaint successfully updated.") : Response::errorResponse("Complaint failed to update.");
         } catch (Throwable $error) {
-            return $this->errorResponse($error->getMessage());
+            return Response::errorResponse($error->getMessage());
         }
     }
     public function deleteComplaint($req)
     {
         $expectedKeys = ['id'];
-        $req = $this->filterData($req, $expectedKeys);
+        $req =  Data::filterData($req, $expectedKeys);
         try {
-            $this->onlyNum("ID", $req['id'] ?? null);
+             Data::onlyNum("ID", $req['id'] ?? null);
             $this->getComplaintIfExists($req['id']);
 
             //TRY TO DELETE COMPLAINT
             $result = $this->complaintModel->deleteComplaint($req['id']);
-            return $result ? $this->successResponse("Complaint successfully deleted.") : $this->errorResponse("Complaint failed to delete.");
+            return $result ? Response::successResponse("Complaint successfully deleted.") : Response::errorResponse("Complaint failed to delete.");
         } catch (Throwable $error) {
-            return $this->errorResponse($error->getMessage());
+            return Response::errorResponse($error->getMessage());
         }
     }
 

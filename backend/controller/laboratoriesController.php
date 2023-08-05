@@ -1,9 +1,9 @@
 <?php
 // Check if the file is being directly accessed via URL
-require_once("../utils/utility.php");
-Utility::preventDirectAccess();
+require_once("../middleware/accessMiddleware.php");
+Access::preventDirectAccess();
 
-class LaboratoriesController extends Utility
+class LaboratoriesController
 {
     private $laboratoryModel;
     public function __construct(LaboratoryModel $laboratoryModel)
@@ -15,71 +15,71 @@ class LaboratoriesController extends Utility
         try {
             //TRY TO GET ALL LABORATORIES
             $laboratories = $this->laboratoryModel->getLaboratories();
-            return $laboratories ? $this->successResponseWithData("Laboratories successfully fetched.", ['laboratories' => $laboratories]) : $this->errorResponse("No laboratories found.");
+            return $laboratories ? Response::successResponseWithData("Laboratories successfully fetched.", ['laboratories' => $laboratories]) : Response::errorResponse("No laboratories found.");
         } catch (Throwable $error) {
-            return $this->errorResponse($error->getMessage());
+            return Response::errorResponse($error->getMessage());
         }
     }
     public function getLaboratory($req)
     {
         $expectedKeys = ['id'];
-        $req = $this->filterData($req, $expectedKeys);
+        $req = Data::filterData($req, $expectedKeys);
         try {
-            $this->onlyNum("ID", $req['id'] ?? null);
+            Data::onlyNum("ID", $req['id'] ?? null);
 
             //TRY TO GET LABORATORY BY ID
             $laboratory = $this->getLaboratoryIfExists($req['id']);
-            return $this->successResponseWithData("Laboratory successfully fetched.", ['laboratory' => $laboratory]);
+            return Response::successResponseWithData("Laboratory successfully fetched.", ['laboratory' => $laboratory]);
         } catch (Throwable $error) {
-            return $this->errorResponse($error->getMessage());
+            return Response::errorResponse($error->getMessage());
         }
     }
     public function addLaboratory($req)
     {
         $expectedKeys = ['description'];
-        $req = $this->filterData($req, $expectedKeys);
+        $req = Data::filterData($req, $expectedKeys);
         try {
-            $this->onlyAlphaNum("Description", $req['description'] ?? null);
+            Data::onlyAlphaNum("Description", $req['description'] ?? null);
             $this->isLaboratoryDescriptionExists($req['description']);
 
             //TRY TO ADD LABORATORY
             $result = $this->laboratoryModel->addLaboratory(...array_values($req));
-            return $result ? $this->successResponse("Laboratory successfully added.") : $this->errorResponse("Laboratory failed to add.");
+            return $result ? Response::successResponse("Laboratory successfully added.") : Response::errorResponse("Laboratory failed to add.");
         } catch (Throwable $error) {
-            return $this->errorResponse($error->getMessage());
+            return Response::errorResponse($error->getMessage());
         }
     }
     public function updateLaboratory($req)
     {
         $expectedKeys = ['id', 'description'];
-        $req = $this->filterData($req, $expectedKeys);
+        $req = Data::filterData($req, $expectedKeys);
         try {
-            $this->onlyNum("ID", $req['id'] ?? null);
+            Data::onlyNum("ID", $req['id'] ?? null);
             $oldLaboratory = $this->getLaboratoryIfExists($req['id']);
 
-            $newData = $this->mergeData($oldLaboratory, $req);
-            $this->onlyAlphaNum("Description", $newData['description']);
+            $newData = Data::mergeData($oldLaboratory, $req);
+            Data::onlyAlphaNum("Description", $newData['description']);
 
             //TRY TO UPDATE LABORATORY
             $result = $this->laboratoryModel->updateLaboratory(...array_values($newData));
-            return $result ? $this->successResponse("Laboratory successfully updated.") : $this->errorResponse("Laboratory failed to update.");
+            return $result ? Response::successResponse("Laboratory successfully updated.") : Response::errorResponse("Laboratory failed to update.");
         } catch (Throwable $error) {
-            return $this->errorResponse($error->getMessage());
+            return Response::errorResponse($error->getMessage());
         }
     }
     public function deleteLaboratory($req)
     {
         $expectedKeys = ['id'];
-        $req = $this->filterData($req, $expectedKeys);
+        $req = Data::filterData($req, $expectedKeys);
         try {
-            $this->onlyNum("ID", $req['id'] ?? null);
+            Data::onlyNum("ID", $req['id'] ?? null);
             $this->getLaboratoryIfExists($req['id']);
 
             //TRY TO DELETE LABORATORY
             $result = $this->laboratoryModel->deleteLaboratory($req['id']);
-            return $result ? $this->successResponse("Laboratory successfully deleted.") : $this->errorResponse("Laboratory failed to delete.");
+            return $result ? Response::successResponse("Laboratory successfully deleted.") : Response::errorResponse("Laboratory failed to delete.");
         } catch (Throwable $error) {
-            return $this->errorResponse($error->getMessage());
+            return Response::errorResponse($error->getMessage());
         }
     }
     private function isLaboratoryDescriptionExists($description)

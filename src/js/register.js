@@ -1,5 +1,5 @@
 "use strict";
-const endPoint = "../backend/api/user/register";
+const endPoint = "../backend/api/users/register";
 let notificationTimeout;
 const notificationIconError = document.getElementById("notificationIconError");
 const notificationIconSuccess = document.getElementById(
@@ -15,7 +15,7 @@ const submitUserData = async () => {
   const emailInput = document.getElementById("email");
   const passwordInput = document.getElementById("password");
   const confirmPasswordInput = document.getElementById("confirmPassword");
-  const route = "register";
+  const agreementInput = document.getElementById("agreement");
 
   registerButton.disabled = true;
 
@@ -24,6 +24,7 @@ const submitUserData = async () => {
     const email = emailInput.value;
     const password = passwordInput.value;
     const confirmPassword = confirmPasswordInput.value;
+    const agreement = agreementInput.checked;
 
     toggleRegisterButton(true);
     closeNotification();
@@ -34,7 +35,7 @@ const submitUserData = async () => {
         email,
         password,
         confirmPassword,
-        route,
+        agreement
       },
       {
         headers: {
@@ -50,8 +51,9 @@ const submitUserData = async () => {
 
     usernameInput.value = "";
     emailInput.value = "";
-    passwordInput.value = "";
+    passwordInput.value = ""; 
     confirmPasswordInput.value = "";
+    agreementInput.checked = false;
   } catch (error) {
     notificationMessage.innerText = error.response.data.message;
     registerButton.disabled = false;
@@ -102,7 +104,7 @@ const closeNotification = () => {
   });
 };
 //test
-const testRefreshToken = async () => {
+const refreshToken = async () => {
   try {
     const { data } = await axios.get("../../backend/api/token/refresh");
     notificationMessage.innerText = data.message;
@@ -114,4 +116,4 @@ const testRefreshToken = async () => {
     // console.log(error);
   }
 };
-testRefreshToken();
+refreshToken();

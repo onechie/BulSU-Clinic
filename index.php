@@ -1,11 +1,13 @@
 <?php
+require_once 'backend/middleware/authMiddleware.php';
+require_once 'backend/middleware/responseMiddleware.php';
 require_once 'page-router.php';
 
 session_start();
 //TODO generate csrf token
 
-// Define your routes here
-$pageRouter = new PageRouter($_SESSION);
+// ROUTES
+$pageRouter = new PageRouter();
 
 $pageRouter->get('/', function () {
   PageRouter::displayPage('home.html');

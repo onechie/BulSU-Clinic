@@ -1,9 +1,9 @@
 <?php
 // Check if the file is being directly accessed via URL
-require_once("../utils/utility.php");
-Utility::preventDirectAccess();
+require_once("../middleware/accessMiddleware.php");
+Access::preventDirectAccess();
 
-class TokensController extends Utility
+class TokensController
 {
     private $tokenModel;
     public function __construct(TokenModel $tokenModel)
@@ -21,21 +21,21 @@ class TokensController extends Utility
             $refreshToken = $_COOKIE['refresh_token'] ?? null;
 
             if (!$refreshToken) {
-                if ($this->isAccessTokenValid()) {
-                    return $this->successResponse("Welcome back!");
+                if (Auth::isAccessTokenValid()) {
+                    return Response::successResponse("Welcome back!");
                 }
-                return $this->errorResponse("No refresh token.");
+                return Response::errorResponse("No refresh token.");
             }
 
             $refreshTokenData = $this->tokenModel->getTokenByRefreshToken($refreshToken);
 
             if (!$refreshTokenData) {
-                return $this->errorResponse("Invalid refresh token.");
+                return Response::errorResponse("Invalid refresh token.");
             }
 
-            if (!$this->isAccessTokenValid() && $refreshTokenData['expiration'] > date('Y-m-d H:i:s')) {
-                $this->generateAccessToken($refreshTokenData['userId']);
-                return $this->successResponse("Welcome back!");
+            if (!Auth::isAccessTokenValid() && $refreshTokenData['expiration'] > date('Y-m-d H:i:s')) {
+                Auth::generateAccessToken($refreshTokenData['userId']);
+                return Response::successResponse("Welcome back!");
             }
         } catch (Throwable $error) {
             throw new Exception($error->getMessage());

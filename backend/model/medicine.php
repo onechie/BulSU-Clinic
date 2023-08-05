@@ -1,7 +1,7 @@
 <?php
 // Check if the file is being directly accessed via URL
-require_once("../utils/utility.php");
-Utility::preventDirectAccess();
+require_once("../middleware/accessMiddleware.php");
+Access::preventDirectAccess();
 class MedicineTableInitializer extends DatabaseInitializer
 {
     public function __construct()
