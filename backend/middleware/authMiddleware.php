@@ -39,8 +39,6 @@ class Auth
     }
     public static function isAccessTokenValid()
     {
-
-
         $auth = $_SESSION['ACCESS'] ?? null;
         if (!$auth) {
             return false;

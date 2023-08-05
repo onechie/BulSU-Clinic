@@ -37,9 +37,6 @@ class UsersController
     }
     public function loginUser($req)
     {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
         $expectedKeys = ['usernameOrEmail', 'password', 'keepLoggedIn', 'X-CSRF-TOKEN'];
         $req = Data::filterData($req, $expectedKeys);
         try {
@@ -55,7 +52,6 @@ class UsersController
                 return Response::errorResponse("Invalid Credentials.");
             }
             if (password_verify($req['password'], $user['password'])) {
-                echo json_encode($req);
                 if (filter_var($req['keepLoggedIn'], FILTER_VALIDATE_BOOLEAN)) {
                     $refreshToken = Auth::generateRefreshToken();
                     $token = $this->tokenModel->addToken($refreshToken, $user['id'], date('Y-m-d', strtotime('+1 week')));

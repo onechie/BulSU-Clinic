@@ -1,4 +1,7 @@
 <?php
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 // GENERAL
 require_once '../database/database.php';
 require_once 'router.php';
@@ -61,8 +64,7 @@ require_once './routes/tokensRoute.php';
 
 // Handle 404 Not Found
 $router->set404(function () {
-    http_response_code(404);
-    echo json_encode(Response::errorResponse("Endpoint Not Found"));
+    echo json_encode(Response::errorResponse("Endpoint Not Found", 404));
 });
 
 // Run the router

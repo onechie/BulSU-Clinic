@@ -22,8 +22,7 @@ class Router
             $this->routes[$method][$url] = function () use ($callback) {
                 //CHECK THE AUTH TOKEN
                 if (!Auth::isAccessTokenValid()) {
-                    http_response_code(401);
-                    echo json_encode(Response::errorResponse("Unauthorized"));
+                    echo json_encode(Response::errorResponse("Unauthorized", 401));
                     exit();
                 }
                 return $callback();
@@ -53,7 +52,7 @@ class Router
                 $response = $callback();
                 echo json_encode($response);
             } catch (Throwable $error) {
-                echo json_encode(Response::errorResponse($error->getMessage()));
+                echo json_encode(Response::errorResponse($error->getMessage(), 500));
             }
         } else {
             $this->handleNotFound();
@@ -65,8 +64,7 @@ class Router
             $callback = $this->notFoundCallback;
             $callback();
         } else {
-            http_response_code(404);
-            echo json_encode(Response::errorResponse("Endpoint Not Found"));
+            echo json_encode(Response::errorResponse("Endpoint Not Found", 404));
         }
     }
 }

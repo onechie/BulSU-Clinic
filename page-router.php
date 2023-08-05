@@ -68,8 +68,7 @@ class PageRouter
             $callback = $this->notFoundCallback;
             $callback();
         } else {
-            http_response_code(404);
-            echo json_encode(Response::errorResponse("Page Not Found"));
+            echo json_encode(Response::errorResponse("Page Not Found", 404));
         }
     }
     public static function displayPage($file)
@@ -78,8 +77,7 @@ class PageRouter
         if (file_exists($path)) {
             require_once $path;
         } else {
-            http_response_code(404);
-            echo json_encode(Response::errorResponse("Page Not Found"));
+            echo json_encode(Response::errorResponse("Page Not Found", 404));
         }
     }
 }

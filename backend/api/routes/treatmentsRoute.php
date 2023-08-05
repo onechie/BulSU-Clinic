@@ -16,4 +16,4 @@ $router->post('/treatments/update', function () use ($treatmentsController) {
 }, true);
 $router->post('/treatments/delete', function () use ($treatmentsController) {
     return $treatmentsController->deleteTreatment($_POST);
-}, true); 
+}, true);

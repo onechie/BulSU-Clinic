@@ -14,10 +14,6 @@ class TokensController
     public function refreshAuthToken()
     {
         try {
-            if (session_status() !== PHP_SESSION_ACTIVE) {
-                session_start();
-            }
-
             $refreshToken = $_COOKIE['refresh_token'] ?? null;
 
             if (!$refreshToken) {
