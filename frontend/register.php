@@ -14,9 +14,9 @@
 <body class="overflow-hidden">
   <div class="w-full h-full relative min-w-[1200px] min-h-[675px]">
     <?php
-    require_once "./pages/components/notification.html";
-    require_once "./pages/components/backToHome.html";
-    require_once "./pages/components/header.html"
+    require_once "./frontend/components/notification.html";
+    require_once "./frontend/components/backToHome.html";
+    require_once "./frontend/components/header.html"
     ?>
 
     <div class="w-full flex justify-center items-center h-full bg-slate-100">

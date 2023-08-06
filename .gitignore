@@ -1,1 +1,3 @@
-TODO_list.php
+/vendor
+.env
+src/attachments

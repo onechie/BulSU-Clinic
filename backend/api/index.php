@@ -1,10 +1,9 @@
 <?php
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
 // GENERAL
+require_once '../../vendor/autoload.php';
 require_once '../database/database.php';
 require_once 'router.php';
+
 
 // MIDDLEWAREs
 require_once '../middleware/responseMiddleware.php';
@@ -21,7 +20,6 @@ require_once '../model/record.php';
 require_once '../model/storage.php';
 require_once '../model/treatment.php';
 require_once '../model/user.php';
-require_once '../model/token.php';
 
 // CONTROLLERs
 require_once '../controller/medicinesController.php';
@@ -32,9 +30,14 @@ require_once '../controller/treatmentsController.php';
 require_once '../controller/recordsController.php';
 require_once '../controller/attachmentsController.php';
 require_once '../controller/usersController.php';
-require_once '../controller/tokensController.php';
 
 // SET HEADERS
+
+// TESTING FOR REACTJS
+header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+
 header('Content-Type: application/json');
 
 // ROUTER INSTANCE
@@ -49,7 +52,6 @@ $treatmentModel = new TreatmentModel();
 $recordModel = new RecordModel();
 $attachmentModel = new AttachmentModel();
 $userModel = new UserModel();
-$tokenModel = new TokenModel();
 
 // ROUTES
 require_once './routes/medicinesRoute.php';
@@ -60,7 +62,6 @@ require_once './routes/treatmentsRoute.php';
 require_once './routes/recordsRoute.php';
 require_once './routes/attachmentsRoute.php';
 require_once './routes/usersRoute.php';
-require_once './routes/tokensRoute.php';
 
 // Handle 404 Not Found
 $router->set404(function () {

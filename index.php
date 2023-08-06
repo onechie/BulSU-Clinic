@@ -1,4 +1,5 @@
 <?php
+require_once 'vendor/autoload.php';
 require_once 'backend/middleware/authMiddleware.php';
 require_once 'backend/middleware/responseMiddleware.php';
 require_once 'page-router.php';

@@ -3,13 +3,26 @@
 require_once("../middleware/accessMiddleware.php");
 Access::preventDirectAccess();
 
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__, "../../.env");
+$dotenv->load();
 class Database
 {
     private static $connection = null;
-    private $servername = 'localhost';
-    private $username = 'root';
-    private $password = '';
-    private $dbname = 'bulsuclinic';
+    private $servername;
+    private $username;
+    private $password;
+    private $dbname;
+
+    
+    public function __construct()
+    {
+        $this->servername = $_ENV['DB_HOST'] ?? '';
+        $this->username = $_ENV['DB_USER'] ?? '';
+        $this->password = $_ENV['DB_PASSWORD'] ?? '';
+        $this->dbname = $_ENV['DB_NAME'] ?? '';
+    }
 
     protected function connect(): PDO
     {
@@ -35,6 +48,7 @@ class DatabaseInitializer extends Database
     {
         $this->tableName = $tableName;
         $this->columns = $columns;
+        parent::__construct();
         $this->initialize();
     }
 

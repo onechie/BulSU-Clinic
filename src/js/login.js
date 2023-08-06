@@ -43,6 +43,7 @@ const submitUserData = async () => {
     loginButton.disabled = false;
     openNotification("Login Success", true);
     toggleLoginButton(false);
+
     setTimeout(() => {
       location.reload();
     }, 2000);
@@ -95,17 +96,17 @@ const closeNotification = () => {
   });
 };
 
-//test
-const refreshToken = async () => {
+const checkIfLoggedIn = async () => {
   try {
-    const { data } = await axios.get("../../backend/api/token/refresh");
+    // Check if token is valid
+    const { data } = await axios.get("../backend/api/users/auth", {});
     notificationMessage.innerText = data.message;
     openNotification("User Authenticated", true);
     setTimeout(() => {
       location.reload();
     }, 2000);
   } catch (error) {
-    // console.log(error);
+    console.log(error);
   }
 };
-refreshToken();
+checkIfLoggedIn();

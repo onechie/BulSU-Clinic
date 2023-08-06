@@ -5,12 +5,10 @@ Access::preventDirectAccess();
 class UsersController
 {
     private $userModel;
-    private $tokenModel;
 
-    public function __construct(UserModel $userModel, TokenModel $tokenModel)
+    public function __construct(UserModel $userModel)
     {
         $this->userModel = $userModel;
-        $this->tokenModel = $tokenModel;
     }
 
     public function registerUser($req)
@@ -53,17 +51,52 @@ class UsersController
             }
             if (password_verify($req['password'], $user['password'])) {
                 if (filter_var($req['keepLoggedIn'], FILTER_VALIDATE_BOOLEAN)) {
-                    $refreshToken = Auth::generateRefreshToken();
-                    $token = $this->tokenModel->addToken($refreshToken, $user['id'], date('Y-m-d', strtotime('+1 week')));
-                    if (!$token) {
-                        return Response::errorResponse("User logged in failed.");
-                    }
-                    setcookie('refresh_token', $refreshToken, time() + 60 * 60 * 24 * 7, '/', '', false, true);
+                    // SET REFRESH TOKEN
+                    $refresh_token = Auth::encodeRefreshJWT($user['id'], $user['username'], $user['email']);
                 }
-                Auth::generateAccessToken($user['id']);
+                // SET ACCESS TOKEN
+                $access_token = Auth::encodeAccessJWT($user['id'], $user['username']);
                 return Response::successResponse("User logged in successfully.");
             }
             return Response::errorResponse("Invalid Credentials.");
+        } catch (Throwable $error) {
+            return Response::errorResponse($error->getMessage());
+        }
+    }
+    public function authenticateUser($req)
+    {
+        try {
+            $refresh_token = $_COOKIE['r_jwt'] ?? '';
+            $access_token = $_COOKIE['a_jwt'] ?? '';
+            if ($refresh_token !== '') {
+                $refreshJWTData = Auth::validateRefreshJWT($refresh_token);
+                if ($refreshJWTData->type === "REFRESH") {
+                    $access_token = Auth::encodeAccessJWT($refreshJWTData->sub, $refreshJWTData->username);
+                    return Response::successResponse("Refresh token found.");
+                }else{
+                    return Response::errorResponse("Refresh token is invalid.");
+                }
+            } else {
+                if ($access_token !== '') {
+                    $accessJWTData = Auth::validateAccessJWT($access_token);
+                    if ($accessJWTData->type === "ACCESS") {
+                        return Response::successResponse("Access token found.");
+                    } else {
+                        return Response::errorResponse("Access token is invalid.");
+                    }
+                } else {
+                    return Response::errorResponse("Access token not found.");
+                }
+            }
+            // $allHeaders = getallheaders();
+            // $authorizationHeader = $allHeaders['Authorization'] ?? '';
+            // if (strpos($authorizationHeader, 'Bearer ') === 0) {
+            //     $jwt = substr($authorizationHeader, 7);
+            //     $user = Auth::decodeJWT($jwt);
+            //     return Response::successResponseWithData("User authenticated successfully.", ['user' => $user]);
+            // } else {
+            //     return Response::errorResponse("User authentication failed.");
+            // }
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
         }

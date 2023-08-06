@@ -50,17 +50,36 @@ class PageRouter
     }
     private function isNotAuthenticated()
     {
-        if (!Auth::isAccessTokenValid()) {
+        $access_token = $_COOKIE['a_jwt'] ?? '';
+        if ($access_token) {
+            if (!Auth::validateAccessJWT($access_token)) {
+                header("Location: /login");
+                exit();
+            }
+        } else {
             header("Location: /login");
             exit();
         }
+
+        // if (!Auth::isAccessTokenValid()) {
+        //     header("Location: /login");
+        //     exit();
+        // }
     }
     private function isAuthenticated()
     {
-        if (Auth::isAccessTokenValid()) {
-            header("Location: /dashboard");
-            exit();
+        $access_token = $_COOKIE['a_jwt'] ?? '';
+        if ($access_token) {
+            $userData = Auth::validateAccessJWT($access_token);
+            if ($userData && $userData->sub && $userData->username) {
+                header("Location: /dashboard");
+                exit();
+            }
         }
+        // if (Auth::isAccessTokenValid()) {
+        //     header("Location: /dashboard");
+        //     exit();
+        // }
     }
     private function handleNotFound()
     {
@@ -73,7 +92,7 @@ class PageRouter
     }
     public static function displayPage($file)
     {
-        $path = 'pages/' . $file;
+        $path = 'frontend/' . $file;
         if (file_exists($path)) {
             require_once $path;
         } else {
