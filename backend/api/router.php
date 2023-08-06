@@ -21,12 +21,12 @@ class Router
         if ($requireAuthentication) {
             $this->routes[$method][$url] = function () use ($callback) {
                 //CHECK THE AUTH TOKEN
-                $access_token = $_COOKIE['access_token'] ?? '';
+                $access_token = $_COOKIE['a_jwt'] ?? '';
                 if (!$access_token) {
                     echo json_encode(Response::errorResponse("Unauthorized", 401));
                     exit();
                 } else {
-                    if (!Auth::decodeJWT($access_token)) {
+                    if (!Auth::validateAccessJWT($access_token)) {
                         echo json_encode(Response::errorResponse("Unauthorized", 401));
                         exit();
                     }
