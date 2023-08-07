@@ -15,9 +15,9 @@
 <body class="overflow-hidden">
   <div class="w-full h-full relative min-w-[1200px] min-h-[675px]">
     <?php
-    require_once __DIR__ . "/frontend/components/notification.html";
-    require_once __DIR__ . "/frontend/components/backToHome.html";
-    require_once __DIR__ . "/frontend/components/header.html"
+    require_once __DIR__ . "/components/notification.html";
+    require_once __DIR__ . "/components/backToHome.html";
+    require_once __DIR__ . "/components/header.html"
     ?>
 
     <div class="w-full flex justify-center items-center h-full bg-slate-100">

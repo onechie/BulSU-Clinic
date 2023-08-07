@@ -1,2 +1,3 @@
 RewriteEngine On
+# Redirect all other requests to index.php
 RewriteRule ^(.*)$ index.php [L]

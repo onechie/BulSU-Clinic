@@ -1,2 +1,5 @@
 RewriteEngine On
+# Allow direct access to favicon.ico
+RewriteRule ^favicon\.ico$ - [L]
+# Redirect all other requests to index.php
 RewriteRule ^ index.php [L]
