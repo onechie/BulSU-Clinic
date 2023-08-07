@@ -61,7 +61,7 @@ class File
     public static function uploadFiles($files, $id = 0)
     {
         $uploadedFilesData = [];
-        $baseDirectory = '../../src/attachments/';
+        $baseDirectory = __DIR__ . '../../src/attachments/';
         if (!is_dir($baseDirectory)) {
             mkdir($baseDirectory, 0777, true);
         }
@@ -72,7 +72,7 @@ class File
             $fileExt = explode('.', $file);
             $fileActualExt = strtolower(end($fileExt));
 
-            $fileDirectory = '../../src/attachments/' . $id . '/';
+            $fileDirectory = __DIR__ . '../../src/attachments/' . $id . '/';
 
             if (!is_dir($fileDirectory)) {
                 mkdir($fileDirectory, 0777, true);
@@ -100,7 +100,7 @@ class File
             }
         }
         if ($alsoDirectory) {
-            $fileDirectory = '../../src/attachments/' . $recordId . '/';
+            $fileDirectory = __DIR__ . '../../src/attachments/' . $recordId . '/';
             if (is_dir($fileDirectory)) {
                 rmdir($fileDirectory);
             }

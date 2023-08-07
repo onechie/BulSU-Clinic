@@ -1,5 +1,5 @@
 <?php 
-$laboratoriesController = new LaboratoriesController($laboratoryModel);
+$laboratoriesController = new LaboratoriesController(new LaboratoryModel);
 
 $router->get('/laboratories', function () use ($laboratoriesController) {
     if (isset($_GET['id'])) {

@@ -1,5 +1,5 @@
 <?php
-$medicinesController = new MedicinesController($medicineModel, $storageModel);
+$medicinesController = new MedicinesController(new MedicineModel, new StorageModel);
 
 $router->get('/medicines', function () use ($medicinesController) {
     if (isset($_GET['id'])) {

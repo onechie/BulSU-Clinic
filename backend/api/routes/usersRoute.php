@@ -1,5 +1,5 @@
 <?php
-$usersController = new UsersController($userModel);
+$usersController = new UsersController(new UserModel);
 
 $router->get('/users/auth', function () use ($usersController) {
     return $usersController->authenticateUser($_GET);

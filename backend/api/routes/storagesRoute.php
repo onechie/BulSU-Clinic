@@ -1,5 +1,5 @@
 <?php 
-$storagesController = new StoragesController($storageModel);
+$storagesController = new StoragesController(new StorageModel);
 
 $router->get('/storages', function () use ($storagesController) {
     if (isset($_GET['id'])) {

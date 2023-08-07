@@ -1,11 +1,8 @@
 <?php
-// Check if the file is being directly accessed via URL
-require_once("../middleware/accessMiddleware.php");
-Access::preventDirectAccess();
 
 use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable(__DIR__, "../../.env");
+$dotenv = Dotenv::createImmutable(__DIR__, __DIR__ . "../../.env");
 $dotenv->load();
 class Database
 {
@@ -15,7 +12,7 @@ class Database
     private $password;
     private $dbname;
 
-    
+
     public function __construct()
     {
         $this->servername = $_ENV['DB_HOST'] ?? '';

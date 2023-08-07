@@ -1,6 +1,4 @@
 <?php
-require_once 'backend/middleware/accessMiddleware.php';
-Access::preventDirectAccess();
 class PageRouter
 {
     private $routes = [];
@@ -60,11 +58,6 @@ class PageRouter
             header("Location: /login");
             exit();
         }
-
-        // if (!Auth::isAccessTokenValid()) {
-        //     header("Location: /login");
-        //     exit();
-        // }
     }
     private function isAuthenticated()
     {
@@ -76,10 +69,6 @@ class PageRouter
                 exit();
             }
         }
-        // if (Auth::isAccessTokenValid()) {
-        //     header("Location: /dashboard");
-        //     exit();
-        // }
     }
     private function handleNotFound()
     {

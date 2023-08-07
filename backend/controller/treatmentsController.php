@@ -1,7 +1,4 @@
 <?php
-// Check if the file is being directly accessed via URL
-require_once("../middleware/accessMiddleware.php");
-Access::preventDirectAccess();
 
 class TreatmentsController
 {

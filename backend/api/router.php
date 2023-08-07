@@ -1,7 +1,4 @@
 <?php
-require_once '../middleware/accessMiddleware.php';
-Access::preventDirectAccess();
-
 class Router
 {
     private $routes = [];

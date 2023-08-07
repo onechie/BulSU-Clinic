@@ -1,7 +1,4 @@
 <?php
-// Check if the file is being directly accessed via URL
-require_once("../middleware/accessMiddleware.php");
-Access::preventDirectAccess();
 class RecordTableInitializer extends DatabaseInitializer
 {
     public function __construct()
@@ -59,8 +56,10 @@ class RecordModel extends RecordTableInitializer
 
         try {
             $stmt = $pdo->prepare($sql);
-            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
+            $params = [
+                ':id' => $id,
+            ];
+            $stmt->execute($params);
             $record = $stmt->fetch();
             return $record;
         } catch (PDOException $error) {

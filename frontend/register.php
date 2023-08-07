@@ -8,15 +8,16 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-  <link rel="stylesheet" href="../src/styles/index.css" />
+
+  <link rel="stylesheet" href="/src/styles/index.css" />
 </head>
 
 <body class="overflow-hidden">
   <div class="w-full h-full relative min-w-[1200px] min-h-[675px]">
     <?php
-    require_once "./frontend/components/notification.html";
-    require_once "./frontend/components/backToHome.html";
-    require_once "./frontend/components/header.html"
+    require_once __DIR__ . "/frontend/components/notification.html";
+    require_once __DIR__ . "/frontend/components/backToHome.html";
+    require_once __DIR__ . "/frontend/components/header.html"
     ?>
 
     <div class="w-full flex justify-center items-center h-full bg-slate-100">
@@ -42,13 +43,13 @@
             <span id="buttonReady" class="text-lg text-white">Register</span>
           </button>
           <p class="text-end">
-            Already have an account? <a href="../login" class="text-lime-900 underline text-base hover:text-lime-900">Login</a>
+            Already have an account? <a href="/login" class="text-lime-900 underline text-base hover:text-lime-900">Login</a>
           </p>
         </div>
       </div>
     </div>
   </div>
-
-  <script src="../src/js/register.js"></script>
+  <script src="/src/js/register.js"></script>
 </body>
-</html85
+
+</html>
