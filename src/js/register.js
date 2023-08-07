@@ -110,9 +110,9 @@ const checkIfLoggedIn = async () => {
     const { data } = await axios.get("../backend/api/users/auth", {});
     notificationMessage.innerText = data.message;
     openNotification("User Authenticated", true);
-    // setTimeout(() => {
-    //   location.reload();
-    // }, 2000);
+    setTimeout(() => {
+      location.reload();
+    }, 2000);
   } catch (error) {
     console.log(error);
   }
