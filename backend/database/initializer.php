@@ -28,7 +28,7 @@ class Initializer extends Database
         try {
             $pdo->exec($sql);
         } catch (PDOException $error) {
-            throw new Exception('Table creation error: ' . $error->getMessage());
+            throw new Exception('DATABASE ERROR: ' . $error->getMessage());
         }
     }
 
@@ -38,7 +38,7 @@ class Initializer extends Database
             $pdo = $this->connect();
             if (!$this->tableExists($pdo)) $this->createTable($pdo);
         } catch (PDOException $error) {
-            throw new Exception('Database initialization error: ' . $error->getMessage());
+            throw new Exception('DATABASE ERROR: ' . $error->getMessage());
         }
     }
 

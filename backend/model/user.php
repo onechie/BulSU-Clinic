@@ -2,6 +2,11 @@
 
 class UserModel extends Database
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function getUsers()
     {
         $sql = 'SELECT * FROM users';

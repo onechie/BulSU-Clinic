@@ -60,7 +60,7 @@ class UsersController
             return Response::errorResponse($error->getMessage());
         }
     }
-    public function authenticateUser($req)
+    public function authenticateUser()
     {
         try {
             $refresh_token = $_COOKIE['r_jwt'] ?? '';
@@ -85,15 +85,6 @@ class UsersController
                     return Response::errorResponse("Access token not found.");
                 }
             }
-            // $allHeaders = getallheaders();
-            // $authorizationHeader = $allHeaders['Authorization'] ?? '';
-            // if (strpos($authorizationHeader, 'Bearer ') === 0) {
-            //     $jwt = substr($authorizationHeader, 7);
-            //     $user = Auth::decodeJWT($jwt);
-            //     return Response::successResponseWithData("User authenticated successfully.", ['user' => $user]);
-            // } else {
-            //     return Response::errorResponse("User authentication failed.");
-            // }
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
         }

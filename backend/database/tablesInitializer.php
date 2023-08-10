@@ -59,10 +59,14 @@ $tables = [
     ]
 ];
 
-$shouldInitializeTables = $_ENV['DB_INITIALIZE'] ?? 'NO';
+$shouldInitializeTables = strtolower($_ENV['DB_INITIALIZE'] ?? 'no');
 
-if ($shouldInitializeTables === 'YES') {
-    foreach ($tables as $tableName => $columns) {
-        new Initializer($tableName, $columns);
+if ($shouldInitializeTables === 'yes') {
+    try {
+        foreach ($tables as $tableName => $columns) {
+            new Initializer($tableName, $columns);
+        }
+    } catch (Throwable $e) {
+        throw new Exception ($e->getMessage());
     }
 }

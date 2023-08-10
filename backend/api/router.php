@@ -15,24 +15,25 @@ class Router
     {
         $url = preg_replace('/[^a-zA-Z0-9\/]/', '', $url);
 
-        if ($requireAuthentication) {
-            $this->routes[$method][$url] = function () use ($callback) {
-                //CHECK THE AUTH TOKEN
-                $access_token = $_COOKIE['a_jwt'] ?? '';
-                if (!$access_token) {
-                    echo json_encode(Response::errorResponse("Unauthorized", 401));
-                    exit();
-                } else {
-                    if (!Auth::validateAccessJWT($access_token)) {
-                        echo json_encode(Response::errorResponse("Unauthorized", 401));
-                        exit();
-                    }
-                }
-                return $callback();
-            };
-        } else {
-            $this->routes[$method][$url] = $callback;
-        }
+        // if ($requireAuthentication) {
+        //     $this->routes[$method][$url] = function () use ($callback) {
+        //         //CHECK THE AUTH TOKEN
+        //         $access_token = $_COOKIE['a_jwt'] ?? '';
+        //         if (!$access_token) {
+        //             echo json_encode(Response::errorResponse("Unauthorized", 401));
+        //             exit();
+        //         } else {
+        //             if (!Auth::validateAccessJWT($access_token)) {
+        //                 echo json_encode(Response::errorResponse("Unauthorized", 401));
+        //                 exit();
+        //             }
+        //         }
+        //         return $callback();
+        //     };
+        // } else {
+        //     $this->routes[$method][$url] = $callback;
+        // }
+        $this->routes[$method][$url] = $callback;
     }
     public function set404($callback)
     {

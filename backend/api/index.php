@@ -1,5 +1,5 @@
 <?php
-// SET HEADERS
+// SET HEADERs
 header('Content-Type: application/json');
 
 // GENERAL
@@ -8,14 +8,14 @@ require_once '../database/database.php';
 require_once '../database/tablesInitializer.php';
 require_once 'router.php';
 
-// MIDDLEWARE
+// MIDDLEWAREs
 require_once '../middleware/middleware.php';
-// MODEL
+// MODELs
 require_once '../model/model.php';
-// CONTROLLER
+// CONTROLLERs
 require_once '../controller/controller.php';
 
-// MODEL INSTANCES
+// MODEL INSTANCEs
 $userModel = new UserModel();
 $medicineModel = new MedicineModel();
 $recordModel = new RecordModel();
@@ -28,7 +28,7 @@ $treatmentModel = new TreatmentModel();
 // ROUTER INSTANCE
 $router = new Router();
 
-// ROUTES
+// ROUTEs
 require_once 'routes/routes.php';
 
 // Handle 404 Not Found

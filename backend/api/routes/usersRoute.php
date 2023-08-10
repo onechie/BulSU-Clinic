@@ -2,7 +2,7 @@
 $usersController = new UsersController($userModel);
 
 $router->get('/users/auth', function () use ($usersController) {
-    return $usersController->authenticateUser($_GET);
+    return $usersController->authenticateUser();
 });
 
 $router->post('/users/login', function () use ($usersController) {

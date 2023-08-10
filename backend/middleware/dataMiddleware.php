@@ -24,7 +24,7 @@ class Data
         // if (!ctype_digit($value)) {
         //     throw new Exception($key . ' must be a number.');
         // }
-        if (!filter_var($value, FILTER_VALIDATE_INT)) {
+        if (!filter_var($value, FILTER_VALIDATE_INT) && $value != "0") {
             throw new Exception($key . ' must be a number(integer).');
         }
     }

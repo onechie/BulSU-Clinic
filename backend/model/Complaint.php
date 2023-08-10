@@ -8,98 +8,59 @@ class ComplaintModel extends Database
     public function getComplaints()
     {
         $sql = 'SELECT * FROM complaints';
-
-        $pdo = $this->connect();
-
         try {
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute();
-            $complaints = $stmt->fetchAll();
-            return $complaints;
-        } catch (PDOException $error) {
-            throw new Exception('Database error: ' . $error->getMessage());
+            return $this->db_read_all($sql);
+        } catch (Throwable $error) {
+            throw new Exception($error->getMessage());
         }
     }
     public function getComplaint(int $id)
     {
         $sql = 'SELECT * FROM complaints WHERE id = :id';
-
-        $pdo = $this->connect();
-
+        $params = [
+            ':id' => $id,
+        ];
         try {
-            $stmt = $pdo->prepare($sql);
-            $params = [
-                ':id' => $id,
-            ];
-            $stmt->execute($params);
-            $complaint = $stmt->fetch();
-            return $complaint;
-        } catch (PDOException $error) {
-            throw new Exception('Database error: ' . $error->getMessage());
+            return $this->db_read($sql, $params);
+        } catch (Throwable $error) {
+            throw new Exception($error->getMessage());
         }
     }
     public function addComplaint(string $description)
     {
         $sql = 'INSERT INTO complaints (description) VALUES (:description)';
-
-        $pdo = $this->connect();
-
+        $params = [
+            ':description' => $description,
+        ];
         try {
-            $stmt = $pdo->prepare($sql);
-            $params = [
-                ':description' => $description,
-            ];
-
-            if ($stmt->execute($params)) {
-                return true;
-            } else {
-                throw new Exception('Error while adding the complaint.');
-            }
-        } catch (PDOException $error) {
-            throw new Exception('Database error: ' . $error->getMessage());
+            return $this->db_create($sql, $params);
+        } catch (Throwable $error) {
+            throw new Exception($error->getMessage());
         }
     }
     public function updateComplaint(int $id, string $description)
     {
         $sql = 'UPDATE complaints SET description = :description WHERE id = :id';
-
-        $pdo = $this->connect();
-
+        $params = [
+            ':id' => $id,
+            ':description' => $description,
+        ];
         try {
-            $stmt = $pdo->prepare($sql);
-            $params = [
-                ':id' => $id,
-                ':description' => $description,
-            ];
-
-            if ($stmt->execute($params)) {
-                return true;
-            } else {
-                throw new Exception('Error while updating the complaint.');
-            }
-        } catch (PDOException $error) {
-            throw new Exception('Database error: ' . $error->getMessage());
+            return $this->db_update($sql, $params);
+        } catch (Throwable $error) {
+            throw new Exception($error->getMessage());
         }
     }
     public function deleteComplaint(int $id)
     {
         $sql = 'DELETE FROM complaints WHERE id = :id';
-
-        $pdo = $this->connect();
-
+        $params = [
+            ':id' => $id,
+        ];
         try {
-            $stmt = $pdo->prepare($sql);
-            $params = [
-                ':id' => $id,
-            ];
-
-            if ($stmt->execute($params)) {
-                return true;
-            } else {
-                throw new Exception('Error while deleting the complaint.');
-            }
-        } catch (PDOException $error) {
-            throw new Exception('Database error: ' . $error->getMessage());
+            return $this->db_delete($sql, $params);
+        } catch (Throwable $error) {
+            throw new Exception($error->getMessage());
         }
     }
 
@@ -107,20 +68,13 @@ class ComplaintModel extends Database
     public function getComplaintByDescription(string $description)
     {
         $sql = 'SELECT * FROM complaints WHERE description = :description';
-
-        $pdo = $this->connect();
-
+        $params = [
+            ':description' => $description,
+        ];
         try {
-            $stmt = $pdo->prepare($sql);
-            $params = [
-                ':description' => $description,
-            ];
-            $stmt->execute($params);
-            $complaint = $stmt->fetch();
-            return $complaint;
-        } catch (PDOException $error) {
-            throw new Exception('Database error: ' . $error->getMessage());
+            return $this->db_read($sql, $params);
+        } catch (Throwable $error) {
+            throw new Exception($error->getMessage());
         }
     }
-
 }
