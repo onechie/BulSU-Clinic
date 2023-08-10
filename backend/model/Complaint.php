@@ -1,18 +1,5 @@
 <?php
-class ComplaintTableInitializer extends DatabaseInitializer
-{
-    public function __construct()
-    {
-        $tableName = 'complaints';
-        $columns = [
-            'description TEXT NOT NULL',
-        ];
-
-        parent::__construct($tableName, $columns);
-    }
-}
-
-class ComplaintModel extends ComplaintTableInitializer
+class ComplaintModel extends Database
 {
     public function __construct()
     {

@@ -1,39 +1,13 @@
 <?php
-class RecordTableInitializer extends DatabaseInitializer
-{
-    public function __construct()
-    {
-        $tableName = 'records';
-        $columns = [
-            'schoolYear INT NOT NULL',
-            'name VARCHAR(255) NOT NULL',
-            'date DATE NOT NULL',
-            'complaint TEXT NOT NULL',
-            'medication VARCHAR(255) NOT NULL',
-            'quantity INT NOT NULL',
-            'treatment TEXT',
-            'laboratory TEXT',
-            'bloodPressure VARCHAR(255)',
-            'pulse VARCHAR(255)',
-            'weight VARCHAR(255)',
-            'temperature VARCHAR(255)',
-            'respiration VARCHAR(255)',
-            'oximetry VARCHAR(255)',
-        ];
-
-        parent::__construct($tableName, $columns);
-    }
-}
-
-class RecordModel extends RecordTableInitializer
+class RecordModel extends Database
 {
     public function __construct()
     {
         parent::__construct();
     }
-
     public function getRecords()
     {
+        
         $sql = 'SELECT * FROM records';
 
         $pdo = $this->connect();

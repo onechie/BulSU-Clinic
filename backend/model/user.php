@@ -1,27 +1,7 @@
 <?php
-class UserTableInitializer extends DatabaseInitializer
+
+class UserModel extends Database
 {
-    public function __construct()
-    {
-        $tableName = 'users';
-        $columns = [
-            'username VARCHAR(255) NOT NULL',
-            'email VARCHAR(255) NOT NULL',
-            'password VARCHAR(255) NOT NULL',
-            // Add more columns specific to the UserModel if needed
-        ];
-
-        parent::__construct($tableName, $columns);
-    }
-}
-
-class UserModel extends UserTableInitializer
-{
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function getUsers()
     {
         $sql = 'SELECT * FROM users';

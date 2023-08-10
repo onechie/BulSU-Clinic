@@ -1,27 +1,10 @@
 <?php
-class AttachmentTableInitializer extends DatabaseInitializer
-{
-    public function __construct()
-    {
-        $tableName = 'attachments';
-        $columns = [
-            'recordId INT NOT NULL',
-            'name VARCHAR(255) NOT NULL',
-            'url VARCHAR(255) NOT NULL',
-            'FOREIGN KEY (recordId) REFERENCES records(id) ON DELETE CASCADE'
-        ];
-
-        parent::__construct($tableName, $columns);
-    }
-}
-
-class AttachmentModel extends AttachmentTableInitializer
+class AttachmentModel extends Database
 {
     public function __construct()
     {
         parent::__construct();
     }
-
     public function getAttachments()
     {
         $sql = 'SELECT * FROM attachments';

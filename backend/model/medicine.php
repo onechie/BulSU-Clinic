@@ -1,32 +1,11 @@
 <?php
-class MedicineTableInitializer extends DatabaseInitializer
-{
-    public function __construct()
-    {
-        $tableName = 'medicines';
-        $columns = [
-            'name VARCHAR(255) NOT NULL',
-            'brand VARCHAR(255) NOT NULL',
-            'unit VARCHAR(255) NOT NULL',
-            'expiration DATE NOT NULL',
-            'boxesCount INT NOT NULL',
-            'itemsPerBox INT NOT NULL',
-            'itemsCount INT NOT NULL',
-            'itemsDeducted INT NOT NULL DEFAULT 0',
-            'storage VARCHAR(255) NOT NULL',
-        ];
 
-        parent::__construct($tableName, $columns);
-    }
-}
-
-class MedicineModel extends MedicineTableInitializer
+class MedicineModel extends Database
 {
     public function __construct()
     {
         parent::__construct();
     }
-
     // NEW METHODS
     public function getMedicines()
     {

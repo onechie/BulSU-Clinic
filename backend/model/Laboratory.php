@@ -1,18 +1,6 @@
 <?php
-class LaboratoryTableInitializer extends DatabaseInitializer
-{
-    public function __construct()
-    {
-        $tableName = 'laboratories';
-        $columns = [
-            'description TEXT NOT NULL',
-        ];
 
-        parent::__construct($tableName, $columns);
-    }
-}
-
-class LaboratoryModel extends LaboratoryTableInitializer
+class LaboratoryModel extends Database
 {
     public function __construct()
     {

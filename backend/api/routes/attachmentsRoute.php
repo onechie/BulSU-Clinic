@@ -1,5 +1,5 @@
 <?php
-$attachmentsController = new AttachmentsController(new AttachmentModel, new RecordModel);
+$attachmentsController = new AttachmentsController($attachmentModel, $recordModel);
 
 $router->get('/attachments', function () use ($attachmentsController) {
     if (isset($_GET['id']) || isset($_GET['recordId'])) {

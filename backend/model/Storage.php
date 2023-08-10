@@ -1,18 +1,6 @@
 <?php
-class StorageTableInitializer extends DatabaseInitializer
-{
-    public function __construct()
-    {
-        $tableName = 'storages';
-        $columns = [
-            'description TEXT NOT NULL',
-        ];
 
-        parent::__construct($tableName, $columns);
-    }
-}
-
-class StorageModel extends StorageTableInitializer
+class StorageModel extends Database
 {
     public function __construct()
     {

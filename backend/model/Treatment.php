@@ -1,24 +1,11 @@
 <?php
-class TreatmentTableInitializer extends DatabaseInitializer
-{
-    public function __construct()
-    {
-        $tableName = 'treatments';
-        $columns = [
-            'description TEXT NOT NULL',
-        ];
 
-        parent::__construct($tableName, $columns);
-    }
-}
-
-class TreatmentModel extends TreatmentTableInitializer
+class TreatmentModel extends Database
 {
     public function __construct()
     {
         parent::__construct();
     }
-
     public function getTreatments()
     {
         $sql = 'SELECT * FROM treatments';
@@ -136,5 +123,4 @@ class TreatmentModel extends TreatmentTableInitializer
             throw new Exception('Database error: ' . $error->getMessage());
         }
     }
-
 }
