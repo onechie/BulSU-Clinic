@@ -7,6 +7,67 @@ class UsersController
     {
         $this->userModel = $userModel;
     }
+    public function getUser()
+    {
+        try {
+            if (isset($_COOKIE['a_jwt'])) {
+                $userData = Auth::validateAccessJWT($_COOKIE['a_jwt']);
+                $userData = $this->userModel->getUser($userData->sub);
+                $userData = Data::filterData($userData, ['username', 'email']);
+                return Response::successResponseWithData("User data found.", ["user" => $userData]);
+            } else {
+                return Response::errorResponse("Access token not found.");
+            }
+        } catch (Throwable $error) {
+            return Response::errorResponse($error->getMessage());
+        }
+    }
+    public function changePassword($req)
+    {
+        $expectedKeys = ['oldPassword', 'password', 'confirmPassword', 'X-CSRF-TOKEN'];
+        $req = Data::filterData($req, $expectedKeys);
+        try {
+            if (isset($_COOKIE['a_jwt'])) {
+                $userData = Auth::validateAccessJWT($_COOKIE['a_jwt']);
+                $userData = $this->userModel->getUser($userData->sub);
+
+                $req['username'] = $userData['username'];
+                $req['email'] = $userData['email'];
+                $req['id'] = $userData['id'];
+
+                $this->validateUserData($req);
+                if (!password_verify($req['oldPassword'], $userData['password'])) {
+                    return Response::errorResponse("Old password is incorrect.");
+                } else if ($req['oldPassword'] === $req['password']) {
+                    return Response::errorResponse("New password must be different from old password.");
+                } else {
+                    $req = Data::filterData($req, ['id', 'username', 'email', 'password']);
+                    $req['password'] = password_hash($req['password'], PASSWORD_DEFAULT);
+                    $this->userModel->updateUser(...array_values($req));
+                    return Response::successResponse("Password updated successfully.");
+                }
+            } else {
+                return Response::errorResponse("Access token not found.");
+            }
+        } catch (Throwable $error) {
+            return Response::errorResponse($error->getMessage());
+        }
+    }
+    public function logoutUser()
+    {
+        try {
+            if (isset($_COOKIE['a_jwt'])) {
+                $userData = Auth::validateAccessJWT($_COOKIE['a_jwt']);
+                setcookie('a_jwt', '', time() - 3600, '/');
+                setcookie('r_jwt', '', time() - 3600, '/');
+                return Response::successResponse("User logged out successfully.");
+            } else {
+                return Response::errorResponse("Access token not found.");
+            }
+        } catch (Throwable $error) {
+            return Response::errorResponse($error->getMessage());
+        }
+    }
 
     public function registerUser($req)
     {
@@ -70,7 +131,7 @@ class UsersController
                 if ($refreshJWTData->type === "REFRESH") {
                     $access_token = Auth::encodeAccessJWT($refreshJWTData->sub, $refreshJWTData->username);
                     return Response::successResponse("Refresh token found.");
-                }else{
+                } else {
                     return Response::errorResponse("Refresh token is invalid.");
                 }
             } else {

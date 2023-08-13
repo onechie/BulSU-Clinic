@@ -1,7 +1,7 @@
 <?php
 $recordsController = new RecordsController($recordModel, $medicineModel, $complaintModel, $laboratoryModel, $treatmentModel, $attachmentModel);
 $router->get('/records', function () use ($recordsController) {
-    if (isset($_GET['id'])) {
+    if (isset($_GET['id']) || isset($_GET['patientName'])) {
         return $recordsController->getRecord($_GET);
     } else {
         return $recordsController->getRecords();

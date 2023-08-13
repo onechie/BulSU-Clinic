@@ -3,7 +3,7 @@ require_once __DIR__ . '/initializer.php';
 
 use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable(__DIR__, "../../.env");
+$dotenv = Dotenv::createImmutable(__DIR__, "/../../.env");
 $dotenv->load();
 
 $tables = [

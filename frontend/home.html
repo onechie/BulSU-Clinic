@@ -108,6 +108,7 @@
                   <ul class="list-disc list-inside ps-5">
                     <li>usernameOrEmail</li>
                     <li>password</li>
+                    <li>keepLoggedIn</li>
                   </ul>
                 </div>
                 <div class="ps-10 text-sm mt-1">
@@ -133,6 +134,82 @@
                   <ul class="list-disc list-inside ps-5">
                     <li>username</li>
                     <li>email</li>
+                    <li>password</li>
+                    <li>confirmPassword</li>
+                    <li>agreement</li>
+                  </ul>
+                </div>
+                <div class="ps-10 text-sm mt-1">
+                  <p class="text-green-500">response :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>"success":bool</li>
+                    <li>"message":"String"</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="py-3">
+              <div class="font-medium">
+                <span
+                  class="bg-green-500 rounded text-xs p-1 text-white font-medium me-1"
+                  >GET</span
+                >backend/api/users/me
+              </div>
+              <div class="flex mt-2">
+                <div class="ps-10 text-sm w-[300px]">
+                  <p class="text-red-500">parameters :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li class="text-blue-500">no required parameters</li>
+                  </ul>
+                </div>
+                <div class="ps-10 text-sm mt-1">
+                  <p class="text-green-500">response :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>"success":bool</li>
+                    <li>"message":"String"</li>
+                    <li>"user":{object of user data}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="py-3">
+              <div class="font-medium">
+                <span
+                  class="bg-green-500 rounded text-xs p-1 text-white font-medium me-1"
+                  >GET</span
+                >backend/api/users/logout
+              </div>
+              <div class="flex mt-2">
+                <div class="ps-10 text-sm w-[300px]">
+                  <p class="text-red-500">parameters :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li class="text-blue-500">no required parameters</li>
+                  </ul>
+                </div>
+                <div class="ps-10 text-sm mt-1">
+                  <p class="text-green-500">response :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>"success":bool</li>
+                    <li>"message":"String"</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="py-3">
+              <div class="font-medium">
+                <span
+                  class="bg-yellow-500 rounded text-xs p-1 text-white font-medium me-1"
+                  >POST</span
+                >backend/api/users/password/change
+              </div>
+              <div class="flex mt-2">
+                <div class="ps-10 text-sm w-[300px]">
+                  <p class="text-red-500">parameters :</p>
+                  <ul class="list-disc list-inside ps-5">
+                    <li>oldPassword</li>
                     <li>password</li>
                     <li>confirmPassword</li>
                   </ul>
@@ -177,7 +254,7 @@
                         >if request has id parameter this is the response</span
                       >}
                     </li>
-                    <li>"medicines:{array of medicine objects}</li>
+                    <li>"medicines:[{array of medicine objects}]</li>
                   </ul>
                 </div>
               </div>
@@ -290,6 +367,12 @@
                   <p class="text-red-500">parameters :</p>
                   <ul class="list-disc list-inside ps-5">
                     <li>id=(<span class="text-blue-500">optional</span>)</li>
+                    <li>
+                      patientName=(<span class="text-blue-500">optional</span>)
+                    </li>
+                    <li class="text-blue-500">
+                      if you include both, id is the first priority
+                    </li>
                   </ul>
                 </div>
                 <div class="ps-10 text-sm mt-1">
@@ -301,6 +384,12 @@
                       "record":{<span class="text-blue-500"
                         >if request has id parameter this is the response</span
                       >}
+                    </li>
+                    <li>
+                      "record":[{<span class="text-blue-500"
+                        >if request has patientName and no id parameter this is
+                        the response</span
+                      >}]
                     </li>
                     <li>"records":[{array of object records}]</li>
                   </ul>

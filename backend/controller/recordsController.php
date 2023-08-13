@@ -29,14 +29,11 @@ class RecordsController
     }
     public function getRecord($req)
     {
-        $expectedKeys = ['id'];
+        $expectedKeys = ['id', 'patientName'];
         $req = Data::filterData($req, $expectedKeys);
         try {
-            Data::onlyNum("ID", $req['id'] ?? null);
-            //TRY TO GET RECORD BY ID
-            $record = $this->getRecordIfExists($req['id']);
-            $attachments = $this->attachmentModel->getAttachmentByRecordId($req['id']);
-            $record['attachments'] = $attachments ?? [];
+            //TRY TO GET RECORD BY ID OR NAME
+            $record = $this->getRecordByIdOrName($req);
             return Response::successResponseWithData("Record successfully fetched.", ['record' => $record]);
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
@@ -195,6 +192,32 @@ class RecordsController
     {
         $record = $this->recordModel->getRecord($id);
         if (!$record) throw new Exception("Record does not exist.");
+        return $record;
+    }
+    private function getRecordByIdOrName($req)
+    {
+        $id = $req['id'] ?? null;
+        $patientName = $req['patientName'] ?? null;
+
+        $record = [];
+        if ($id) {
+            Data::onlyNum("ID", $id);
+            $record = $this->recordModel->getRecord($id);
+            if (!$record) {
+                throw new Exception("Record not found.");
+            }
+            $attachments = $this->attachmentModel->getAttachmentByRecordId($id);
+            $record['attachments'] = $attachments ?? [];
+        } else {
+            Data::onlyAlphaNum("Patient's Name", $patientName);
+            $record = $this->recordModel->getRecordsByPatientName($patientName);
+            if (!$record) {
+                throw new Exception("No records found.");
+            }
+        }
+        if (!$record) {
+            throw new Exception("Attachment not found.");
+        }
         return $record;
     }
 }

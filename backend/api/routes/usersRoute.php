@@ -1,6 +1,10 @@
 <?php
 $usersController = new UsersController($userModel);
 
+$router->get('/users/me', function () use ($usersController) {
+    return $usersController->getUser();
+}, true);
+
 $router->get('/users/auth', function () use ($usersController) {
     return $usersController->authenticateUser();
 });
@@ -8,7 +12,13 @@ $router->get('/users/auth', function () use ($usersController) {
 $router->post('/users/login', function () use ($usersController) {
     return $usersController->loginUser($_POST);
 });
+$router->get('/users/logout', function () use ($usersController) {
+    return $usersController->logoutUser();
+}, true);
 
 $router->post('/users/register', function () use ($usersController) {
     return $usersController->registerUser($_POST);
 });
+$router->post('/users/password/change', function () use ($usersController) {
+    return $usersController->changePassword($_POST);
+}, true);

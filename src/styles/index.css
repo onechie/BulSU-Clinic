@@ -4,34 +4,3 @@ html, body{
     margin: 0;
     padding: 0;
 }
-table,
-th,
-tr,
-td {
-    border: 1px solid black;
-}
-    .message{
-    color: red;
-}
-button{
-    background-color: blue;
-    color: white;
-    padding: 5px;
-}
-.button-danger{
-    background-color: red;
-    color: white;
-    padding: 5px;
-}
-a{
-    font-size: 20px;
-}
-.text-danger{
-    color: red;
-}
-.text-primary{
-    color: blue;
-}
-.notes{
-    max-width: 800px;
-}

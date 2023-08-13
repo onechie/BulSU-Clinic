@@ -7,9 +7,9 @@ class RecordModel extends Database
     }
     public function getRecords()
     {
-        
+
         $sql = 'SELECT * FROM records';
-        try{
+        try {
             return $this->db_read_all($sql);
         } catch (Throwable $error) {
             throw new Exception($error->getMessage());
@@ -76,7 +76,7 @@ class RecordModel extends Database
             ':id' => $id,
         ];
 
-        try{
+        try {
             return $this->db_update($sql, $params);
         } catch (Throwable $error) {
             throw new Exception($error->getMessage());
@@ -97,4 +97,16 @@ class RecordModel extends Database
 
     //CUSTOM METHODS
 
+    public function getRecordsByPatientName(string $name)
+    {
+        $sql = 'SELECT * FROM records WHERE name = :name';
+        $params = [
+            ':name' => $name,
+        ];
+        try {
+            return $this->db_read_all($sql, $params);
+        } catch (Throwable $error) {
+            throw new Exception($error->getMessage());
+        }
+    }
 }

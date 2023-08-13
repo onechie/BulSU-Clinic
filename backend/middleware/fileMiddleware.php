@@ -61,7 +61,7 @@ class File
     public static function uploadFiles($files, $id = 0)
     {
         $uploadedFilesData = [];
-        $baseDirectory = __DIR__ . '../../src/attachments/';
+        $baseDirectory = __DIR__ . '/../../src/attachments/';
         if (!is_dir($baseDirectory)) {
             mkdir($baseDirectory, 0777, true);
         }
@@ -72,7 +72,7 @@ class File
             $fileExt = explode('.', $file);
             $fileActualExt = strtolower(end($fileExt));
 
-            $fileDirectory = __DIR__ . '../../src/attachments/' . $id . '/';
+            $fileDirectory = __DIR__ . '/../../src/attachments/' . $id . '/';
 
             if (!is_dir($fileDirectory)) {
                 mkdir($fileDirectory, 0777, true);
@@ -84,9 +84,10 @@ class File
             if (!move_uploaded_file($fileTmpName, $fileDestination)) {
                 throw new Exception("Error uploading file.");
             }
+            $fileUrl = '/src/attachments/' . $id . '/' . $fileNameNew;
             $uploadedFilesData[$file] = [
                 'name' => $fileNameNew,
-                'url' => $fileDestination,
+                'url' => $fileUrl,
             ];
         }
         return $uploadedFilesData;
@@ -100,7 +101,7 @@ class File
             }
         }
         if ($alsoDirectory) {
-            $fileDirectory = __DIR__ . '../../src/attachments/' . $recordId . '/';
+            $fileDirectory =  __DIR__ . '/../../src/attachments/' . $recordId . '/';
             if (is_dir($fileDirectory)) {
                 rmdir($fileDirectory);
             }
