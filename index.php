@@ -13,22 +13,13 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 $pageRouter = new PageRouter();
 
 $pageRouter->get('/', function () {
-  PageRouter::displayPage('home.html');
+  PageRouter::displayPage('home.php');
 });
-$pageRouter->get('/login', function () {
-  PageRouter::displayPage('login.php');
-}, false);
-$pageRouter->get('/register', function () {
-  PageRouter::displayPage('register.php');
-}, false);
-$pageRouter->get('/dashboard', function () {
-  PageRouter::displayPage('dashboard.php');
-}, true, false);
 
 // Handle 404 Not Found
 $pageRouter->set404(function () {
   http_response_code(404);
-  PageRouter::displayPage('404.html');
+  PageRouter::displayPage('404.php');
 });
 
 // Run the router
