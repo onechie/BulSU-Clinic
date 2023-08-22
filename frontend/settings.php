@@ -37,29 +37,29 @@
                   <h3 class='text-gray-600 font-medium pb-3'>Personal and account information</h3>
                   <div class='flex flex-col'>
                     <label for="password" class="text-gray-500 mb-1">Username</label>
-                    <input type="text" class="px-3 py-1 outline-none ring-2 ring-gray-600/20 rounded mb-2 max-w-[250px]" value="username001" disabled>
+                    <input type="text" class="px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400 mb-2 max-w-[250px]" value="username001" disabled>
                   </div>
                   <div class='flex flex-col'>
                     <label for="password" class="text-gray-500 mb-1">Email</label>
-                    <input type="text" class="px-3 py-1 outline-none ring-2 ring-gray-600/20 rounded mb-2 max-w-[250px]" value="email@test.com" disabled>
+                    <input type="text" class="px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400 mb-2 max-w-[250px]" value="email@test.com" disabled>
                   </div>
                 </div>
                 <div class="p-5">
                   <h3 class='text-gray-600 font-medium pb-3'>Manage password</h3>
                   <div class='flex flex-col'>
                     <label for="password" class="text-gray-500 mb-1">Current password</label>
-                    <input type="password" id="currentPassword" class="px-3 py-1 outline-none ring-2 ring-gray-600/20 rounded mb-2 max-w-[250px]" placeholder="current password">
+                    <input type="password" id="currentPassword" class="px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400 mb-2 max-w-[250px]" placeholder="current password">
                   </div>
                   <div class='flex flex-col'>
                     <label for="password" class="text-gray-500 mb-1">New password</label>
-                    <input type="password" id="newPassword" placeholder="new password" class="px-3 py-1 outline-none ring-2 ring-gray-600/20 rounded mb-2 max-w-[250px]">
+                    <input type="password" id="newPassword" placeholder="new password" class="px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400 mb-2 max-w-[250px]">
                   </div>
                   <div class='flex flex-col'>
                     <label for="password" class="text-gray-500 mb-1">Confirm new password</label>
-                    <input type="password" id="RetypeNewPassword" placeholder="confirm new password" class="px-3 py-1 outline-none ring-2 ring-gray-600/20 rounded mb-5 max-w-[250px]">
+                    <input type="password" id="RetypeNewPassword" placeholder="confirm new password" class="px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400 mb-5 max-w-[250px]">
                   </div>
                   <div class='flex'>
-                    <button type="button" onclick="" class="bg-blue-500 text-gray-200 py-1 px-2 rounded">
+                    <button type="button" onclick="" class="bg-blue-500 text-gray-200 py-2 px-3 rounded-md">
                       Change password
                     </button>
                   </div>
@@ -196,7 +196,6 @@
     </div>
   </div>
   </div>
-  <script src="./js/emergency.js"></script>
 </body>
 
 </html>

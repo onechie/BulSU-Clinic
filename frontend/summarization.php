@@ -54,8 +54,8 @@
               </div>
             </div>
             <!-- Chart -->
-            <div class="h-[90%] overflow-y-auto">
-              <div class='relative h-[100vh]'>
+            <div class="h-[90%] overflow-y-auto flex">
+              <div class='relative h-[100vh] w-[95%]'>
                 <canvas id="barChart"></canvas>
               </div>
             </div>
@@ -66,7 +66,7 @@
     </div>
 
   </div>
-  <script src="./js/summarization.js"></script>
+  <script src="/src/js/summarization.js"></script>
 </body>
 
 </html>

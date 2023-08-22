@@ -15,6 +15,34 @@ $pageRouter = new PageRouter();
 $pageRouter->get('/', function () {
   PageRouter::displayPage('home.php');
 });
+$pageRouter->get('/login', function () {
+  PageRouter::displayPage('login.php');
+}, false);
+
+$pageRouter->get('/register', function () {
+  PageRouter::displayPage('register.php');
+}, false);
+$pageRouter->get('/dashboard', function () {
+  PageRouter::displayPage('dashboard.php');
+}, true, false);
+$pageRouter->get('/inventory', function () {
+  PageRouter::displayPage('inventory.php');
+}, true, false);
+
+$pageRouter->get('/summarization', function () {
+  PageRouter::displayPage('summarization.php');
+}, true, false);
+
+$pageRouter->get('/clinicrecord', function () {
+  PageRouter::displayPage('clinicrecord.php');
+}, true, false);
+
+$pageRouter->get('/settings', function () {
+  PageRouter::displayPage('settings.php');
+}, true, false);
+$pageRouter->get('/about', function () {
+  PageRouter::displayPage('about.php');
+}, true, false);
 
 // Handle 404 Not Found
 $pageRouter->set404(function () {

@@ -16,56 +16,67 @@
   <?php
   //HEADER COMPONENT
   require_once './frontend/components/header.php';
+  require_once './frontend/components/notification.php'
   ?>
 
-  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 mt-10">
-
-    <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-
-      <div class="p-6 space-y-4 md:space-y-6 sm:p-8" fixed>
-        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+  <div class="flex items-center justify-center px-6 py-8 h-full min-h-[800px]">
+    <div class="w-full rounded-md border bg-gray-800 border-gray-700 max-w-2xl">
+      <div class="p-6 space-y-6 sm:p-8">
+        <h1 class="text-xl font-medium leading-tight tracking-tight text-gray-300 md:text-2xl">
           Create account
         </h1>
-        </br>
-        <a class="text-blue-600" href="">Add Profile</a>
-        <form class="space-y-4 md:space-y-6" action="#">
-
-          <div>
-            <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Username</label>
-            <input type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Username" required="">
+        <div class='flex flex-col gap-3'>
+          <div class='flex justify-center items-center gap-4'>
+            <div class='relative outline-none ring-2 ring-gray-500 hover:ring-gray-600 cursor-pointer rounded-full h-[100px] w-[100px] overflow-hidden bg-center bg-cover bg-[url("/src/images/logo.png")]'>
+              <div class="absolute hover:bg-gray-600/20 h-full w-full"></div>
+            </div>
+            <div class=''>
+              <p class="text-gray-300 text-lg font-medium">Profile photo</p>
+              <label for="fileInput" class="text-gray-400 underline cursor-pointer hover:text-gray-500">
+                Upload image
+              </label>
+              <input type="file" class='sr-only' id='profilePicture'>
+            </div>
           </div>
 
-          <div>
-            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-            <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email" required="">
+          <div class='flex gap-3 w-full'>
+            <div class="w-[50%]">
+              <label for="username" class="block mb-2 text-sm font-medium text-gray-400">Your Username</label>
+              <input type="text" id="username" class="outline-none ring-1 ring-gray-600 bg-gray-700 p-2.5 text-sm text-gray-400 rounded-md w-full hover:ring-gray-500 focus:ring-gray-500" placeholder="Username" required="">
+            </div>
+
+            <div class="w-[50%]">
+              <label for="email" class="block mb-2 text-sm font-medium text-gray-400">Your email</label>
+              <input type="email" id="email" class="outline-none ring-1 ring-gray-600 bg-gray-700 p-2.5 text-sm text-gray-400 rounded-md w-full hover:ring-gray-500 focus:ring-gray-500" placeholder="Email" required="">
+            </div>
+
+          </div>
+          <div class='flex gap-3'>
+            <div class='w-[50%]'>
+              <label for="password" class="block mb-2 text-sm font-medium text-gray-400">Password</label>
+              <input type="password" id="password" placeholder="Password" class="outline-none ring-1 ring-gray-600 bg-gray-700 p-2.5 text-sm text-gray-400 rounded-md w-full hover:ring-gray-500 focus:ring-gray-500" required="">
+            </div>
+            <div class='w-[50%]'>
+              <label for="password" class="block mb-2 text-sm font-medium text-gray-400">Confirm Password</label>
+              <input type="confirmPassword" id="confirmPassword" placeholder="Confirm Password" class="outline-none ring-1 ring-gray-600 bg-gray-700 p-2.5 text-sm text-gray-400 rounded-md w-full hover:ring-gray-500 focus:ring-gray-500" required="">
+            </div>
           </div>
 
-          <div>
-            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-            <input type="password" name="password" id="password" placeholder="Password" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+          <div class='my-3'>
+            <input type="checkbox" id="agreement" class="w-4 h-4 accent-white ring-1 ring-gray-600 rounded-md">
+            <label class="ms-3 text-sm text-gray-400" for="agreement">I have read and agree to the Terms and Policies.</label>
           </div>
-
-          <div>
-            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm Password</label>
-            <input type="confirmPassword" name="conpassword" id="confirmPassword" placeholder="Confirm Password" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
-          </div>
-
-
-          <div>
-            <input type="checkbox" id="agreement" class="me-1 mt-4">
-            <label class="text-sm" for="agreement">I have read and agree to the Terms and Policies.</label>
-          </div>
-          <hr />
-
-          <button type="button" id="registerButton" onclick="(submitUserData())" class="w-full text-white bg-lime-900 hover:bg-lime-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-lime-900 dark:hover:bg-lime-950">
-            <span id="buttonReady" class="text-lg text-white">Register</span>
-          </button>
-
-          <p class="text-end">
-            Already have an account? <a href="login.php" class="text-lime-900 underline text-base hover:text-lime-900">Login</a>
-          </p>
-
-        </form>
+        </div>
+        <button type="button" id="registerButton" onclick="(submitUserData())" class="w-full text-gray-200 bg-green-700 hover:bg-green-600 font-medium rounded-md h-[40px] text-center">
+          <svg id="buttonLoading" hidden xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 animate-spin text-white mx-auto">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+          </svg>
+          <span id="buttonReady" class="text-gray-200 text-sm">Register</span>
+        </button>
+        <hr class="border-b-2 border-gray-700" />
+        <p class="text-end text-sm font-light text-gray-400">
+          Already have an account? <a href="/login" class="text-sm font-semibold hover:underline text-primary-500">Sign in</a>
+        </p>
       </div>
     </div>
   </div>

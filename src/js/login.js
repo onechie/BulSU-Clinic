@@ -25,6 +25,7 @@ const submitUserData = async () => {
 
     toggleLoginButton(true);
     closeNotification();
+    
     const { data } = await axios.post(
       endPoint,
       {

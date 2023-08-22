@@ -211,7 +211,6 @@
       </div>
     </div>
   </div>
-  <script src="./js/addmedicine.js"></script>
 </body>
 
 </html>
