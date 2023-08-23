@@ -39,9 +39,8 @@ const submitUserData = async () => {
         },
       }
     );
-
-    notificationMessage.innerText = data.message;
     loginButton.disabled = false;
+    notificationMessage.innerText = data.message;
     openNotification("Login Success", true);
     toggleLoginButton(false);
 

@@ -12,7 +12,7 @@
 </head>
 
 <body class="">
-  <div class='relative bg-slate-100 h-full'>
+  <div class='relative bg-gray-100 h-full'>
     <?php
     //HEADER COMPONENT
     require_once './frontend/components/header.php';

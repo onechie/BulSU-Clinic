@@ -66,7 +66,7 @@
     </div>
 
   </div>
-  <script src="/src/js/summarization.js"></script>
+  <script src="/src/js/pages/summarization.js"></script>
 </body>
 
 </html>

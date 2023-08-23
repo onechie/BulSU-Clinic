@@ -58,8 +58,8 @@
                 </div>
                 <!-- Search -->
                 <div class='flex justify-end pt-3 gap-3 w-full'>
-                  <input type="search" id="default-search" class="w-full px-3 py-2 outline-none ring-1 ring-gray-300 rounded-md hover:ring-gray-400 focus:ring-gray-400 text-gray-500" placeholder="Search...">
-                  <button class="bg-blue-600 px-3 py-2 rounded-md hover:bg-blue-500">
+                  <input type="search" class="w-full px-3 py-2 outline-none ring-1 ring-gray-300 rounded-md hover:ring-gray-400 focus:ring-gray-400 text-gray-500" placeholder="Search..." id='searchInput'>
+                  <button class="bg-blue-600 px-3 py-2 rounded-md hover:bg-blue-500" id='searchButton'>
                     <svg class="w-4 h-4 text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>
@@ -69,13 +69,13 @@
             </div>
             <!-- Table -->
             <div class='mt-5'>
-              <table class='min-w-full table-auto border-collapse'>
+              <table class='min-w-full table-auto border-collapse' id='dashboardMedicinesTable'>
                 <thead class="">
                   <tr class='border-b border-gray-300'>
-                    <th class='py-3 text-gray-600 text-start '>Brand</th>
-                    <th class='py-3 text-gray-600 text-start '>Remaining</th>
-                    <th class='py-3 text-gray-600 text-start '>Expiration</th>
-                    <th class='py-3 text-gray-600 text-start '>Storage</th>
+                    <th class='py-3 text-gray-600 text-start'>Brand</th>
+                    <th class='py-3 text-gray-600 text-start'>Remaining</th>
+                    <th class='py-3 text-gray-600 text-start'>Expiration</th>
+                    <th class='py-3 text-gray-600 text-start'>Storage</th>
                   </tr>
                 </thead>
                 <tbody id="tableBody" class="">
@@ -144,19 +144,19 @@
             </div>
             <div class='flex mt-4 justify-end'>
               <!-- PAGE PREVIOUS BUTTON -->
-              <button class='ring-1 ring-inset ring-gray-300 py-1 px-3 rounded-md hover:bg-gray-200'>
+              <button class='ring-1 ring-inset ring-gray-300 py-1 px-3 rounded-md hover:bg-gray-200' id='pagePrev'>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-600/50">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                 </svg>
               </button>
               <div class="flex items-center mx-2 text-gray-500">
                 <!-- PAGE NUMBER INPUT -->
-                <input type="text" class="rounded-md w-[50px] outline-none ring-1 ring-inset ring-gray-300 text-center me-2 hover:ring-gray-400 focus:ring-gray-400" value="1">
-                <p>/ <span>100</span></p>
+                <input type="text" class="rounded-md w-[50px] outline-none ring-1 ring-inset ring-gray-300 text-center me-2 hover:ring-gray-400 focus:ring-gray-400" value="1" id='pageNumber'>
+                <p>/ <span id='pageCount'>0</span></p>
               </div>
               <!-- PAGE NEXT BUTTON -->
               <button class='ring-1 ring-inset ring-gray-300 py-1 px-3 rounded-md hover:bg-gray-200'>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-600/50">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-600/50" id='pageNext'>
                   <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                 </svg>
               </button>
@@ -168,6 +168,7 @@
 
   </div>
   <!-- SCRIPTS -->
+  <script type="module" src="/src/js/pages/dashboard.js"></script>
 </body>
 
 </html>
