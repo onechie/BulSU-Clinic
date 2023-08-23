@@ -70,7 +70,7 @@ class PageRouter
                 exit();
             }
         }
-    }
+    } 
     private function handleNotFound()
     {
         if ($this->notFoundCallback) {

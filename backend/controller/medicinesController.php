@@ -108,19 +108,19 @@ class MedicinesController
             throw new Exception("The expiration date must be later than today's date.");
         }
 
-        Data::onlyNum("Boxes count", strval($boxesCount));
+        Data::onlyNum("Count of boxes", strval($boxesCount));
         if ($boxesCount < 1) {
-            throw new Exception("Boxes count value must be greater than or equal to 1.");
+            throw new Exception("Count of boxes must be greater than or equal to 1.");
         }
 
         Data::onlyNum("Items per box", strval($itemsPerBox));
         if ($itemsPerBox < 1) {
-            throw new Exception("Items per box value must be greater than or equal to 1.");
+            throw new Exception("Items per box must be greater than or equal to 1.");
         }
 
-        Data::onlyNum("Items count", strval($itemsCount));
+        Data::onlyNum("Total items", strval($itemsCount));
         if ($itemsCount < 1) {
-            throw new Exception("Items count value must be greater than or equal to 1.");
+            throw new Exception("Total items must be greater than or equal to 1.");
         }
 
         if (isset($medicineData['itemsDeducted'])) {

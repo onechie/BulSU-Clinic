@@ -1,6 +1,9 @@
 export const createTableRows = (data, table, customTDFunction) => {
   const tableBody = table.querySelector("tbody");
   tableBody.innerHTML = "";
+
+  if (!data) return;
+
   data.forEach((item) => {
     const tr = document.createElement("tr");
     tr.classList.add("border-b", "border-gray-200");
@@ -8,6 +11,8 @@ export const createTableRows = (data, table, customTDFunction) => {
     for (const key in item) {
       const td = document.createElement("td");
       td.innerText = item[key];
+
+      td.classList.add("py-3");
 
       if (key === Object.keys(item)[0]) {
         td.classList.add("font-medium", "text-gray-600");
@@ -19,9 +24,18 @@ export const createTableRows = (data, table, customTDFunction) => {
         customTDFunction(key, item[key], td);
       }
 
-      td.classList.add("py-3");
       tr.appendChild(td);
     }
     tableBody.appendChild(tr);
   });
+};
+
+export const createOptions = (data, property) => {
+  return data
+    .sort((a, b) => a[property].localeCompare(b[property]))
+    .map((item) => {
+      const option = document.createElement("option");
+      option.value = item[property];
+      return option;
+    });
 };

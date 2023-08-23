@@ -12,7 +12,7 @@
 </head>
 
 <body class="">
-  <div class='relative bg-gray-100 h-full'>
+  <div class='relative bg-gray-100 h-full overflow-hidden'>
     <?php
     //HEADER COMPONENT
     require_once './frontend/components/header.php';
@@ -23,9 +23,13 @@
       require_once './frontend/components/navbar.php';
       //Emergency modal COMPONENT
       //require_once './frontend/components/emergency_modal.php';
-      //Request form modal COMPONENT
-      //require_once './frontend/components/request_form_modal.php';
       ?>
+      <div id='addRecordModal' class='hidden'>
+        <?php
+        //Request form modal COMPONENT
+        require_once './frontend/components/request_form_modal.php';
+        ?>
+      </div>
 
       <!-- MAIN CONTENT -->
       <div class='bg-gray-300 h-full w-full p-3 pt-[60px] '>
@@ -53,8 +57,8 @@
               <div class="w-[50%] flex flex-col justify-between">
                 <!-- Buttons -->
                 <div class='flex gap-3 justify-end'>
-                  <button class='rounded-md font-medium bg-blue-600 text-gray-200 px-3 py-2 hover:bg-blue-500' onclick="toggleModal('requestFormModal')">Request form</button>
-                  <button class='rounded-md font-medium bg-red-600 text-gray-200 px-3 py-2 hover:bg-red-500' type="button" onclick="toggleModal('modal-id')">Emergency no.</button>
+                  <button class='rounded-md font-medium bg-blue-600 text-gray-200 px-3 py-2 hover:bg-blue-500' id='addRecordButton'>Request form</button>
+                  <button class='rounded-md font-medium bg-red-600 text-gray-200 px-3 py-2 hover:bg-red-500' type="button">Emergency no.</button>
                 </div>
                 <!-- Search -->
                 <div class='flex justify-end pt-3 gap-3 w-full'>
@@ -80,64 +84,10 @@
                 </thead>
                 <tbody id="tableBody" class="">
                   <tr class='border-b border-gray-200'>
-                    <td class='py-3 text-gray-600 font-medium'>Medicine001</td>
-                    <td class='py-3 text-gray-500'>100</td>
-                    <td class='py-3 text-blue-500'>01-01-2024</td>
-                    <td class='py-3 text-blue-500'>Drawer A</td>
-                  </tr>
-                  <tr class='border-b border-gray-200'>
-                    <td class='py-3 text-gray-600 font-medium'>Medicine002</td>
-                    <td class='py-3 text-gray-500'>100</td>
-                    <td class='py-3 text-blue-500'>01-01-2024</td>
-                    <td class='py-3 text-blue-500'>Drawer A</td>
-                  </tr>
-                  <tr class='border-b border-gray-200'>
-                    <td class='py-3 text-gray-600 font-medium'>Medicine003</td>
-                    <td class='py-3 text-gray-500'>100</td>
-                    <td class='py-3 text-blue-500'>01-01-2024</td>
-                    <td class='py-3 text-blue-500'>Drawer A</td>
-                  </tr>
-                  <tr class='border-b border-gray-200'>
-                    <td class='py-3 text-gray-600 font-medium'>Medicine004</td>
-                    <td class='py-3 text-gray-500'>100</td>
-                    <td class='py-3 text-blue-500'>01-01-2024</td>
-                    <td class='py-3 text-blue-500'>Drawer A</td>
-                  </tr>
-                  <tr class='border-b border-gray-200'>
-                    <td class='py-3 text-gray-600 font-medium'>Medicine005</td>
-                    <td class='py-3 text-gray-500'>100</td>
-                    <td class='py-3 text-blue-500'>01-01-2024</td>
-                    <td class='py-3 text-blue-500'>Drawer A</td>
-                  </tr>
-                  <tr class='border-b border-gray-200'>
-                    <td class='py-3 text-gray-600 font-medium'>Medicine006</td>
-                    <td class='py-3 text-gray-500'>100</td>
-                    <td class='py-3 text-blue-500'>01-01-2024</td>
-                    <td class='py-3 text-blue-500'>Drawer A</td>
-                  </tr>
-                  <tr class='border-b border-gray-200'>
-                    <td class='py-3 text-gray-600 font-medium'>Medicine007</td>
-                    <td class='py-3 text-gray-500'>100</td>
-                    <td class='py-3 text-red-500'>01-01-2024</td>
-                    <td class='py-3 text-red-500'>Drawer A</td>
-                  </tr>
-                  <tr class='border-b border-gray-200'>
-                    <td class='py-3 text-gray-600 font-medium'>Medicine008</td>
-                    <td class='py-3 text-gray-500'>100</td>
-                    <td class='py-3 text-red-500'>01-01-2024</td>
-                    <td class='py-3 text-red-500'>Drawer A</td>
-                  </tr>
-                  <tr class='border-b border-gray-200'>
-                    <td class='py-3 text-gray-600 font-medium'>Medicine009</td>
-                    <td class='py-3 text-gray-500'>100</td>
-                    <td class='py-3 text-red-500'>01-01-2024</td>
-                    <td class='py-3 text-red-500'>Drawer A</td>
-                  </tr>
-                  <tr class='border-b border-gray-200'>
-                    <td class='py-3 text-gray-600 font-medium'>Medicine010</td>
-                    <td class='py-3 text-gray-500'>100</td>
-                    <td class='py-3 text-red-500'>01-01-2024</td>
-                    <td class='py-3 text-red-500'>Drawer A</td>
+                    <td class='py-3 text-gray-600 font-medium'>Brand</td>
+                    <td class='py-3 text-gray-500'>0</td>
+                    <td class='py-3 text-blue-500'>00-00-0000</td>
+                    <td class='py-3 text-blue-500'>Storage</td>
                   </tr>
                 </tbody>
               </table>
@@ -155,8 +105,8 @@
                 <p>/ <span id='pageCount'>0</span></p>
               </div>
               <!-- PAGE NEXT BUTTON -->
-              <button class='ring-1 ring-inset ring-gray-300 py-1 px-3 rounded-md hover:bg-gray-200'>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-600/50" id='pageNext'>
+              <button class='ring-1 ring-inset ring-gray-300 py-1 px-3 rounded-md hover:bg-gray-200' id='pageNext'>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-600/50">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                 </svg>
               </button>

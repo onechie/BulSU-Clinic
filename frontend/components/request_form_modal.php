@@ -1,33 +1,50 @@
+<!-- 
+  ID inputs:
+    addRecordAttachments
+    
+  ID modal:
+    complaintsList
+    medicinesList
+    medicinesStock
+    treatmentsList
+    laboratoriesList
+    addRecordForm
+    addRecordMessage
+    addRecordCancel
+    addRecordFileList
+ -->
+
 <div class='fixed h-[100vh] w-[100vw] bg-gray-500 bg-opacity-75 z-100 top-0 left-0 flex justify-center items-center'>
-  <div class='pt-6 px-6 pb-3 bg-gray-100 rounded-md'>
+  <form class='pt-6 px-6 pb-3 bg-gray-100 rounded-md' id='addRecordForm' enctype="multipart/form-data" novalidate>
     <!-- HEADER -->
     <h1 class='text-2xl font-medium text-gray-600 mb-3'>Clinic Request Form</h1>
+    <h1 class='text-gray-500 mb-3'>All fields with asterisk '*' are required.</h1>
     <!-- BODY -->
     <div class='grid lg:grid-cols-4 grid-cols-3 gap-3'>
       <div class='flex flex-col'>
         <p class='text-gray-500 font-medium mb-1'>School year <span class='text-red-500'>*</span></p>
-        <input type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' placeholder="e.g 2024">
+        <input name='schoolYear' type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' placeholder="e.g 2024">
       </div>
       <div class='flex flex-col'>
         <p class='text-gray-500 font-medium mb-1'>Patient's name <span class='text-red-500'>*</span></p>
-        <input type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' placeholder="Enter patient's name">
+        <input name='name' type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' placeholder="Enter patient's name">
       </div>
       <div class='flex flex-col'>
         <p class='text-gray-500 font-medium mb-1'>Date entry <span class='text-red-500'>*</span></p>
-        <input type="date" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400'>
+        <input name='date' type="date" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400'>
       </div>
       <div class='flex flex-col'>
         <p class='text-gray-500 font-medium mb-1'>Complaint <span class='text-red-500'>*</span></p>
-        <input type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' list="complaintsList" placeholder="Patient complaint">
+        <input name='complaint' autocomplete="off" type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' list="complaintsList" placeholder="Patient complaint">
         <datalist id='complaintsList'>
           <option value="Complaint 001"></option>
           <option value="Complaint 002"></option>
-          <option value="Complaint 003"></option> 
+          <option value="Complaint 003"></option>
         </datalist>
       </div>
       <div class='flex flex-col'>
         <p class='text-gray-500 font-medium mb-1'>Medications <span class='text-red-500'>*</span></p>
-        <input type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' list="medicinesList" placeholder="Select medicine">
+        <input name='medication' autocomplete="off" type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' list="medicinesList" placeholder="Select medicine">
         <datalist id='medicinesList'>
           <option value="Medicine 001"></option>
           <option value="Medicine 002"></option>
@@ -35,12 +52,12 @@
         </datalist>
       </div>
       <div class='flex flex-col'>
-        <p class='text-gray-500 font-medium mb-1'>Quantity <span class='text-red-500'>*</span></p>
-        <input type="number" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' value='0'>
+        <p class='text-gray-500 font-medium mb-1'>Quantity <span class='text-red-500'>*</span> <span class='text-gray-400 font-normal'>(stock: <span id='medicinesStock'>0</span>)</span></p>
+        <input name='quantity' type="number" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' value='0' disabled>
       </div>
       <div class='flex flex-col'>
         <p class='text-gray-500 font-medium mb-1'>Treatment</p>
-        <input type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' list="treatmentsList" placeholder="Patient treatment">
+        <input name='treatment' autocomplete="off" type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' list="treatmentsList" placeholder="Patient treatment">
         <datalist id='treatmentsList'>
           <option value="Treatment 001"></option>
           <option value="Treatment 002"></option>
@@ -49,7 +66,7 @@
       </div>
       <div class='flex flex-col'>
         <p class='text-gray-500 font-medium mb-1'>Laboratory</p>
-        <input type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' list="laboratoriesList" placeholder="Patient test">
+        <input name='laboratory' autocomplete="off" type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' list="laboratoriesList" placeholder="Patient test">
         <datalist id='laboratoriesList'>
           <option value="Laboratory 001"></option>
           <option value="Laboratory 002"></option>
@@ -61,41 +78,46 @@
     <div class='grid lg:grid-cols-4 grid-cols-3 gap-3'>
       <div class='flex flex-col'>
         <p class='text-gray-500 font-medium mb-1'>Blood pressure</p>
-        <input type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' placeholder="Patient blood pressure">
+        <input name='bloodPressure' type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' placeholder="Patient blood pressure">
       </div>
       <div class='flex flex-col'>
         <p class='text-gray-500 font-medium mb-1'>Pulse</p>
-        <input type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' placeholder="Patient pulse rate">
+        <input name='pulse' type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' placeholder="Patient pulse rate">
       </div>
       <div class='flex flex-col'>
         <p class='text-gray-500 font-medium mb-1'>Weight</p>
-        <input type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' placeholder="Patient weight">
+        <input name='weight' type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' placeholder="Patient weight">
       </div>
       <div class='flex flex-col'>
         <p class='text-gray-500 font-medium mb-1'>Temperature</p>
-        <input type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' placeholder="Patient temperature">
+        <input name='temperature' type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' placeholder="Patient temperature">
       </div>
       <div class='flex flex-col'>
         <p class='text-gray-500 font-medium mb-1'>Respiration</p>
-        <input type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' placeholder="Patient respiration">
+        <input name='respiration' type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' placeholder="Patient respiration">
       </div>
       <div class='flex flex-col'>
         <p class='text-gray-500 font-medium mb-1'>Oximetry</p>
-        <input type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400 hover:ring-gray-400' placeholder="Patient oximetry">
+        <input name='oximetry' type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400 hover:ring-gray-400' placeholder="Patient oximetry">
       </div>
       <div class='flex flex-col'>
         <p class='text-gray-500 font-medium mb-1'>Attachments</p>
-        <label for="fileInput" class="px-3 py-1 text-gray-500 rounded-md cursor-pointer bg-white hover:bg-gray-200 ring-1 ring-gray-300">
+        <label for="addRecordAttachments" class="px-3 py-1 text-gray-500 rounded-md cursor-pointer bg-white hover:bg-gray-200 ring-1 ring-gray-300">
           Upload attachments
         </label>
-        <input type="file" class='sr-only' multiple id='fileInput'>
+        <input id="addRecordAttachments" name='attachments[]' type="file" class='sr-only' multiple>
       </div>
     </div>
     <!-- FOOTER -->
+    <div class='pt-3 grid grid-cols-2 md:grid-cols-3 gap-3' id='attachmentsList'>
 
-    <div class='flex justify-end gap-3 mt-5'>
-      <button class="ring-1 ring-inset ring-gray-300 rounded-md text-gray-600 bg-gray-100 hover:bg-gray-200 px-3 font-medium py-2">Cancel</button>
-      <button class="rounded-md text-gray-200 bg-blue-600 hover:bg-blue-500 px-3 font-medium py-2">Create record</button>
     </div>
-  </div>
+    <div class='pt-3'>
+      <p class='text-red-500 text-sm' id='addRecordMessage'></p>
+    </div>
+    <div class='flex justify-end gap-3 mt-5'>
+      <button id='addRecordCancel' class="ring-1 ring-inset ring-gray-300 rounded-md text-gray-600 bg-gray-100 hover:bg-gray-200 px-3 font-medium py-2" type='button'>Cancel</button>
+      <button class="rounded-md text-gray-200 bg-blue-600 hover:bg-blue-500 px-3 font-medium py-2" type='submit'>Create record</button>
+    </div>
+  </form>
 </div>

@@ -1,81 +1,64 @@
-<div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-id">
-  <div class="relative w-3/4 my-6 mx-auto min-w-fit">
-    <!--content-->
-    <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-      <!--header-->
-      <div class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t bg-green-200">
-        <h3 class="text-3xl font-semibold text-lime-950">
-          Add New Medicine.
-        </h3>
-        <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-id')">
-          <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-            ×
-          </span>
-        </button>
+<!-- 
+  ID modal:
+    storagesList
+    addMedicineForm
+    addMedicineMessage
+    addMedicineCancel
+ -->
+
+<div class='fixed h-[100vh] w-[100vw] bg-gray-500 bg-opacity-75 z-100 top-0 left-0 flex justify-center items-center'>
+  <form class='pt-6 px-6 pb-3 bg-gray-100 rounded-md' id='addMedicineForm' enctype="multipart/form-data" novalidate>
+    <!-- HEADER -->
+    <h1 class='text-2xl font-medium text-gray-600 mb-3'>New medicine</h1>
+    <h1 class='text-gray-500 mb-3'>All fields are required.</h1>
+    <!-- BODY -->
+    <div class='grid md:grid-cols-3 grid-cols-2 gap-3'>
+      <div class='flex flex-col'>
+        <p class='text-gray-500 font-medium mb-1'>Name <span class='text-red-500'>*</span></p>
+        <input type="text" name='name' class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' placeholder="Medicine name">
       </div>
-      <!--body-->
-      <div class="relative p-3">
-
-        <div class="grid gap-4 sm:grid-cols-2 md:grid-flow-row sm:gap-6">
-          <!-- BRAND -->
-          <div class="w-full">
-            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Brand</label>
-            <input type="text" id="brand" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Brand" required="">
-          </div>
-          <!-- NAME -->
-          <div class="w-full">
-            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name of Medicine</label>
-            <input type="text" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Name of medicine" required="">
-          </div>
-          <!-- NUMBER OF BOX -->
-          <div class="w-full">
-            <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Number of Boxs</label>
-            <input type="number" id="boxesCount" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="0" required="">
-          </div>
-
-          <!-- HOW MANY PCS PER BOXS -->
-          <div>
-            <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">How many pcs per boxs?</label>
-            <input type="number" id="itemsPerBox" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="0" required="">
-          </div>
-          <!-- UNIT -->
-          <div>
-            <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unit</label>
-            <input type="text" id="unit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Unit of Medicine" required="">
-          </div>
-          <!-- ITEMS COUNT -->
-          <div>
-            <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Items count</label>
-            <input type="number" id="itemsCount" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500dark:focus:border-primary-500" placeholder="0" required="">
-          </div>
-          <!-- EXPIRATION -->
-          <div>
-            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Expiration</label>
-            <input type="date" id="expiration" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Expiration" required="">
-          </div>
-          <!-- STORAGE -->
-          <div>
-            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Storage</label>
-            <div class="relative">
-              <select name="storage" id="storageSuggestions" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                <option value=" " selected>Select Storage</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        </br>
-        <button type="button" onclick="(createMedicine())" class="w-30 text-white bg-lime-950 hover:bg-lime-900 focus:ring-4 focus:outline-none focus:ring-primary-900 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-lime-900 dark:hover:bg-lime-900 dark:focus:ring-primary-800">Save
-        </button>
-        <p id="inventoryMessage" class="message"></p>
+      <div class='flex flex-col'>
+        <p class='text-gray-500 font-medium mb-1'>Brand <span class='text-red-500'>*</span></p>
+        <input type="text" name='brand' class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' placeholder="brand">
+      </div>
+      <div class='flex flex-col'>
+        <p class='text-gray-500 font-medium mb-1'>Unit <span class='text-red-500'>*</span></p>
+        <input type="text" name='unit' class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' placeholder="unit">
+      </div>
+      <div class='flex flex-col'>
+        <p class='text-gray-500 font-medium mb-1'>Expiration <span class='text-red-500'>*</span></p>
+        <input type="date" name='expiration' class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400'>
       </div>
 
-      <!--footer-->
-      <div class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-        <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-id')">
-          Close
-        </button>
+      <div class='flex flex-col'>
+        <p class='text-gray-500 font-medium mb-1'>Count of boxes <span class='text-red-500'>*</span></p>
+        <input type="number" name='boxesCount' class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' value='0'>
+      </div>
+      <div class='flex flex-col'>
+        <p class='text-gray-500 font-medium mb-1'>Items per box <span class='text-red-500'>*</span></p>
+        <input type="number" name='itemsPerBox' class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' value='0'>
+      </div>
+      <div class='flex flex-col'>
+        <p class='text-gray-500 font-medium mb-1'>Total items <span class='text-red-500'>*</span></p>
+        <input type="number" name='itemsCount' class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' value='0'>
+      </div>
+      <div class='flex flex-col'>
+        <p class='text-gray-500 font-medium mb-1'>Storage <span class='text-red-500'>*</span></p>
+        <input type="text" name='storage' autocomplete="off" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' list="storagesList" placeholder="Select storage">
+        <datalist id='storagesList'>
+          <option value="Storage 001"></option>
+          <option value="Storage 002"></option>
+          <option value="Storage 003"></option>
+        </datalist>
       </div>
     </div>
-  </div>
+    <div class='pt-3'>
+      <p class='text-red-500 text-sm' id='addMedicineMessage'></p>
+    </div>
+    <!-- FOOTER -->
+    <div class='flex justify-end gap-3 mt-5'>
+      <button class="ring-1 ring-inset ring-gray-300 rounded-md text-gray-600 bg-gray-100 hover:bg-gray-200 px-3 font-medium py-2" id='addMedicineCancel' type='button'>Cancel</button>
+      <button class="rounded-md text-gray-200 bg-blue-600 hover:bg-blue-500 px-3 font-medium py-2" type='submit'>Add medicine</button>
+    </div>
+  </form>
 </div>
-<div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="modal-id-backdrop"></div>

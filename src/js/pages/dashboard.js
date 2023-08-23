@@ -1,34 +1,48 @@
 import { getMedicines } from "../api/medicines.js";
-import { createTableRows } from "../utils/createTableRows.js";
+import { getComplaints } from "../api/complaints.js";
+import { getTreatments } from "../api/treatments.js";
+import { getLaboratories } from "../api/laboratories.js";
+import { addRecord } from "../api/records.js";
+import { createTableRows, createOptions } from "../utils/utils.js";
 
-// Constants
 const PAGE_SIZE = 10;
 
-// DOM elements
 const searchInput = document.getElementById("searchInput");
 const dashboardMedicinesTable = document.getElementById(
   "dashboardMedicinesTable"
 );
 const pageCountElement = document.getElementById("pageCount");
 const pageNumberInput = document.getElementById("pageNumber");
+const addRecordModal = document.getElementById("addRecordModal");
+const addRecordButton = document.getElementById("addRecordButton");
+const addRecordMessage = document.getElementById("addRecordMessage");
+const addRecordForm = document.getElementById("addRecordForm");
+const addRecordCancel = document.getElementById("addRecordCancel");
+const complaintsList = document.getElementById("complaintsList");
+const medicinesList = document.getElementById("medicinesList");
+const medicinesStock = document.getElementById("medicinesStock");
+const treatmentsList = document.getElementById("treatmentsList");
+const laboratoriesList = document.getElementById("laboratoriesList");
+const addRecordAttachments = document.getElementById("addRecordAttachments");
+const attachmentsList = document.getElementById("attachmentsList");
 
-// Data and state
-let medicines = [];
+let complaintsData = [];
+let medicinesData = [];
+let treatmentsData = [];
+let laboratoriesData = [];
+let medicinesTableData = [];
 let pages = [];
 let currentPage = 1;
 
-// Function to apply expired-related classes
-const checkIfExpired = (key, value, td) => {
-  // Check if the key is "expiration"
+const customTDFunction = (key, value, td) => {
   if (key === "expiration") {
     const today = new Date();
     const expirationDate = new Date(value);
     td.classList.remove("text-gray-500");
 
-    // Apply appropriate classes based on expiration
     if (expirationDate < today) {
       td.classList.add("text-red-500");
-    } else if (expirationDate < today.setDate(today.getDate() + 30)) {
+    } else if (expirationDate < new Date(today.setDate(today.getDate() + 30))) {
       td.classList.add("text-blue-500");
     } else {
       td.classList.add("text-gray-500");
@@ -36,114 +50,187 @@ const checkIfExpired = (key, value, td) => {
   }
 };
 
-// Function to sort medicines by expiration
 const sortMedicinesByExpiration = (medicinesData) => {
-  return medicinesData.slice().sort((a, b) => {
-    const expirationA = new Date(a.expiration).getTime();
-    const expirationB = new Date(b.expiration).getTime();
-    return expirationA - expirationB;
-  });
+  return medicinesData
+    .slice()
+    .sort((a, b) => new Date(a.expiration) - new Date(b.expiration));
 };
 
-// Function to set up event listeners
 const setupEventListeners = () => {
   document
     .getElementById("searchButton")
     .addEventListener("click", handleSearch);
-  document.getElementById("pageNext").addEventListener("click", handlePageNext);
-  document.getElementById("pagePrev").addEventListener("click", handlePagePrev);
-  pageNumberInput.addEventListener("change", handlePageChange);
+  document
+    .getElementById("pageNext")
+    .addEventListener("click", () => handlePageChange(1));
+  document
+    .getElementById("pagePrev")
+    .addEventListener("click", () => handlePageChange(-1));
+  pageNumberInput.addEventListener("change", handlePageInputChange);
+  addRecordButton.addEventListener("click", showAddRecordModal);
+  addRecordForm.medication.addEventListener("change", handleMedicineChange);
+  addRecordForm.addEventListener("submit", handleAddRecordSubmit);
+  addRecordCancel.addEventListener("click", handleAddRecordCancel);
+  addRecordAttachments.addEventListener("change", handleAddRecordAttachments);
 };
 
-// Function to render a specific page
 const renderPage = (pageNumber) => {
+  pageNumber = Math.min(Math.max(1, pageNumber), pages.length);
   createTableRows(
     pages[pageNumber - 1],
     dashboardMedicinesTable,
-    checkIfExpired
+    customTDFunction
   );
-  pageNumberInput.value = pageNumber;
+  currentPage = pageNumber;
+  pageNumberInput.value = currentPage;
 };
 
-// Function to handle next page
-const handlePageNext = () => {
-  if (currentPage === pages.length) return;
-  currentPage++;
-  renderPage(currentPage);
+const handlePageChange = (change) => {
+  renderPage(currentPage + change);
 };
-
-// Function to handle previous page
-const handlePagePrev = () => {
-  if (currentPage === 1) return;
-  currentPage--;
-  renderPage(currentPage);
+const handlePageInputChange = () => {
+  renderPage(parseInt(pageNumberInput.value));
 };
-
-// Function to handle page change via input
-const handlePageChange = (e) => {
-  let newPageNumber = parseInt(e.target.value);
-  newPageNumber = Math.max(1, Math.min(newPageNumber, pages.length));
-
-  if (newPageNumber === currentPage) return;
-  currentPage = newPageNumber;
-  renderPage(currentPage);
-};
-
-// Function to perform search
 const handleSearch = () => {
   const searchValue = searchInput.value.toLowerCase();
-  const searchOutput = medicines.filter((medicine) => {
-    const values = Object.values(medicine).map((value) =>
-      value.toString().toLowerCase()
-    );
-    return values.some((value) => value.includes(searchValue));
-  });
+  const searchOutput = medicinesTableData.filter((medicine) =>
+    Object.values(medicine).some((value) =>
+      value.toString().toLowerCase().includes(searchValue)
+    )
+  );
 
   pageCountElement.innerText = Math.ceil(searchOutput.length / PAGE_SIZE);
-
-  // Divide searchOutput into pages
-  pages = [];
-  for (let i = 0; i < searchOutput.length; i += PAGE_SIZE) {
-    pages.push(searchOutput.slice(i, i + PAGE_SIZE));
-  }
+  pages = Array.from(
+    { length: Math.ceil(searchOutput.length / PAGE_SIZE) },
+    (_, i) => searchOutput.slice(i * PAGE_SIZE, (i + 1) * PAGE_SIZE)
+  );
 
   renderPage(1);
 };
 
-// Function to initialize the dashboard
+const showAddRecordModal = () => {
+  addRecordModal.classList.remove("hidden");
+};
+const handleMedicineChange = (e) => {
+  console.log(e.target.value);
+  const medicineName = e.target.value;
+  const medicine = medicinesData.find(
+    (medicine) => medicine.name === medicineName
+  );
+  if (!medicine){
+    addRecordForm.quantity.disabled = true;
+    addRecordForm.quantity.value = 0;
+    medicinesStock.innerText = 0;
+    return;
+  }
+  addRecordForm.quantity.disabled = false;
+  medicinesStock.innerText = medicine.itemsCount;
+};
+
+const handleAddRecordSubmit = async (event) => {
+  event.preventDefault();
+  const recordData = new FormData(addRecordForm);
+  try {
+    const data = await addRecord(recordData);
+    handleAddRecordMessage(data.message, "text-green-500");
+    attachmentsList.innerHTML = "";
+    addRecordForm.reset();
+  } catch (error) {
+    handleAddRecordMessage(error.message, "text-red-500");
+  }
+};
+
+const handleAddRecordMessage = (message, colorClass) => {
+  addRecordMessage.innerText = message;
+  addRecordMessage.classList.remove("text-red-500", "text-green-500");
+  addRecordMessage.classList.add(colorClass);
+};
+
+const handleAddRecordCancel = () => {
+  addRecordModal.classList.add("hidden");
+  addRecordForm.reset();
+  attachmentsList.innerHTML = "";
+  addRecordMessage.innerText = "";
+};
+
+const handleAddRecordAttachments = () => {
+  const { files } = addRecordAttachments;
+  attachmentsList.innerHTML = "";
+  for (let i = 0; i < files.length; i++) {
+    const attachment = files[i];
+    const attachmentItem = document.createElement("div");
+    attachmentItem.className =
+      "p-3 text-sm rounded-md text-gray-600 outline-none ring-1 ring-gray-300 hover:cursor-pointer hover:bg-gray-200";
+    attachmentItem.innerText = attachment.name;
+    attachmentsList.appendChild(attachmentItem);
+  }
+};
+
 const initializeDashboard = async () => {
   try {
-    const data = await getMedicines();
-    const sortedMedicines = sortMedicinesByExpiration(data.medicines);
+    const [
+      medicinesResponse,
+      complaintsResponse,
+      treatmentsResponse,
+      laboratoriesResponse,
+    ] = await Promise.all([
+      getMedicines(),
+      getComplaints(),
+      getTreatments(),
+      getLaboratories(),
+    ]);
 
-    // Create medicines array with selected properties
-    medicines = sortedMedicines.map((medicine) => {
-      return {
-        brand: medicine.brand,
-        remaining: medicine.itemsCount,
-        expiration: medicine.expiration,
-        storage: medicine.storage,
-      };
+    medicinesData = medicinesResponse.medicines;
+    complaintsData = complaintsResponse.complaints;
+    treatmentsData = treatmentsResponse.treatments;
+    laboratoriesData = laboratoriesResponse.laboratories;
+
+    medicinesTableData = sortMedicinesByExpiration(medicinesData).map(
+      ({ brand, itemsCount, expiration, storage }) => ({
+        brand,
+        remaining: itemsCount,
+        expiration,
+        storage,
+      })
+    );
+
+    pageCountElement.innerText = Math.ceil(
+      medicinesTableData.length / PAGE_SIZE
+    );
+    pages = Array.from(
+      { length: Math.ceil(medicinesTableData.length / PAGE_SIZE) },
+      (_, i) => medicinesTableData.slice(i * PAGE_SIZE, (i + 1) * PAGE_SIZE)
+    );
+
+    complaintsList.innerHTML = "";
+    const complaintsOptions = createOptions(complaintsData, "description");
+    complaintsOptions.forEach((option) => {
+      complaintsList.appendChild(option);
     });
 
-    // Calculate total pages and set initial page count
-    pageCountElement.innerText = Math.ceil(medicines.length / PAGE_SIZE);
+    medicinesList.innerHTML = "";
+    const medicinesOptions = createOptions(medicinesData, "name");
+    medicinesOptions.forEach((option) => {
+      medicinesList.appendChild(option);
+    });
 
-    // Divide medicines into pages
-    pages = [];
-    for (let i = 0; i < medicines.length; i += PAGE_SIZE) {
-      pages.push(medicines.slice(i, i + PAGE_SIZE));
-    }
+    treatmentsList.innerHTML = "";
+    const treatmentsOptions = createOptions(treatmentsData, "description");
+    treatmentsOptions.forEach((option) => {
+      treatmentsList.appendChild(option);
+    });
 
-    // Set up event listeners, render initial page
+    laboratoriesList.innerHTML = "";
+    const laboratoriesOptions = createOptions(laboratoriesData, "description");
+    laboratoriesOptions.forEach((option) => {
+      laboratoriesList.appendChild(option);
+    });
+
     setupEventListeners();
     renderPage(1);
-
-    console.log(pages[0]);
   } catch (error) {
     console.error(error);
   }
 };
 
-// Initialize the dashboard
 initializeDashboard();

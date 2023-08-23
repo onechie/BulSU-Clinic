@@ -4,17 +4,11 @@ class RecordsController
 {
     private $recordModel;
     private $medicineModel;
-    private $complaintModel;
-    private $laboratoryModel;
-    private $treatmentModel;
     private $attachmentModel;
-    public function __construct(RecordModel $recordModel, MedicineModel $medicineModel, ComplaintModel $complaintModel, LaboratoryModel $laboratoryModel, TreatmentModel $treatmentModel, AttachmentModel $attachmentModel)
+    public function __construct(RecordModel $recordModel, MedicineModel $medicineModel, AttachmentModel $attachmentModel)
     {
         $this->recordModel = $recordModel;
         $this->medicineModel = $medicineModel;
-        $this->complaintModel = $complaintModel;
-        $this->laboratoryModel = $laboratoryModel;
-        $this->treatmentModel = $treatmentModel;
         $this->attachmentModel = $attachmentModel;
     }
     public function getRecords()
@@ -54,6 +48,7 @@ class RecordsController
             $req = Data::fillMissingDataKeys($req, $expectedKeys);
             //TRY TO ADD RECORD
             $record = $this->recordModel->addRecord(...array_values($req));
+            $this->updateMedicineQuantity($req['medication'], $req['quantity']);
             if ($record && File::hasFiles($files)) {
                 $uploadedFilesData  = File::uploadFiles($formattedFiles, $record);
                 $this->addAttachmentsOfRecord($uploadedFilesData, $record);
@@ -121,20 +116,16 @@ class RecordsController
         Data::onlyNum("School Year", strval($schoolYear));
         Data::onlyAlphaNum("Name", $name);
         Data::onlyDate("Date", $date);
-
         Data::onlyAlphaNum("Complaint", $complaint);
-        $hasComplaint = $this->complaintModel->getComplaintByDescription($complaint);
-        if (!$hasComplaint) {
-            throw new Exception("Complaint does not exist.");
-        }
-
         Data::onlyAlphaNum("Medication", $medication);
         $hasMedicine = $this->medicineModel->getMedicineByName($medication);
         if (!$hasMedicine) {
             throw new Exception("Medication does not exist.");
         }
-
         Data::onlyNum("Quantity", strval($quantity));
+        if ($hasMedicine['itemsCount'] <= 0) {
+            throw new Exception("Medicine is out of stock.");
+        }
         if ($quantity < 1) {
             throw new Exception("Quantity must be greater than or equal to 1.");
         }
@@ -143,22 +134,12 @@ class RecordsController
         }
 
         //OPTIONAL FIELDS
-
-
         if ($treatment != null && $treatment != "") {
             Data::onlyAlphaNum("Treatment", $treatment);
-            $hasTreatment = $this->treatmentModel->getTreatmentByDescription($treatment);
-            if (!$hasTreatment) {
-                throw new Exception("Treatment does not exist.");
-            }
         }
 
         if ($laboratory != null && $laboratory != "") {
             Data::onlyAlphaNum("Laboratory", $laboratory);
-            $hasLaboratory = $this->laboratoryModel->getLaboratoryByDescription($laboratory);
-            if (!$hasLaboratory) {
-                throw new Exception("Laboratory does not exist.");
-            }
         }
         if ($bloodPressure != null && $bloodPressure != "") {
             Data::onlyAlphaNum("Blood Pressure", $bloodPressure);
@@ -219,5 +200,21 @@ class RecordsController
             throw new Exception("Attachment not found.");
         }
         return $record;
+    }
+    private function updateMedicineQuantity($medicine, $quantity)
+    {
+        $medicineData = $this->medicineModel->getMedicineByName($medicine);
+        $this->medicineModel->updateMedicine(
+            $medicineData['id'],
+            $medicineData['name'],
+            $medicineData['brand'],
+            $medicineData['unit'],
+            $medicineData['expiration'],
+            $medicineData['boxesCount'],
+            $medicineData['itemsPerBox'],
+            $medicineData['itemsCount'] - $quantity,
+            $medicineData['itemsDeducted'] + $quantity,
+            $medicineData['storage'],
+        );
     }
 }
