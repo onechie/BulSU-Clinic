@@ -7,7 +7,7 @@ export const getTreatments = async (id) => {
       });
       return data;
     } catch (error) {
-      return error.response.data;
+      throw error.response.data;
     }
   };
   

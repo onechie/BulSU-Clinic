@@ -7,6 +7,6 @@ export const getStorages = async (id) => {
     });
     return data;
   } catch (error) {
-    return error.response.data;
+    throw error.response.data;
   }
 };

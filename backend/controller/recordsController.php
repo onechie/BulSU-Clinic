@@ -123,7 +123,7 @@ class RecordsController
             throw new Exception("Medication does not exist.");
         }
         Data::onlyNum("Quantity", strval($quantity));
-        if ($hasMedicine['itemsCount'] <= 0) {
+        if ($hasMedicine['itemsCount'] - $hasMedicine['itemsDeducted'] <= 0) {
             throw new Exception("Medicine is out of stock.");
         }
         if ($quantity < 1) {
@@ -212,7 +212,7 @@ class RecordsController
             $medicineData['expiration'],
             $medicineData['boxesCount'],
             $medicineData['itemsPerBox'],
-            $medicineData['itemsCount'] - $quantity,
+            $medicineData['itemsCount'],
             $medicineData['itemsDeducted'] + $quantity,
             $medicineData['storage'],
         );

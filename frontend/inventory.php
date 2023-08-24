@@ -29,16 +29,22 @@
         require_once './frontend/components/add_medicine_modal.php';
         ?>
       </div>
+      <div id='editMedicineModal' class='hidden'>
+        <?php
+        //Edit medicine COMPONENT
+        require_once './frontend/components/edit_medicine_modal.php';
+        ?>
+      </div>
 
       <!-- MAIN CONTENT -->
-      <div class='bg-gray-300 h-full w-full p-3 pt-[60px]'>
-        <div class='bg-gray-100 h-full w-full py-3 px-6 flex flex-col'>
+      <div class='bg-gray-300 h-full w-full p-3 pt-[60px] overflow-auto'>
+        <div class='bg-gray-100 h-full w-full py-3 px-6 flex flex-col min-h-[500px] min-w-[900px]'>
           <!-- HEADER -->
-          <h1 class='text-gray-700 font-medium text-2xl'>Inventory</h1>
+          <h1 class='text-gray-700 font-medium text-2xl pb-5'>Inventory</h1>
 
           <!-- CONTENT -->
-          <div class='w-full p-10 mt-5 border border-gray-300 rounded-md overflow-y-auto'>
-            <div class='flex gap-[50px]'>
+          <div class='w-full p-10 border border-gray-300 rounded-md flex flex-col flex-grow'>
+            <div class='flex flex gap-[50px] pb-5'>
               <!-- Table info -->
               <div class='w-[50%]'>
                 <h1 class='font-medium text-xl text-gray-700 pb-2'>Medicine Inventory Management</h1>
@@ -62,22 +68,23 @@
               </div>
             </div>
             <!-- Table -->
-            <div class='mt-5'>
+            <div class='overflow-scroll flex-grow h-[150px] pe-2'>
               <table class='min-w-full table-auto border-collapse' id='inventoryMedicinesTable'>
                 <thead class="">
                   <tr class='border-b border-gray-300'>
-                    <th class='py-3 text-gray-600 text-start '>Name</th>
-                    <th class='py-3 text-gray-600 text-start '>Brand</th>
-                    <th class='py-3 text-gray-600 text-start '>Unit</th>
-                    <th class='py-3 text-gray-600 text-start '>Expiration</th>
-                    <th class='py-3 text-gray-600 text-start '># of Boxes</th>
-                    <th class='py-3 text-gray-600 text-start '># per Box</th>
-                    <th class='py-3 text-gray-600 text-start '>Remaining</th>
-                    <th class='py-3 text-gray-600 text-start '>Dispensed</th>
+                    <th class='py-3 text-gray-600 text-start pe-3'>Name</th>
+                    <th class='py-3 text-gray-600 text-start pe-3'>Brand</th>
+                    <th class='py-3 text-gray-600 text-start pe-3'>Unit</th>
+                    <th class='py-3 text-gray-600 text-start pe-3'>Expiration</th>
+                    <th class='py-3 text-gray-600 text-start pe-3'># of Boxes</th>
+                    <th class='py-3 text-gray-600 text-start pe-3'># per Box</th>
+                    <th class='py-3 text-gray-600 text-start pe-3'>Total items</th>
+                    <th class='py-3 text-gray-600 text-start pe-3'>Dispensed</th>
+                    <th class='py-3 text-gray-600 text-start pe-3'>Remaining</th>
                   </tr>
                 </thead>
                 <tbody id="tableBody" class="">
-                  <tr class='border-b border-gray-200'>
+                  <tr class='border-b border-gray-200 hidden'>
                     <td class='py-3 text-gray-600 font-medium'>Name</td>
                     <td class='py-3 text-gray-500'>Brand</td>
                     <td class='py-3 text-gray-500'>Unit</td>
@@ -91,7 +98,7 @@
                 </tbody>
               </table>
             </div>
-            <div class='flex mt-4 justify-end'>
+            <div class='flex justify-end pt-3'>
               <!-- PAGE PREVIOUS BUTTON -->
               <button class='ring-1 ring-inset ring-gray-300 py-1 px-3 rounded-md hover:bg-gray-200' id='pagePrev'>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-600/50">
@@ -100,7 +107,7 @@
               </button>
               <div class="flex items-center mx-2 text-gray-500">
                 <!-- PAGE NUMBER INPUT -->
-                <input type="text" class="rounded-md w-[50px] outline-none ring-1 ring-inset ring-gray-300 text-center me-2 hover:ring-gray-400 focus:ring-gray-400" value="1" id='pageNumber'>
+                <input type="text" class="rounded-md w-[50px] outline-none ring-1 ring-inset ring-gray-300 text-center me-2 hover:ring-gray-400 focus:ring-gray-400" value="0" id='pageNumber'>
                 <p>/ <span id='pageCount'>0</span></p>
               </div>
               <!-- PAGE NEXT BUTTON -->

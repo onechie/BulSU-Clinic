@@ -49,12 +49,12 @@ class MedicinesController
     }
     public function updateMedicine($req)
     {
-        $expectedKeys = ['id', 'name', 'brand', 'unit', 'expiration', 'boxesCount', 'itemsPerBox', 'itemsCount', 'itemsDeducted', 'storage'];
+        $expectedKeys = ['id', 'name', 'brand', 'unit', 'expiration', 'boxesCount', 'itemsPerBox', 'itemsCount', 'storage'];
         $req = Data::filterData($req, $expectedKeys);
         try {
             Data::onlyNum("ID", $req['id'] ?? null);
             $oldMedicine = $this->getMedicineIfExists($req['id']);
-
+            $req = Data::fillMissingDataKeys($req, $expectedKeys);
             $newData = Data::mergeData($oldMedicine, $req);
             $this->validateMedicineData($newData);
 

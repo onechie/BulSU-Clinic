@@ -21,8 +21,6 @@
       <?php
       //NAVBAR COMPONENT
       require_once './frontend/components/navbar.php';
-      //Emergency modal COMPONENT
-      //require_once './frontend/components/emergency_modal.php';
       ?>
       <div id='addRecordModal' class='hidden'>
         <?php
@@ -30,15 +28,21 @@
         require_once './frontend/components/request_form_modal.php';
         ?>
       </div>
+      <div id='emergencyModal' class='hidden'>
+        <?php
+        //Emergency modal COMPONENT
+        require_once './frontend/components/emergency_modal.php';
+        ?>
+      </div>
 
       <!-- MAIN CONTENT -->
-      <div class='bg-gray-300 h-full w-full p-3 pt-[60px] '>
-        <div class='bg-gray-100 h-full w-full py-3 px-6 flex flex-col'>
+      <div class='bg-gray-300 h-full w-full p-3 pt-[60px] overflow-auto'>
+        <div class='bg-gray-100 h-full w-full py-3 px-6 flex flex-col min-h-[500px] min-w-[900px]'>
           <!-- HEADER -->
-          <h1 class='text-gray-700 font-medium text-2xl'>Dashboard</h1>
+          <h1 class='text-gray-700 font-medium text-2xl pb-5'>Dashboard</h1>
           <!-- CONTENT -->
-          <div class='w-full p-10 mt-5 border border-gray-300 rounded-md overflow-y-auto'>
-            <div class='flex flex gap-[50px]'>
+          <div class='w-full p-10 border border-gray-300 rounded-md flex flex-col flex-grow'>
+            <div class='flex flex gap-[50px] pb-5'>
               <!-- Table info -->
               <div class='w-[50%]'>
                 <h1 class='font-medium text-xl text-gray-700 pb-2'>Medicine Inventory Overview</h1>
@@ -48,7 +52,7 @@
                     <div class='h-[15px] w-[15px] bg-red-500 rounded-md'></div>
                     <h3 class='text-sm text-gray-500 ms-3'>Expired</h3>
                   </div>
-                  <div class='flex items-center'>
+                  <div class='flex items-center'> 
                     <div class='h-[15px] w-[15px] bg-blue-500 rounded-md'></div>
                     <h3 class='text-sm text-gray-500 ms-3'>Soon to expire</h3>
                   </div>
@@ -57,8 +61,8 @@
               <div class="w-[50%] flex flex-col justify-between">
                 <!-- Buttons -->
                 <div class='flex gap-3 justify-end'>
-                  <button class='rounded-md font-medium bg-blue-600 text-gray-200 px-3 py-2 hover:bg-blue-500' id='addRecordButton'>Request form</button>
-                  <button class='rounded-md font-medium bg-red-600 text-gray-200 px-3 py-2 hover:bg-red-500' type="button">Emergency no.</button>
+                  <button class='rounded-md font-medium bg-blue-600 text-gray-200 px-3 py-2 hover:bg-blue-500' id='addRecordButton'>Clinic form</button>
+                  <button class='rounded-md font-medium bg-red-600 text-gray-200 px-3 py-2 hover:bg-red-500' type="button" id='emergencyButton'>Emergency</button>
                 </div>
                 <!-- Search -->
                 <div class='flex justify-end pt-3 gap-3 w-full'>
@@ -72,18 +76,18 @@
               </div>
             </div>
             <!-- Table -->
-            <div class='mt-5'>
+            <div class='overflow-scroll flex-grow h-[150px] pe-2'>
               <table class='min-w-full table-auto border-collapse' id='dashboardMedicinesTable'>
                 <thead class="">
                   <tr class='border-b border-gray-300'>
-                    <th class='py-3 text-gray-600 text-start'>Brand</th>
-                    <th class='py-3 text-gray-600 text-start'>Remaining</th>
-                    <th class='py-3 text-gray-600 text-start'>Expiration</th>
-                    <th class='py-3 text-gray-600 text-start'>Storage</th>
+                    <th class='py-3 text-gray-600 text-start pe-3'>Brand</th>
+                    <th class='py-3 text-gray-600 text-start pe-3'>Remaining</th>
+                    <th class='py-3 text-gray-600 text-start pe-3'>Expiration</th>
+                    <th class='py-3 text-gray-600 text-start pe-3'>Storage</th>
                   </tr>
                 </thead>
                 <tbody id="tableBody" class="">
-                  <tr class='border-b border-gray-200'>
+                  <tr class='border-b border-gray-200 hidden'>
                     <td class='py-3 text-gray-600 font-medium'>Brand</td>
                     <td class='py-3 text-gray-500'>0</td>
                     <td class='py-3 text-blue-500'>00-00-0000</td>
@@ -92,7 +96,7 @@
                 </tbody>
               </table>
             </div>
-            <div class='flex mt-4 justify-end'>
+            <div class='flex justify-end pt-3'>
               <!-- PAGE PREVIOUS BUTTON -->
               <button class='ring-1 ring-inset ring-gray-300 py-1 px-3 rounded-md hover:bg-gray-200' id='pagePrev'>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-600/50">
@@ -101,7 +105,7 @@
               </button>
               <div class="flex items-center mx-2 text-gray-500">
                 <!-- PAGE NUMBER INPUT -->
-                <input type="text" class="rounded-md w-[50px] outline-none ring-1 ring-inset ring-gray-300 text-center me-2 hover:ring-gray-400 focus:ring-gray-400" value="1" id='pageNumber'>
+                <input type="text" class="rounded-md w-[50px] outline-none ring-1 ring-inset ring-gray-300 text-center me-2 hover:ring-gray-400 focus:ring-gray-400" value="0" id='pageNumber'>
                 <p>/ <span id='pageCount'>0</span></p>
               </div>
               <!-- PAGE NEXT BUTTON -->

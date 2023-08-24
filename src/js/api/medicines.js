@@ -19,3 +19,12 @@ export const addMedicine = async (medicineData) => {
     throw error.response.data;
   }
 };
+export const updateMedicine = async (medicineData) => {
+  const endPoint = "/backend/api/medicines/update";
+  try {
+    const { data } = await axios.post(endPoint, medicineData);
+    return data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};

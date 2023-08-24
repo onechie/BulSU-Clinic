@@ -25,6 +25,9 @@ const treatmentsList = document.getElementById("treatmentsList");
 const laboratoriesList = document.getElementById("laboratoriesList");
 const addRecordAttachments = document.getElementById("addRecordAttachments");
 const attachmentsList = document.getElementById("attachmentsList");
+const emergencyButton = document.getElementById("emergencyButton");
+const emergencyModal = document.getElementById("emergencyModal");
+const emergencyClose = document.getElementById("emergencyClose");
 
 let complaintsData = [];
 let medicinesData = [];
@@ -67,11 +70,19 @@ const setupEventListeners = () => {
     .getElementById("pagePrev")
     .addEventListener("click", () => handlePageChange(-1));
   pageNumberInput.addEventListener("change", handlePageInputChange);
-  addRecordButton.addEventListener("click", showAddRecordModal);
+  addRecordButton.addEventListener("click", () => {
+    addRecordModal.classList.remove("hidden");
+  });
   addRecordForm.medication.addEventListener("change", handleMedicineChange);
   addRecordForm.addEventListener("submit", handleAddRecordSubmit);
   addRecordCancel.addEventListener("click", handleAddRecordCancel);
   addRecordAttachments.addEventListener("change", handleAddRecordAttachments);
+  emergencyButton.addEventListener("click", () => {
+    emergencyModal.classList.remove("hidden");
+  });
+  emergencyClose.addEventListener("click", () => {
+    emergencyModal.classList.add("hidden");
+  });
 };
 
 const renderPage = (pageNumber) => {
@@ -107,17 +118,13 @@ const handleSearch = () => {
 
   renderPage(1);
 };
-
-const showAddRecordModal = () => {
-  addRecordModal.classList.remove("hidden");
-};
 const handleMedicineChange = (e) => {
   console.log(e.target.value);
   const medicineName = e.target.value;
   const medicine = medicinesData.find(
     (medicine) => medicine.name === medicineName
   );
-  if (!medicine){
+  if (!medicine) {
     addRecordForm.quantity.disabled = true;
     addRecordForm.quantity.value = 0;
     medicinesStock.innerText = 0;
@@ -166,71 +173,93 @@ const handleAddRecordAttachments = () => {
   }
 };
 
-const initializeDashboard = async () => {
+const updateComplaintsList = async () => {
+  complaintsList.innerHTML = "";
   try {
-    const [
-      medicinesResponse,
-      complaintsResponse,
-      treatmentsResponse,
-      laboratoriesResponse,
-    ] = await Promise.all([
-      getMedicines(),
-      getComplaints(),
-      getTreatments(),
-      getLaboratories(),
-    ]);
-
-    medicinesData = medicinesResponse.medicines;
+    const complaintsResponse = await getComplaints();
     complaintsData = complaintsResponse.complaints;
-    treatmentsData = treatmentsResponse.treatments;
-    laboratoriesData = laboratoriesResponse.laboratories;
-
-    medicinesTableData = sortMedicinesByExpiration(medicinesData).map(
-      ({ brand, itemsCount, expiration, storage }) => ({
-        brand,
-        remaining: itemsCount,
-        expiration,
-        storage,
-      })
-    );
-
-    pageCountElement.innerText = Math.ceil(
-      medicinesTableData.length / PAGE_SIZE
-    );
-    pages = Array.from(
-      { length: Math.ceil(medicinesTableData.length / PAGE_SIZE) },
-      (_, i) => medicinesTableData.slice(i * PAGE_SIZE, (i + 1) * PAGE_SIZE)
-    );
-
-    complaintsList.innerHTML = "";
     const complaintsOptions = createOptions(complaintsData, "description");
     complaintsOptions.forEach((option) => {
       complaintsList.appendChild(option);
     });
-
-    medicinesList.innerHTML = "";
+  } catch (error) {
+    console.error(error);
+  }
+};
+const updateMedicinesList = async () => {
+  medicinesList.innerHTML = "";
+  try {
+    const medicinesResponse = await getMedicines();
+    medicinesData = medicinesResponse.medicines;
     const medicinesOptions = createOptions(medicinesData, "name");
     medicinesOptions.forEach((option) => {
       medicinesList.appendChild(option);
     });
-
-    treatmentsList.innerHTML = "";
+  } catch (error) {
+    console.error(error);
+  }
+};
+const updateTreatmentsList = async () => {
+  treatmentsList.innerHTML = "";
+  try {
+    const treatmentsResponse = await getTreatments();
+    treatmentsData = treatmentsResponse.treatments;
     const treatmentsOptions = createOptions(treatmentsData, "description");
     treatmentsOptions.forEach((option) => {
       treatmentsList.appendChild(option);
     });
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-    laboratoriesList.innerHTML = "";
+const updateLaboratoriesList = async () => {
+  laboratoriesList.innerHTML = "";
+  try {
+    const laboratoriesResponse = await getLaboratories();
+    laboratoriesData = laboratoriesResponse.laboratories;
     const laboratoriesOptions = createOptions(laboratoriesData, "description");
     laboratoriesOptions.forEach((option) => {
       laboratoriesList.appendChild(option);
     });
-
-    setupEventListeners();
-    renderPage(1);
   } catch (error) {
     console.error(error);
   }
+};
+
+const updateMedicineTable = async () => {
+  try {
+    if (medicinesData.length >= 1) {
+      medicinesTableData = sortMedicinesByExpiration(medicinesData).map(
+        ({ brand, itemsCount, itemsDeducted, expiration, storage }) => ({
+          brand,
+          remaining: itemsCount - itemsDeducted,
+          expiration,
+          storage,
+        })
+      );
+
+      pageCountElement.innerText = Math.ceil(
+        medicinesTableData.length / PAGE_SIZE
+      );
+      pages = Array.from(
+        { length: Math.ceil(medicinesTableData.length / PAGE_SIZE) },
+        (_, i) => medicinesTableData.slice(i * PAGE_SIZE, (i + 1) * PAGE_SIZE)
+      );
+
+      renderPage(1);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+const initializeDashboard = async () => {
+  await updateComplaintsList();
+  await updateMedicinesList();
+  await updateTreatmentsList();
+  await updateLaboratoriesList();
+  await updateMedicineTable();
+  setupEventListeners();
 };
 
 initializeDashboard();

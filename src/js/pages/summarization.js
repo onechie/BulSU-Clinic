@@ -1,74 +1,37 @@
-"use strict";
+import { getMedicines } from "../api/medicines.js";
+
 // Define a variable to store the current chart instance
 let currentChart = null;
 
 document.addEventListener("DOMContentLoaded", () => {
   getAndDisplaySummarization();
 });
+const sortLikePyramid = (arr) => {
+  const compareByItemsD = (a, b) => b.itemsDeducted - a.itemsDeducted;
+  arr.sort(compareByItemsD);
+  const returnData = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (i % 2 === 0) {
+      returnData.push(arr[i]);
+    } else {
+      returnData.unshift(arr[i]);
+    }
+  }
+  return returnData;
+};
 
 const getAndDisplaySummarization = async () => {
-  const endPoint = "./backend/api/medicines";
   const container = document.getElementById("barChart");
 
   try {
-    // const { data } = await axios.get(endPoint, {
-    //   params: {
-    //     route,
-    //   },
-    // });
-
-    //DUMMY DATA
-    const data = {
-      medicines: [
-        {
-          name: "Paracetamol",
-          itemsDeducted: 100,
-        },
-        {
-          name: "Ibuprofen",
-          itemsDeducted: 90,
-        },
-        {
-          name: "Aspirin",
-          itemsDeducted: 80,
-        },
-        {
-          name: "Cetirizine",
-          itemsDeducted: 70,
-        },
-        {
-          name: "Loratadine",
-          itemsDeducted: 60,
-        },
-        {
-          name: "Omeprazole",
-          itemsDeducted: 50,
-        },
-        {
-          name: "Metformin",
-          itemsDeducted: 40,
-        },
-        {
-          name: "Simvastatin",
-          itemsDeducted: 30,
-        },
-        {
-          name: "Amlodipine",
-          itemsDeducted: 20,
-        },
-        {
-          name: "Atorvastatin",
-          itemsDeducted: 10,
-        },
-      ],
-    }
-
-    const medicinesData = data.medicines;
-    const compareByItemsD = (a, b) => b.itemsDeducted - a.itemsDeducted;
-    medicinesData.sort(compareByItemsD);
+    let medicinesResponse = await getMedicines();
+    let medicinesData = medicinesResponse.medicines;
+    medicinesData = sortLikePyramid(medicinesData);
 
     const medicines = medicinesData.map((medicine) => medicine.name);
-    const medicinesDeducted = medicinesData.map((medicine) => medicine.itemsDeducted);
+    const medicinesDeducted = medicinesData.map(
+      (medicine) => medicine.itemsDeducted
+    );
 
     // If there is a current chart, destroy it before creating a new one
     if (currentChart) {
@@ -95,7 +58,8 @@ const getAndDisplaySummarization = async () => {
             beginAtZero: true,
           },
         },
-        indexAxis: "y",
+        indexAxis: "x",
+        maintainAspectRatio: false,
       },
     });
   } catch (error) {

@@ -1,52 +1,36 @@
-<div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none justify-center items-center" id="modal-id">
-  <div class="relative w-auto my-6 mx-auto max-w-3xl">
-    <!--content-->
-    <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-      <!--header-->
-      <div class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t bg-green-200">
-        <h3 class="text-3xl font-semibold text-lime-950">
-          Emergency No.
-        </h3>
-        <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-id')">
-          <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-            ×
-          </span>
-        </button>
-      </div>
-      <!--body-->
-      <div class="relative p-6 flex-auto">
-        <ul>
-          <li class="p-2">
-            <h1 class="font-serif text-xl font-bold">Hagonoy Rescue Hotline</h1>
-            <p class="font-normal">793-5811</p>
-          </li>
-          <hr>
-          <li class="p-2">
-            <h1 class="font-serif text-xl font-bold">BFP R3 Hagonoy,Bulacan</h1>
-            <p class="font-normal">(044) 793-2018</p>
-            <p class="font-normal">0915-029-5184</p>
-          </li>
-          <hr>
-          <li class="p-2">
-            <h1 class="font-serif text-xl font-bold">Perez Hospital</h1>
-            <p class="font-normal">+63(44) 793-0092</p>
-          </li>
-          <hr>
-          <li class="p-2">
-            <h1 class="font-serif text-xl font-bold">Hagonoy, Bulacan Municipal Station</h1>
-            <p class="font-normal">(044) 794-6123</p>
-            <p class="font-normal">0998-598-5382</p>
-          </li>
-        </ul>
+<!-- 
+  ID modal:
+    emergencyClose
+ -->
 
+<div class='fixed h-[100vh] w-[100vw] bg-gray-500 bg-opacity-75 z-100 top-0 left-0 flex justify-center items-center'>
+  <div class='pt-6 px-6 pb-3 bg-gray-100 rounded-md max-h-[90%] flex flex-col'>
+    <!-- HEADER -->
+    <h1 class='text-2xl font-medium text-gray-600 mb-3'>Emergency numbers</h1>
+    <!-- BODY -->
+    <div class='grid md:grid-cols-2 grid-cols-1 gap-3 overflow-y-auto p-2'>
+      <div class="p-3 ring-1 ring-gray-300 hover:bg-gray-200 rounded-md">
+        <h1 class="text-lg font-medium text-red-500">Hagonoy Rescue Hotline</h1>
+        <p class="font-normal text-gray-500">793-5811</p>
       </div>
-      <!--footer-->
-      <div class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-        <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-id')">
-          Close
-        </button>
+      <div class="p-3 ring-1 ring-gray-300 hover:bg-gray-200 rounded-md">
+        <h1 class="text-lg font-medium text-red-500">BFP R3 Hagonoy,Bulacan</h1>
+        <p class="font-normal text-gray-500">(044) 793-2018</p>
+        <p class="font-normal text-gray-500">0915-029-5184</p>
       </div>
+      <div class="p-3 ring-1 ring-gray-300 hover:bg-gray-200 rounded-md">
+        <h1 class="text-lg font-medium text-red-500">Perez Hospital</h1>
+        <p class="font-normal text-gray-500">+63(44) 793-0092</p>
+      </div>
+      <div class="p-3 ring-1 ring-gray-300 hover:bg-gray-200 rounded-md">
+        <h1 class="text-lg font-medium text-red-500">Hagonoy, Bulacan Municipal Station</h1>
+        <p class="font-normal text-gray-500">(044) 794-6123</p>
+        <p class="font-normal text-gray-500">0998-598-5382</p>
+      </div>
+    </div>
+    <!-- FOOTER -->
+    <div class='flex justify-end gap-3 mt-5'>
+      <button class="ring-1 ring-inset ring-gray-300 rounded-md text-gray-600 bg-gray-100 hover:bg-gray-200 px-3 font-medium py-2" type='button' id='emergencyClose'>Close</button>
     </div>
   </div>
 </div>
-<div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="modal-id-backdrop"></div>
