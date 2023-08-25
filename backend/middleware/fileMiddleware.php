@@ -86,7 +86,7 @@ class File
             }
             $fileUrl = '/src/attachments/' . $id . '/' . $fileNameNew;
             $uploadedFilesData[$file] = [
-                'name' => $fileNameNew,
+                'name' => $file,
                 'url' => $fileUrl,
             ];
         }
@@ -95,9 +95,9 @@ class File
     public static function deleteFiles($files, $recordId, $alsoDirectory = false)
     {
         foreach ($files as $key => $value) {
-            $file = $value['url'];
-            if (file_exists($file)) {
-                unlink($file);
+            $url = __DIR__ . '/../..' . $value['url'];
+            if (file_exists($url)) {
+                unlink($url);
             }
         }
         if ($alsoDirectory) {
@@ -109,6 +109,7 @@ class File
     }
     public static function deleteFile($url)
     {
+        $url = __DIR__ . '/../..' . $url;
         if (file_exists($url)) {
             unlink($url);
         }

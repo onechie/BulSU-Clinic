@@ -17,7 +17,7 @@
 <div class='fixed h-[100vh] w-[100vw] bg-gray-500 bg-opacity-75 z-100 top-0 left-0 flex justify-center items-center'>
   <form class='pt-6 px-6 pb-3 bg-gray-100 rounded-md max-h-[90%] flex flex-col' id='addRecordForm' enctype="multipart/form-data" novalidate>
     <!-- HEADER -->
-    <h1 class='text-2xl font-medium text-gray-600 mb-3'>Clinic Request Form</h1>
+    <h1 class='text-xl font-medium text-gray-600 mb-3'>Clinic Request Form</h1>
     <!-- BODY -->
     <div class="overflow-y-auto p-2">
       <h1 class='text-gray-500 mb-3'>All fields with asterisk '*' are required.</h1>
@@ -75,7 +75,7 @@
           </datalist>
         </div>
       </div>
-      <h1 class='text-gray-600 font-medium text-xl pt-4 pb-3'>Vital signs</h1>
+      <h1 class='text-gray-600 font-medium text-lg pt-4 pb-3'>Vital signs</h1>
       <div class='grid lg:grid-cols-4 grid-cols-3 gap-3'>
         <div class='flex flex-col'>
           <p class='text-gray-500 font-medium mb-1'>Blood pressure</p>
@@ -101,17 +101,18 @@
           <p class='text-gray-500 font-medium mb-1'>Oximetry</p>
           <input name='oximetry' type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400 hover:ring-gray-400' placeholder="Patient oximetry">
         </div>
-        <div class='flex flex-col'>
-          <p class='text-gray-500 font-medium mb-1'>Attachments</p>
-          <label for="addRecordAttachments" class="px-3 py-1 text-gray-500 rounded-md cursor-pointer bg-white hover:bg-gray-200 ring-1 ring-gray-300">
-            Upload attachments
-          </label>
-          <input id="addRecordAttachments" name='attachments[]' type="file" class='sr-only' multiple>
-        </div>
+
       </div>
       <!-- FOOTER -->
-      <div class='pt-3 grid grid-cols-2 md:grid-cols-3 gap-3' id='attachmentsList'>
-
+      <h1 class='text-gray-600 font-medium pt-4 pb-1'>Attachments</h1>
+      <div class='grid grid-cols-2 md:grid-cols-3 gap-3 pb-3' id='attachmentsList'>
+        <div class="px-3 py-2 rounded-md text-gray-600 outline-none ring-1 ring-gray-300 hover:cursor-pointer hover:bg-gray-200">No attachments</div>
+      </div>
+      <div class='flex'>
+        <label for="addRecordAttachments" class="px-3 py-1 text-gray-500 font-medium bg-gray-100 rounded-md cursor-pointer hover:bg-gray-200 ring-1 ring-gray-300">
+          Upload
+        </label>
+        <input id="addRecordAttachments" name='attachments[]' type="file" class='sr-only' multiple>
       </div>
     </div>
 

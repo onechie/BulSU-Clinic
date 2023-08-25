@@ -131,7 +131,7 @@ const handleMedicineChange = (e) => {
     return;
   }
   addRecordForm.quantity.disabled = false;
-  medicinesStock.innerText = medicine.itemsCount;
+  medicinesStock.innerText = medicine.itemsCount - medicine.itemsDeducted;
 };
 
 const handleAddRecordSubmit = async (event) => {
@@ -142,6 +142,9 @@ const handleAddRecordSubmit = async (event) => {
     handleAddRecordMessage(data.message, "text-green-500");
     attachmentsList.innerHTML = "";
     addRecordForm.reset();
+    medicinesStock.innerText = 0;
+    await updateMedicinesList();
+    await updateMedicineTable();
   } catch (error) {
     handleAddRecordMessage(error.message, "text-red-500");
   }
@@ -167,7 +170,7 @@ const handleAddRecordAttachments = () => {
     const attachment = files[i];
     const attachmentItem = document.createElement("div");
     attachmentItem.className =
-      "p-3 text-sm rounded-md text-gray-600 outline-none ring-1 ring-gray-300 hover:cursor-pointer hover:bg-gray-200";
+      "px-3 py-2 rounded-md text-gray-600 outline-none ring-1 ring-gray-300 hover:cursor-pointer hover:bg-gray-200";
     attachmentItem.innerText = attachment.name;
     attachmentsList.appendChild(attachmentItem);
   }

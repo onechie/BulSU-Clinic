@@ -29,6 +29,18 @@
         require_once './frontend/components/view_history_modal.php';
         ?>
       </div>
+      <div class='hidden' id='seeAttachmentsModal'>
+        <?php
+        //SEE ATTACHMENTS MODAL COMPONENT
+        require_once './frontend/components/see_attachments_modal.php';
+        ?>
+      </div>
+      <div class='hidden' id='addAttachmentsModal'>
+        <?php
+        //ADD ATTACHMENTS MODAL COMPONENT
+        require_once './frontend/components/add_attachments_modal.php';
+        ?>
+      </div>
       <!-- MAIN CONTENT -->
       <div class='bg-gray-300 h-full w-full p-3 pt-[60px] overflow-auto'>
         <div class='bg-gray-100 h-full w-full py-3 px-6 flex flex-col min-h-[500px] min-w-[900px]'>

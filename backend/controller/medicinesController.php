@@ -100,7 +100,7 @@ class MedicinesController
         // if ($expiration < date("Y-m-d")) {
         //     throw new Exception("Expiration date must be greater than or equal to today.");
         // }
-        
+
         Data::onlyDate("Expiration date", $expiration);
         $today = new DateTime();
         $expirationDate = new DateTime($expiration);
@@ -126,8 +126,8 @@ class MedicinesController
         if (isset($medicineData['itemsDeducted'])) {
             $itemsDeducted = $medicineData['itemsDeducted'];
             Data::onlyNum("Items deducted", strval($itemsDeducted), true);
-            if ($itemsDeducted > $itemsCount) {
-                throw new Exception("Items deducted value must be less than or equal to items count value.");
+            if ($itemsCount < $itemsDeducted) {
+                throw new Exception("Total items must be greater than or equal to dispensed items.");
             }
         }
 
