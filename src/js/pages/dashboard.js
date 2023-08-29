@@ -179,8 +179,7 @@ const handleAddRecordAttachments = () => {
 const updateComplaintsList = async () => {
   complaintsList.innerHTML = "";
   try {
-    const complaintsResponse = await getComplaints();
-    complaintsData = complaintsResponse.complaints;
+    complaintsData = await getComplaints();
     const complaintsOptions = createOptions(complaintsData, "description");
     complaintsOptions.forEach((option) => {
       complaintsList.appendChild(option);
@@ -205,8 +204,7 @@ const updateMedicinesList = async () => {
 const updateTreatmentsList = async () => {
   treatmentsList.innerHTML = "";
   try {
-    const treatmentsResponse = await getTreatments();
-    treatmentsData = treatmentsResponse.treatments;
+    treatmentsData = await getTreatments();
     const treatmentsOptions = createOptions(treatmentsData, "description");
     treatmentsOptions.forEach((option) => {
       treatmentsList.appendChild(option);
@@ -219,8 +217,7 @@ const updateTreatmentsList = async () => {
 const updateLaboratoriesList = async () => {
   laboratoriesList.innerHTML = "";
   try {
-    const laboratoriesResponse = await getLaboratories();
-    laboratoriesData = laboratoriesResponse.laboratories;
+    laboratoriesData = await getLaboratories();
     const laboratoriesOptions = createOptions(laboratoriesData, "description");
     laboratoriesOptions.forEach((option) => {
       laboratoriesList.appendChild(option);
@@ -230,30 +227,25 @@ const updateLaboratoriesList = async () => {
   }
 };
 
-const updateMedicineTable = async () => {
-  try {
-    if (medicinesData.length >= 1) {
-      medicinesTableData = sortMedicinesByExpiration(medicinesData).map(
-        ({ brand, itemsCount, itemsDeducted, expiration, storage }) => ({
-          brand,
-          remaining: itemsCount - itemsDeducted,
-          expiration,
-          storage,
-        })
-      );
+const updateMedicineTable = () => {
+  if (medicinesData.length >= 1) {
+    medicinesTableData = sortMedicinesByExpiration(medicinesData).map(
+      ({ brand, itemsCount, itemsDeducted, expiration, storage }) => ({
+        brand,
+        remaining: itemsCount - itemsDeducted,
+        expiration,
+        storage,
+      })
+    );
 
-      pageCountElement.innerText = Math.ceil(
-        medicinesTableData.length / PAGE_SIZE
-      );
-      pages = Array.from(
-        { length: Math.ceil(medicinesTableData.length / PAGE_SIZE) },
-        (_, i) => medicinesTableData.slice(i * PAGE_SIZE, (i + 1) * PAGE_SIZE)
-      );
-
-      renderPage(1);
-    }
-  } catch (error) {
-    console.error(error);
+    pageCountElement.innerText = Math.ceil(
+      medicinesTableData.length / PAGE_SIZE
+    );
+    pages = Array.from(
+      { length: Math.ceil(medicinesTableData.length / PAGE_SIZE) },
+      (_, i) => medicinesTableData.slice(i * PAGE_SIZE, (i + 1) * PAGE_SIZE)
+    );
+    renderPage(1);
   }
 };
 const initializeDashboard = async () => {
@@ -261,7 +253,7 @@ const initializeDashboard = async () => {
   await updateMedicinesList();
   await updateTreatmentsList();
   await updateLaboratoriesList();
-  await updateMedicineTable();
+  updateMedicineTable();
   setupEventListeners();
 };
 

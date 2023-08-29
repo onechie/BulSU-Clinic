@@ -53,10 +53,10 @@ class StoragesController
         try {
             Data::onlyNum("ID", $req['id'] ?? null);
             $oldStorage = $this->getStorageIfExists($req['id']);
-            
+
             $newData = Data::mergeData($oldStorage, $req);
             Data::onlyAlphaNum("Description", $newData['description']);
-
+            $this->isStorageDescriptionExists($req['description']);
             //TRY TO UPDATE STORAGE
             $result = $this->storageModel->updateStorage(...array_values($newData));
             return $result ? Response::successResponse("Storage successfully updated.") : Response::errorResponse("Storage failed to update.");

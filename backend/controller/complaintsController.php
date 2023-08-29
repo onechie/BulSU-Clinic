@@ -51,11 +51,12 @@ class ComplaintsController
         $expectedKeys = ['id', 'description'];
         $req =  Data::filterData($req, $expectedKeys);
         try {
-             Data::onlyNum("ID", $req['id'] ?? null);
+            Data::onlyNum("ID", $req['id'] ?? null);
             $oldComplaint = $this->getComplaintIfExists($req['id']);
 
             $newData =  Data::mergeData($oldComplaint, $req);
             Data::onlyAlphaNum("Description", $newData['description']);
+            $this->isComplaintDescriptionExists($req['description']);
             //TRY TO UPDATE COMPLAINT
             $result = $this->complaintModel->updateComplaint(...array_values($newData));
             return $result ? Response::successResponse("Complaint successfully updated.") : Response::errorResponse("Complaint failed to update.");
@@ -68,7 +69,7 @@ class ComplaintsController
         $expectedKeys = ['id'];
         $req =  Data::filterData($req, $expectedKeys);
         try {
-             Data::onlyNum("ID", $req['id'] ?? null);
+            Data::onlyNum("ID", $req['id'] ?? null);
             $this->getComplaintIfExists($req['id']);
 
             //TRY TO DELETE COMPLAINT

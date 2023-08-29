@@ -56,7 +56,7 @@ class LaboratoriesController
 
             $newData = Data::mergeData($oldLaboratory, $req);
             Data::onlyAlphaNum("Description", $newData['description']);
-
+            $this->isLaboratoryDescriptionExists($req['description']);
             //TRY TO UPDATE LABORATORY
             $result = $this->laboratoryModel->updateLaboratory(...array_values($newData));
             return $result ? Response::successResponse("Laboratory successfully updated.") : Response::errorResponse("Laboratory failed to update.");

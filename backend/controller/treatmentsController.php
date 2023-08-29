@@ -56,7 +56,7 @@ class TreatmentsController
 
             $newData = Data::mergeData($oldTreatment, $req);
             Data::onlyAlphaNum("Description", $newData['description']);
-
+            $this->isTreatmentDescriptionExists($req['description']);
             //TRY TO UPDATE TREATMENT
             $result = $this->treatmentModel->updateTreatment(...array_values($newData));
             return $result ? Response::successResponse("Treatment successfully updated.") : Response::errorResponse("Treatment failed to update.");

@@ -198,8 +198,7 @@ const updateStoragesList = async () => {
   addMedicineStoragesList.innerHTML = "";
   editMedicineStoragesList.innerHTML = "";
   try {
-    const storagesResponse = await getStorages();
-    storagesData = storagesResponse.storages;
+    storagesData = await getStorages();
     const storagesOptions = createOptions(storagesData, "description");
     storagesOptions.forEach((option) => {
       addMedicineStoragesList.appendChild(option);

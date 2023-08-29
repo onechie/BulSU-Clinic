@@ -47,3 +47,43 @@ export const createOptions = (data, property) => {
     console.error(error);
   }
 };
+export const getById = (id) => document.getElementById(id);
+
+export const onClick = (element, callback) =>
+  element.addEventListener("click", callback);
+
+export const createState = (initialState) => {
+  let state = initialState;
+  return {
+    getState: () => state,
+    setState: (newState) => (state = newState),
+  };
+};
+export const handleOpen = (modalElement) => {
+  modalElement.classList.remove("hidden");
+};
+export const handleCancel = (modalElement, inputElements, textElements) => {
+  modalElement.classList.add("hidden");
+  inputElements.map((input) => (input.value = ""));
+  textElements.map((text) => (text.innerText = ""));
+};
+export const handleSubmit = async (
+  parameter,
+  apiFunction,
+  messageElement,
+  updateTable,
+  inputElements
+) => {
+  try {
+    const response = await apiFunction(parameter);
+    messageElement.innerHTML = response.message;
+    messageElement.classList.remove("text-red-600");
+    messageElement.classList.add("text-green-600");
+    inputElements.map((input) => (input.value = ""));
+    await updateTable();
+  } catch (error) {
+    messageElement.innerHTML = error.message;
+    messageElement.classList.remove("text-green-600");
+    messageElement.classList.add("text-red-600");
+  }
+};

@@ -8,7 +8,7 @@
  -->
 
 <div class='fixed h-[100vh] w-[100vw] bg-gray-500 bg-opacity-75 z-100 top-0 left-0 flex justify-center items-center'>
-    <form class='pt-6 px-6 pb-3 bg-gray-100 rounded-md max-h-[90%] flex flex-col' id='addAttachmentsForm' enctype="multipart/form-data" novalidate>
+    <form class='pt-6 px-6 pb-3 bg-gray-100 rounded-md max-h-[90%] w-[90%] max-w-[600px] flex flex-col' id='addAttachmentsForm' enctype="multipart/form-data" novalidate>
         <!-- HEADER -->
         <h1 class='text-xl font-medium text-gray-600 mb-3'>Add attachments</h1>
         <!-- BODY -->

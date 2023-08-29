@@ -57,7 +57,9 @@ class MedicinesController
             $req = Data::fillMissingDataKeys($req, $expectedKeys);
             $newData = Data::mergeData($oldMedicine, $req);
             $this->validateMedicineData($newData);
-
+            if ($oldMedicine['name'] != $newData['name']) {
+                $this->isMedicineNameExists($newData['name']);
+            }
             //TRY TO UPDATE MEDICINE
             $result = $this->medicineModel->updateMedicine(...array_values($newData));
             return $result ? Response::successResponse("Medicine successfully updated.") : Response::errorResponse("Medicine failed to update.");

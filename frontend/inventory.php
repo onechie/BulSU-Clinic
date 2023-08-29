@@ -83,7 +83,7 @@
                     <th class='py-3 text-gray-600 text-start pe-3'>Remaining</th>
                   </tr>
                 </thead>
-                <tbody id="tableBody" class="">
+                <tbody class="">
                   <tr class='border-b border-gray-200 hidden'>
                     <td class='py-3 text-gray-600 font-medium'>Name</td>
                     <td class='py-3 text-gray-500'>Brand</td>

@@ -191,7 +191,7 @@ const handleSeeAttachments = async (id) => {
         "flex justify-between px-3 py-2 rounded-md text-gray-600 outline-none ring-1 ring-gray-300 hover:bg-gray-200 gap-5";
 
       const attachmentFile = document.createElement("a");
-      attachmentFile.className = "hover:underline flex-grow truncate";
+      attachmentFile.className = "hover:underline truncate";
       attachmentFile.innerText = attachment.name;
       attachmentFile.href = attachment.url;
       attachmentFile.target = "_blank";
@@ -200,7 +200,8 @@ const handleSeeAttachments = async (id) => {
       const attachmentDelete = document.createElement("button");
       attachmentDelete.className =
         "text-gray-400 hover:text-gray-500 justify-self-end";
-      attachmentDelete.innerText = "X";
+      attachmentDelete.innerHTML =
+        "<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='w-6 h-6'><path stroke-linecap='round' stroke-linejoin='round' d='M6 18L18 6M6 6l12 12' /></svg>";
       attachmentDelete.addEventListener("click", async () => {
         try {
           await deleteAttachments(attachment.id, null);
@@ -240,6 +241,13 @@ const handleAddAttachmentsCancel = () => {
   addAttachmentsModal.classList.add("hidden");
   addAttachmentsForm.reset();
   handleAddAttachmentsMessage("", "text-red-500");
+  addAttachmentsList.innerHTML = "";
+
+  const attachmentItem = document.createElement("div");
+  attachmentItem.className =
+    "px-3 py-2 rounded-md text-gray-600 outline-none ring-1 ring-gray-300 hover:cursor-pointer hover:bg-gray-200";
+  attachmentItem.innerText = "No attachments";
+  addAttachmentsList.appendChild(attachmentItem);
 };
 const handleAddAttachmentsSubmit = async (event) => {
   event.preventDefault();
