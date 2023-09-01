@@ -45,7 +45,7 @@
       <div class='bg-gray-300 h-full w-full p-3 pt-[60px] overflow-auto'>
         <div class='bg-gray-100 h-full w-full py-3 px-6 flex flex-col min-h-[500px] min-w-[900px]'>
           <!-- HEADER -->
-          <h1 class='text-gray-700 font-medium text-2xl pb-5'>Clinic Records</h1>
+          <h1 class='text-gray-700 font-medium text-2xl pb-5 font-noto'>Clinic Records</h1>
           <!-- CONTENT -->
           <div class='w-full p-10 border border-gray-300 rounded-md flex flex-col flex-grow'>
             <div class='flex flex gap-[50px] pb-5'>
@@ -55,6 +55,10 @@
                 <p class='text-gray-500'>Name of patient and their complaint, date of entry, and medication.</p>
               </div>
               <div class="w-[50%] flex flex-col justify-between">
+                <!-- Buttons -->
+                <div class='flex gap-3 justify-end'>
+
+                </div>
                 <!-- Search -->
                 <div class='flex justify-end pt-3 gap-3 w-full'>
                   <input id='searchInput' type="search" class="w-full px-3 py-2 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md hover:ring-gray-400 focus:ring-gray-400" placeholder="Search...">

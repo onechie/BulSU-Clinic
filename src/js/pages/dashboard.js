@@ -119,7 +119,6 @@ const handleSearch = () => {
   renderPage(1);
 };
 const handleMedicineChange = (e) => {
-  console.log(e.target.value);
   const medicineName = e.target.value;
   const medicine = medicinesData.find(
     (medicine) => medicine.name === medicineName
@@ -160,6 +159,11 @@ const handleAddRecordCancel = () => {
   addRecordModal.classList.add("hidden");
   addRecordForm.reset();
   attachmentsList.innerHTML = "";
+  const attachmentItem = document.createElement("div");
+  attachmentItem.className =
+    "px-3 py-2 rounded-md text-gray-600 outline-none ring-1 ring-gray-300 hover:cursor-pointer hover:bg-gray-200";
+  attachmentItem.innerText = "No attachments";
+  attachmentsList.appendChild(attachmentItem);
   addRecordMessage.innerText = "";
 };
 
@@ -172,6 +176,13 @@ const handleAddRecordAttachments = () => {
     attachmentItem.className =
       "px-3 py-2 rounded-md text-gray-600 outline-none ring-1 ring-gray-300 hover:cursor-pointer hover:bg-gray-200";
     attachmentItem.innerText = attachment.name;
+    attachmentsList.appendChild(attachmentItem);
+  }
+  if (files.length <= 0) {
+    const attachmentItem = document.createElement("div");
+    attachmentItem.className =
+      "px-3 py-2 rounded-md text-gray-600 outline-none ring-1 ring-gray-300 hover:cursor-pointer hover:bg-gray-200";
+    attachmentItem.innerText = "No attachments";
     attachmentsList.appendChild(attachmentItem);
   }
 };

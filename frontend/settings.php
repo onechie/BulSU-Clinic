@@ -40,7 +40,7 @@
       <div class='bg-gray-300 h-full w-full p-3 pt-[60px] overflow-auto'>
         <div class='bg-gray-100 h-full w-full py-3 px-6 flex flex-col flex flex-col min-h-[500px] min-w-[900px]'>
           <!-- HEADER -->
-          <h1 class='text-gray-700 font-medium text-2xl pb-5'>Settings</h1>
+          <h1 class='text-gray-700 font-medium text-2xl pb-5 font-noto'>Settings</h1>
           <!-- CONTENT -->
           <div class='w-full px-10 pt-5 border border-gray-300 rounded overflow-y-auto flex-grow'>
             <details class="p-2">

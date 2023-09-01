@@ -3,9 +3,11 @@
 class ComplaintsController
 {
     private $complaintModel;
-    public function __construct(ComplaintModel $complaintModel)
+    private $logModel;
+    public function __construct(ComplaintModel $complaintModel, LogModel $logModel)
     {
         $this->complaintModel = $complaintModel;
+        $this->logModel = $logModel;
     }
     public function getComplaints()
     {
@@ -41,6 +43,7 @@ class ComplaintsController
 
             //TRY TO ADD COMPLAINT
             $result = $this->complaintModel->addComplaint(...array_values($req));
+            $this->generateLog($result, "Add Complaint template", "A new complaint template added \"" . $req['description'] . "\". Complaint ID = " . $result);
             return $result ? Response::successResponse("Complaint successfully added.") : Response::errorResponse("Complaint failed to add.");
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
@@ -59,6 +62,7 @@ class ComplaintsController
             $this->isComplaintDescriptionExists($req['description']);
             //TRY TO UPDATE COMPLAINT
             $result = $this->complaintModel->updateComplaint(...array_values($newData));
+            $this->generateLog($result, "Update Complaint template", "Complaint template \"" . $oldComplaint['description'] . "\" updated to \"" . $req['description'] . "\". Complaint ID = " . $req['id']);
             return $result ? Response::successResponse("Complaint successfully updated.") : Response::errorResponse("Complaint failed to update.");
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
@@ -70,10 +74,11 @@ class ComplaintsController
         $req =  Data::filterData($req, $expectedKeys);
         try {
             Data::onlyNum("ID", $req['id'] ?? null);
-            $this->getComplaintIfExists($req['id']);
+            $complaint = $this->getComplaintIfExists($req['id']);
 
             //TRY TO DELETE COMPLAINT
             $result = $this->complaintModel->deleteComplaint($req['id']);
+            $this->generateLog($result, "Delete Complaint template", "Complaint template \"" . $complaint['description'] . "\" deleted. Complaint ID = " . $req['id']);
             return $result ? Response::successResponse("Complaint successfully deleted.") : Response::errorResponse("Complaint failed to delete.");
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
@@ -90,5 +95,15 @@ class ComplaintsController
         $complaint = $this->complaintModel->getComplaint($id);
         if (!$complaint) throw new Exception("Complaint does not exist.");
         return $complaint;
+    }
+    private function generateLog($condition, $action, $description)
+    {
+        if (!$condition) return;
+        $access_token = $_COOKIE['a_jwt'] ?? '';
+        $accessJWTData = Auth::validateAccessJWT($access_token);
+
+        $userId = $accessJWTData->sub;
+        $username = $accessJWTData->username;
+        $this->logModel->addLog($userId, $username, $action, $description);
     }
 }

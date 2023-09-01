@@ -36,7 +36,9 @@ $pageRouter->get('/summarization', function () {
 $pageRouter->get('/clinicrecord', function () {
   PageRouter::displayPage('clinicrecord.php');
 }, true, false);
-
+$pageRouter->get('/logs', function () {
+  PageRouter::displayPage('logs.php');
+}, true, false);
 $pageRouter->get('/settings', function () {
   PageRouter::displayPage('settings.php');
 }, true, false);

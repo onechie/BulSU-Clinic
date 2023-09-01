@@ -42,7 +42,7 @@ class MedicineModel extends Database
             ':storage' => $storage,
         ];
         try {
-            return $this->db_create($sql, $params);
+            return $this->db_create($sql, $params, true);
         } catch (Throwable $error) {
             throw new Exception($error->getMessage());
         }

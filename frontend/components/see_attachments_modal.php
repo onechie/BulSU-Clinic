@@ -19,7 +19,7 @@
 <div class='fixed h-[100vh] w-[100vw] bg-gray-500 bg-opacity-75 z-100 top-0 left-0 flex justify-center items-center'>
     <div class='pt-6 px-6 pb-3 bg-gray-100 rounded-md max-h-[90%] w-[90%] max-w-[800px] flex flex-col'>
         <!-- HEADER -->
-        <h1 class='text-xl font-medium text-gray-600 mb-3'>Patient name: <span class='text-gray-500' id='seeAttachmentsName'>test name</span></h1>
+        <h1 class='text-2xl font-medium text-gray-600 mb-3'>Patient name: <span class='text-gray-500' id='seeAttachmentsName'>test name</span></h1>
         <!-- BODY -->
         <div class='overflow-y-auto p-2'>
             <div class='flex flex-col gap-5'>

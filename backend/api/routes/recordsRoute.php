@@ -1,5 +1,5 @@
 <?php
-$recordsController = new RecordsController($recordModel, $medicineModel, $attachmentModel);
+$recordsController = new RecordsController($recordModel, $medicineModel, $attachmentModel, $logModel);
 $router->get('/records', function () use ($recordsController) {
     if (isset($_GET['id']) || isset($_GET['patientName'])) {
         return $recordsController->getRecord($_GET);

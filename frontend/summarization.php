@@ -28,7 +28,7 @@
       <div class='bg-gray-300 h-full w-full p-3 pt-[60px] overflow-auto'>
         <div class='bg-gray-100 h-full w-full py-3 px-6 flex flex-col min-h-[500px] min-w-[900px]'>
           <!-- HEADER -->
-          <h1 class='text-gray-700 font-medium text-2xl pb-5'>Summarization</h1>
+          <h1 class='text-gray-700 font-medium text-2xl pb-5 font-noto'>Summarization</h1>
           <!-- CONTENT -->
           <div class='w-full h-full p-10 border border-gray-399 rounded-md flex flex-col flex-grow'>
             <div class='flex flex gap-[50px] pb-5'>

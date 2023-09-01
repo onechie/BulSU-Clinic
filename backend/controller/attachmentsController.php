@@ -1,19 +1,21 @@
 <?php
-class AttachmentsController 
+class AttachmentsController
 {
     private $attachmentModel;
     private $recordModel;
-    public function __construct(AttachmentModel $attachmentModel, RecordModel $recordModel)
+    private $logModel;
+    public function __construct(AttachmentModel $attachmentModel, RecordModel $recordModel, LogModel $logModel)
     {
         $this->attachmentModel = $attachmentModel;
         $this->recordModel = $recordModel;
+        $this->logModel = $logModel;
     }
     public function getAttachments()
     {
         try {
             //TRY TO GET ALL ATTACHMENTS
             $attachments = $this->attachmentModel->getAttachments();
-            return $attachments ? Response::successResponseWithData("Attachments successfully fetched.", ['attachments' => $attachments]) :Response::errorResponse("No attachments found.");
+            return $attachments ? Response::successResponseWithData("Attachments successfully fetched.", ['attachments' => $attachments]) : Response::errorResponse("No attachments found.");
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
         }
@@ -42,10 +44,17 @@ class AttachmentsController
                 return Response::errorResponse("No files to upload.");
             }
             Data::onlyNum("Record ID", $req['recordId'] ?? null);
-            $this->getRecordIfExists($req['recordId']);
+            $record = $this->getRecordIfExists($req['recordId']);
             //TRY TO ADD ATTACHMENT
             $uploadedFilesData  = File::uploadFiles($formattedFiles, $req['recordId']);
             $this->addAttachmentsOfRecord($uploadedFilesData, $req['recordId']);
+
+            $addedFiles = "";
+            foreach ($uploadedFilesData as $file) {
+                $addedFiles .= " " . $file['name'] . ",";
+            }
+
+            $this->generateLog(true, "Add Record's Attachment", "New attachments [" . substr($addedFiles, 0, -1) . "] added to " . $record["name"] . "'s record. Record ID = " . $req['recordId']);
             return Response::successResponse("Files successfully added.");
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
@@ -62,10 +71,13 @@ class AttachmentsController
             if (isset($attachments['id'])) {
                 File::deleteFile($attachments['url']);
                 $result = $this->attachmentModel->deleteAttachment($attachments['id']);
+                $this->generateLog($result, "Delete Record's Attachment", "Attachment " . $attachments['name'] . " of record with ID: " . $attachments['recordId'] . " deleted.");
             } else {
                 File::deleteFiles($attachments, $attachments[0]['recordId']);
                 $result = $this->attachmentModel->deleteAttachmentByRecordId($attachments[0]['recordId']);
+                $this->generateLog($result, "Delete Record's Attachments", "All attachments of record with ID: " . $attachments[0]['recordId'] . " deleted.");
             }
+
             return $result ? Response::successResponse("Attachment successfully deleted.") : Response::errorResponse("Failed to delete attachment.");
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
@@ -105,5 +117,15 @@ class AttachmentsController
                 throw new Exception("Failed to add attachment.");
             }
         }
+    }
+    private function generateLog($condition, $action, $description)
+    {
+        if (!$condition) return;
+        $access_token = $_COOKIE['a_jwt'] ?? '';
+        $accessJWTData = Auth::validateAccessJWT($access_token);
+
+        $userId = $accessJWTData->sub;
+        $username = $accessJWTData->username;
+        $this->logModel->addLog($userId, $username, $action, $description);
     }
 }

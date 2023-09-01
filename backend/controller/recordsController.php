@@ -5,11 +5,13 @@ class RecordsController
     private $recordModel;
     private $medicineModel;
     private $attachmentModel;
-    public function __construct(RecordModel $recordModel, MedicineModel $medicineModel, AttachmentModel $attachmentModel)
+    private $logModel;
+    public function __construct(RecordModel $recordModel, MedicineModel $medicineModel, AttachmentModel $attachmentModel, LogModel $logModel)
     {
         $this->recordModel = $recordModel;
         $this->medicineModel = $medicineModel;
         $this->attachmentModel = $attachmentModel;
+        $this->logModel = $logModel;
     }
     public function getRecords()
     {
@@ -46,6 +48,14 @@ class RecordsController
                 File::validateFiles($formattedFiles);
             }
             $req = Data::fillMissingDataKeys($req, $expectedKeys);
+
+            $access_token = $_COOKIE['a_jwt'] ?? '';
+            $accessJWTData = Auth::validateAccessJWT($access_token);
+            if ($accessJWTData->type !== "ACCESS") {
+                return Response::errorResponse("Access token is invalid.");
+            }
+            $req['userCreated'] = $accessJWTData->username;
+
             //TRY TO ADD RECORD
             $record = $this->recordModel->addRecord(...array_values($req));
             $this->updateMedicineQuantity($req['medication'], $req['quantity']);
@@ -54,6 +64,7 @@ class RecordsController
                 $this->addAttachmentsOfRecord($uploadedFilesData, $record);
                 return Response::successResponse("Record and files successfully added.");
             }
+            $this->generateLog($record, "Add Clinic Record", "A new record created for " . $req['name'] . " with complaint \"" . $req['complaint'] . "\" and medication \"" . $req['medication'] . "\" with quantity of " . $req['quantity'] . ". Record ID = " . $record);
             return $record ? Response::successResponse("Record successfully added.") : Response::errorResponse("Record failed to add.");
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
@@ -72,6 +83,15 @@ class RecordsController
 
             //TRY TO UPDATE RECORD
             $record = $this->recordModel->updateRecord(...array_values($newData));
+            $updatedValues = '';
+            foreach ($newData as $key => $value) {
+                if ($oldRecord[$key] != $value) {
+                    $oldValue = $oldRecord[$key];
+                    $newValue = $value;
+                    $updatedValues .= " [" . $key . ": " . $oldValue . " to " . $newValue . "],";
+                }
+            }
+            $this->generateLog($record, "Update Record", "Record Changes" . substr($updatedValues, 0, -1) . ". Record ID = " . $req['id']);
             return $record ? Response::successResponse("Record successfully updated.") : Response::errorResponse("Record failed to update.");
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
@@ -83,14 +103,15 @@ class RecordsController
         $req = Data::filterData($req, $expectedKeys);
         try {
             Data::onlyNum("ID", $req['id'] ?? null);
-            $this->getRecordIfExists($req['id']);
+            $record = $this->getRecordIfExists($req['id']);
 
             //DELETE ATTACHMENTS
             $attachments = $this->attachmentModel->getAttachmentByRecordId($req['id']);
             File::deleteFiles($attachments, $req['id'], true);
             //TRY TO DELETE RECORD
-            $record = $this->recordModel->deleteRecord($req['id']);
-            return $record ? Response::successResponse("Record successfully deleted.") : Response::errorResponse("Record failed to delete.");
+            $result = $this->recordModel->deleteRecord($req['id']);
+            $this->generateLog($result, "Delete Record", "Record of " . $record["name"] . " deleted. Record ID = " . $req['id']);
+            return $result ? Response::successResponse("Record successfully deleted.") : Response::errorResponse("Record failed to delete.");
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
         }
@@ -216,5 +237,15 @@ class RecordsController
             $medicineData['itemsDeducted'] + $quantity,
             $medicineData['storage'],
         );
+    }
+    private function generateLog($condition, $action, $description)
+    {
+        if (!$condition) return;
+        $access_token = $_COOKIE['a_jwt'] ?? '';
+        $accessJWTData = Auth::validateAccessJWT($access_token);
+
+        $userId = $accessJWTData->sub;
+        $username = $accessJWTData->username;
+        $this->logModel->addLog($userId, $username, $action, $description);
     }
 }

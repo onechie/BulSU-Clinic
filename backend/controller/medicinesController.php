@@ -3,10 +3,12 @@ class MedicinesController
 {
     private $medicineModel;
     private $storageModel;
-    public function __construct(MedicineModel $medicineModel, StorageModel $storageModel)
+    private $logModel;
+    public function __construct(MedicineModel $medicineModel, StorageModel $storageModel, LogModel $logModel)
     {
         $this->medicineModel = $medicineModel;
         $this->storageModel = $storageModel;
+        $this->logModel = $logModel;
     }
     public function getMedicines()
     {
@@ -42,6 +44,7 @@ class MedicinesController
 
             //TRY TO ADD MEDICINE
             $result = $this->medicineModel->addMedicine(...array_values($req));
+            $this->generateLog($result, "Add Medicine", "A new medicine added " . $req['name'] . "(" . $req['brand'] . "), expiring on " . $req['expiration'] . ". Medicine ID = " . $result);
             return $result ? Response::successResponse("Medicine successfully added.") : Response::errorResponse("Medicine failed to add.");
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
@@ -62,6 +65,16 @@ class MedicinesController
             }
             //TRY TO UPDATE MEDICINE
             $result = $this->medicineModel->updateMedicine(...array_values($newData));
+
+            $updatedValues = '';
+            foreach ($newData as $key => $value) {
+                if ($oldMedicine[$key] != $value) {
+                    $oldValue = $oldMedicine[$key];
+                    $newValue = $value;
+                    $updatedValues .= " [" . $key . ": " . $oldValue . " to " . $newValue . "],";
+                }
+            }
+            $this->generateLog($result, "Update Medicine", "Medicine Changes" . substr($updatedValues, 0, -1) . ". Medicine ID = " . $req['id']);
             return $result ? Response::successResponse("Medicine successfully updated.") : Response::errorResponse("Medicine failed to update.");
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
@@ -74,10 +87,11 @@ class MedicinesController
         $req = Data::filterData($req, $expectedKeys);
         try {
             Data::onlyNum("ID", $req['id'] ?? null);
-            $this->getMedicineIfExists($req['id']);
+            $medicine = $this->getMedicineIfExists($req['id']);
 
             //TRY TO DELETE MEDICINE
             $result = $this->medicineModel->deleteMedicine($req['id']);
+            $this->generateLog($result, "Delete Medicine", "Medicine " . $medicine['name'] . "(" . $medicine['brand'] . ") deleted. Medicine ID = " . $req['id']);
             return $result ? Response::successResponse("Medicine successfully deleted.") : Response::errorResponse("Medicine failed to delete.");
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
@@ -151,5 +165,15 @@ class MedicinesController
         $medicine = $this->medicineModel->getMedicine($id);
         if (!$medicine) throw new Exception("Medicine does not exist.");
         return $medicine;
+    }
+    private function generateLog($condition, $action, $description)
+    {
+        if (!$condition) return;
+        $access_token = $_COOKIE['a_jwt'] ?? '';
+        $accessJWTData = Auth::validateAccessJWT($access_token);
+
+        $userId = $accessJWTData->sub;
+        $username = $accessJWTData->username;
+        $this->logModel->addLog($userId, $username, $action, $description);
     }
 }

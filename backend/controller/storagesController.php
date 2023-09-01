@@ -3,9 +3,11 @@
 class StoragesController
 {
     private $storageModel;
-    public function __construct(StorageModel $storageModel)
+    private $logModel;
+    public function __construct(StorageModel $storageModel, LogModel $logModel)
     {
         $this->storageModel = $storageModel;
+        $this->logModel = $logModel;
     }
     public function getStorages()
     {
@@ -41,6 +43,7 @@ class StoragesController
 
             //TRY TO ADD STORAGE
             $storage = $this->storageModel->addStorage($req['description']);
+            $this->generateLog($storage, "Add Storage template", "A new storage template added \"" . $req['description'] . "\". Storage ID = " . $storage);
             return $storage ? Response::successResponse("Storage successfully added.") : Response::errorResponse("Storage failed to add.");
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
@@ -59,6 +62,7 @@ class StoragesController
             $this->isStorageDescriptionExists($req['description']);
             //TRY TO UPDATE STORAGE
             $result = $this->storageModel->updateStorage(...array_values($newData));
+            $this->generateLog($result, "Update Storage template", "Storage template \"" . $oldStorage['description'] . "\" updated to \"" . $req['description'] . "\". Storage ID = " . $req['id']);
             return $result ? Response::successResponse("Storage successfully updated.") : Response::errorResponse("Storage failed to update.");
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
@@ -70,10 +74,11 @@ class StoragesController
         $req = Data::filterData($req, $expectedKeys);
         try {
             Data::onlyNum("ID", $req['id'] ?? null);
-            $this->getStorageIfExists($req['id']);
+            $storage = $this->getStorageIfExists($req['id']);
 
             //TRY TO DELETE STORAGE
             $result = $this->storageModel->deleteStorage($req['id']);
+            $this->generateLog($result, "Delete Storage template", "Storage template \"" . $storage["description"] . "\" deleted. Storage ID = " . $req['id']);
             return $result ? Response::successResponse("Storage successfully deleted.") : Response::errorResponse("Storage failed to delete.");
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
@@ -89,5 +94,15 @@ class StoragesController
         $storage = $this->storageModel->getStorage($id);
         if (!$storage) throw new Exception("Storage does not exist.");
         return $storage;
+    }
+    private function generateLog($condition, $action, $description)
+    {
+        if (!$condition) return;
+        $access_token = $_COOKIE['a_jwt'] ?? '';
+        $accessJWTData = Auth::validateAccessJWT($access_token);
+
+        $userId = $accessJWTData->sub;
+        $username = $accessJWTData->username;
+        $this->logModel->addLog($userId, $username, $action, $description);
     }
 }

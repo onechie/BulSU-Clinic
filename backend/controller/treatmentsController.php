@@ -3,9 +3,11 @@
 class TreatmentsController
 {
     private $treatmentModel;
-    public function __construct(TreatmentModel $treatmentModel)
+    private $logModel;
+    public function __construct(TreatmentModel $treatmentModel, LogModel $logModel)
     {
         $this->treatmentModel = $treatmentModel;
+        $this->logModel = $logModel;
     }
     public function getTreatments()
     {
@@ -41,6 +43,7 @@ class TreatmentsController
 
             //TRY TO ADD TREATMENT
             $treatment = $this->treatmentModel->addTreatment($req['description']);
+            $this->generateLog($treatment, "Add Treatment template", "A new treatment template added \"" . $req['description'] . "\". Treatment ID = " . $treatment);
             return $treatment ? Response::successResponse("Treatment successfully added.") : Response::errorResponse("Treatment failed to add.");
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
@@ -59,6 +62,7 @@ class TreatmentsController
             $this->isTreatmentDescriptionExists($req['description']);
             //TRY TO UPDATE TREATMENT
             $result = $this->treatmentModel->updateTreatment(...array_values($newData));
+            $this->generateLog($result, "Update Treatment template", "Treatment template \"" . $oldTreatment['description'] . "\" updated to \"" . $req['description'] . "\". Treatment ID = " . $req['id']);
             return $result ? Response::successResponse("Treatment successfully updated.") : Response::errorResponse("Treatment failed to update.");
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
@@ -70,10 +74,11 @@ class TreatmentsController
         $req = Data::filterData($req, $expectedKeys);
         try {
             Data::onlyNum("ID", $req['id'] ?? null);
-            $this->getTreatmentIfExists($req['id']);
+            $treatment = $this->getTreatmentIfExists($req['id']);
 
             //TRY TO DELETE TREATMENT
             $result = $this->treatmentModel->deleteTreatment($req['id']);
+            $this->generateLog($result, "Delete Treatment template", "Treatment template \"" . $treatment['description'] . "\" deleted. Treatment ID = " . $req['id']);
             return $result ? Response::successResponse("Treatment successfully deleted.") : Response::errorResponse("Treatment failed to delete.");
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
@@ -89,5 +94,15 @@ class TreatmentsController
         $treatment = $this->treatmentModel->getTreatment($id);
         if (!$treatment) throw new Exception("Treatment does not exist.");
         return $treatment;
+    }
+    private function generateLog($condition, $action, $description)
+    {
+        if (!$condition) return;
+        $access_token = $_COOKIE['a_jwt'] ?? '';
+        $accessJWTData = Auth::validateAccessJWT($access_token);
+
+        $userId = $accessJWTData->sub;
+        $username = $accessJWTData->username;
+        $this->logModel->addLog($userId, $username, $action, $description);
     }
 }

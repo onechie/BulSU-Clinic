@@ -7,7 +7,7 @@
  -->
 
 <div class='fixed h-[100vh] w-[100vw] bg-gray-500 bg-opacity-75 z-100 top-0 left-0 flex justify-center items-center'>
-  <form class='pt-6 px-6 pb-3 bg-gray-100 rounded-md max-h-[90%] flex flex-col' id='addMedicineForm' enctype="multipart/form-data" novalidate>
+  <form class='pt-6 px-6 pb-3 bg-gray-100 rounded-md max-h-[90%] flex flex-col' id='addMedicineForm' enctype="multipart/form-data" autocomplete="off">
     <!-- HEADER -->
     <h1 class='text-2xl font-medium text-gray-600 mb-3'>New medicine</h1>
     <!-- BODY -->
@@ -45,7 +45,7 @@
         </div>
         <div class='flex flex-col'>
           <p class='text-gray-500 font-medium mb-1'>Storage <span class='text-red-500'>*</span></p>
-          <input type="text" name='storage' autocomplete="off" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' list="addMedicineStoragesList" placeholder="Select storage">
+          <input type="text" name='storage' class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' list="addMedicineStoragesList" placeholder="Select storage">
           <datalist id='addMedicineStoragesList'>
             <option value="Storage 001"></option>
             <option value="Storage 002"></option>
@@ -60,7 +60,7 @@
         <p class='text-red-500 text-sm' id='addMedicineMessage'></p>
       </div>
       <button class="ring-1 ring-inset ring-gray-300 rounded-md text-gray-600 bg-gray-100 hover:bg-gray-200 px-3 font-medium py-2" id='addMedicineCancel' type='button'>Cancel</button>
-      <button class="rounded-md text-gray-200 bg-blue-600 hover:bg-blue-500 px-3 font-medium py-2" type='submit'>Add medicine</button>
+      <button class="rounded-md text-gray-200 bg-blue-600 hover:bg-blue-500 px-3 font-medium py-2" type='submit'>Add</button>
     </div>
   </form>
 </div>

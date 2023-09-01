@@ -40,7 +40,7 @@
       <div class='bg-gray-300 h-full w-full p-3 pt-[60px] overflow-auto'>
         <div class='bg-gray-100 h-full w-full py-3 px-6 flex flex-col min-h-[500px] min-w-[900px]'>
           <!-- HEADER -->
-          <h1 class='text-gray-700 font-medium text-2xl pb-5'>Inventory</h1>
+          <h1 class='text-gray-700 font-medium text-2xl pb-5 font-noto'>Inventory</h1>
 
           <!-- CONTENT -->
           <div class='w-full p-10 border border-gray-300 rounded-md flex flex-col flex-grow'>

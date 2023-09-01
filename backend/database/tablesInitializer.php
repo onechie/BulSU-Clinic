@@ -38,6 +38,7 @@ $tables = [
         'temperature VARCHAR(255)',
         'respiration VARCHAR(255)',
         'oximetry VARCHAR(255)',
+        'userCreated VARCHAR(255) NOT NULL',
     ],
     'attachments' => [
         'recordId INT NOT NULL',
@@ -56,6 +57,13 @@ $tables = [
     ],
     'treatments' => [
         'description TEXT NOT NULL',
+    ],
+    'logs' => [
+        'userId INT NOT NULL',
+        'username VARCHAR(255) NOT NULL',
+        'action VARCHAR(255) NOT NULL',
+        'description VARCHAR(255) NOT NULL',
+        'FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE'
     ]
 ];
 
@@ -67,6 +75,6 @@ if ($shouldInitializeTables === 'yes') {
             new Initializer($tableName, $columns);
         }
     } catch (Throwable $e) {
-        throw new Exception ($e->getMessage());
+        throw new Exception($e->getMessage());
     }
 }

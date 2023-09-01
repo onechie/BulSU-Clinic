@@ -27,8 +27,8 @@
         <div class='bg-gray-100 h-full w-full py-3 px-6 flex flex-col'>
           <!-- HEADER -->
           <div>
-            <h1 class='text-gray-700 font-medium text-2xl'>About us</h1>
-            <div class='w-full p-10 mt-5 border border-gray-600/20 rounded overflow-y-auto'>
+            <h1 class='text-gray-700 font-medium text-2xl pb-5 font-noto'>About us</h1>
+            <div class='w-full p-10 border border-gray-600/20 rounded overflow-y-auto'>
               <p class="text-left text-gray-600">We are students from bulacan state university.</p>
             </div>
           </div>

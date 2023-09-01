@@ -7,3 +7,4 @@ require_once __DIR__ . '/recordsRoute.php';
 require_once __DIR__ . '/storagesRoute.php';
 require_once __DIR__ . '/treatmentsRoute.php';
 require_once __DIR__ . '/usersRoute.php';
+require_once __DIR__ . '/logsRoute.php';

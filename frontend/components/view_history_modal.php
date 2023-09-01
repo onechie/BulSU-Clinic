@@ -8,7 +8,7 @@
 <div class='fixed h-[100vh] w-[100vw] bg-gray-500 bg-opacity-75 z-100 top-0 left-0 flex justify-center items-center'>
     <div class='pt-6 px-6 pb-3 bg-gray-100 rounded-md w-[90%] max-w-[1200px] max-h-[90%] overflow-y-auto flex flex-col'>
         <!-- HEADER -->
-        <h1 class='text-xl font-medium text-gray-600 mb-3'>Patient name: <span class='text-gray-500' id='viewHistoryName'></span></h1>
+        <h1 class='text-2xl font-medium text-gray-600 mb-3'>Patient name: <span class='text-gray-500' id='viewHistoryName'></span></h1>
         <!-- BODY -->
         <div class='overflow-auto p-2 '>
             <table class='table-auto border-collapse w-full min-w-[600px]' id='viewHistoryTable'>

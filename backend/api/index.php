@@ -24,6 +24,7 @@ $complaintModel = new ComplaintModel();
 $laboratoryModel = new LaboratoryModel();
 $storageModel = new StorageModel();
 $treatmentModel = new TreatmentModel();
+$logModel = new LogModel();
 
 // ROUTER INSTANCE
 $router = new Router();

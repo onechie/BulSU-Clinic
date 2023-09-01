@@ -15,9 +15,9 @@
  -->
 
 <div class='fixed h-[100vh] w-[100vw] bg-gray-500 bg-opacity-75 z-100 top-0 left-0 flex justify-center items-center'>
-  <form class='pt-6 px-6 pb-3 bg-gray-100 rounded-md max-h-[90%] flex flex-col' id='addRecordForm' enctype="multipart/form-data" novalidate>
+  <form class='pt-6 px-6 pb-3 bg-gray-100 rounded-md max-h-[90%] flex flex-col' id='addRecordForm' enctype="multipart/form-data" autocomplete="off">
     <!-- HEADER -->
-    <h1 class='text-xl font-medium text-gray-600 mb-3'>Clinic Request Form</h1>
+    <h1 class='text-2xl font-medium text-gray-600 mb-3'>Clinic Request Form</h1>
     <!-- BODY -->
     <div class="overflow-y-auto p-2">
       <h1 class='text-gray-500 mb-3'>All fields with asterisk '*' are required.</h1>
@@ -36,7 +36,7 @@
         </div>
         <div class='flex flex-col'>
           <p class='text-gray-500 font-medium mb-1'>Complaint <span class='text-red-500'>*</span></p>
-          <input name='complaint' autocomplete="off" type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' list="complaintsList" placeholder="Patient complaint">
+          <input name='complaint' type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' list="complaintsList" placeholder="Patient complaint">
           <datalist id='complaintsList'>
             <option value="Complaint 001"></option>
             <option value="Complaint 002"></option>
@@ -45,7 +45,7 @@
         </div>
         <div class='flex flex-col'>
           <p class='text-gray-500 font-medium mb-1'>Medications <span class='text-red-500'>*</span></p>
-          <input name='medication' autocomplete="off" type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' list="medicinesList" placeholder="Select medicine">
+          <input name='medication' type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' list="medicinesList" placeholder="Select medicine">
           <datalist id='medicinesList'>
             <option value="Medicine 001"></option>
             <option value="Medicine 002"></option>
@@ -58,7 +58,7 @@
         </div>
         <div class='flex flex-col'>
           <p class='text-gray-500 font-medium mb-1'>Treatment</p>
-          <input name='treatment' autocomplete="off" type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' list="treatmentsList" placeholder="Patient treatment">
+          <input name='treatment' type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' list="treatmentsList" placeholder="Patient treatment">
           <datalist id='treatmentsList'>
             <option value="Treatment 001"></option>
             <option value="Treatment 002"></option>
@@ -67,7 +67,7 @@
         </div>
         <div class='flex flex-col'>
           <p class='text-gray-500 font-medium mb-1'>Laboratory</p>
-          <input name='laboratory' autocomplete="off" type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' list="laboratoriesList" placeholder="Patient test">
+          <input name='laboratory' type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' list="laboratoriesList" placeholder="Patient test">
           <datalist id='laboratoriesList'>
             <option value="Laboratory 001"></option>
             <option value="Laboratory 002"></option>

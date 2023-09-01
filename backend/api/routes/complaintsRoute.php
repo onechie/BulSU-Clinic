@@ -1,5 +1,5 @@
 <?php 
-$complaintsController = new ComplaintsController($complaintModel);
+$complaintsController = new ComplaintsController($complaintModel, $logModel);
 
 $router->get('/complaints', function () use ($complaintsController) {
     if (isset($_GET['id'])) {

@@ -181,7 +181,6 @@ const handleSeeAttachments = async (id) => {
   try {
     const attachmentsResponse = await getAttachments(null, id);
     const attachments = attachmentsResponse.attachment;
-    console.log(attachments);
     seeAttachmentsFiles.innerHTML = "";
 
     for (let i = 0; i < attachments.length; i++) {
@@ -236,6 +235,13 @@ const handleAddAttachmentsUpload = () => {
     attachmentItem.innerText = attachment.name;
     addAttachmentsList.appendChild(attachmentItem);
   }
+  if (files.length <= 0) {
+    const attachmentItem = document.createElement("div");
+    attachmentItem.className =
+      "px-3 py-2 rounded-md text-gray-600 outline-none ring-1 ring-gray-300 hover:cursor-pointer hover:bg-gray-200";
+    attachmentItem.innerText = "No attachments";
+    addAttachmentsList.appendChild(attachmentItem);
+  }
 };
 const handleAddAttachmentsCancel = () => {
   addAttachmentsModal.classList.add("hidden");
@@ -288,7 +294,7 @@ const updateRecordTable = async () => {
       complaint: record.complaint,
       date: record.date,
       medication: record.medication,
-      nurse: "nurse",
+      nurse: record.userCreated,
       viewHistory: record.name,
     }));
 
