@@ -19,7 +19,7 @@
         ?>
         <!-- MAIN CONTENT -->
         <div class='h-full w-full flex flex-col items-center p-3 py-5 overflow-y-auto'>
-            <form class="p-6 space-y-4 sm:space-y-6 w-full rounded-md border bg-gray-800 border-gray-700 max-w-2xl my-auto" id='registerForm' novalidate>
+            <form class="p-6 space-y-4 sm:space-y-6 w-full rounded-md border bg-gray-800 border-gray-700 max-w-2xl my-auto" id='registerForm'>
                 <h1 class="text-2xl font-medium leading-tight tracking-tight text-gray-300">
                     Create account
                 </h1>
