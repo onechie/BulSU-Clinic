@@ -44,7 +44,6 @@
                                 <label for="keepLoggedIn" class="text-gray-400">Remember me</label>
                             </div>
                         </div>
-                        <a href="#" class="text-sm font-medium text-gray-600 hover:underline hover:text-gray-500">Forgot password?</a>
                     </div>
                     <button type="button" id="loginButton" onclick="(submitUserData())" class="w-full bg-green-700 hover:bg-green-600 font-medium rounded-md h-[40px] text-center disabled:bg-gray-700">
                         <svg id="buttonLoading" hidden xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 animate-spin text-white mx-auto">

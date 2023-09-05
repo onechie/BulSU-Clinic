@@ -64,6 +64,12 @@ $tables = [
         'action VARCHAR(255) NOT NULL',
         'description VARCHAR(255) NOT NULL',
         'FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE'
+    ],
+    'profiles' => [
+        'userId INT NOT NULL',
+        'name VARCHAR(255) NOT NULL',
+        'url VARCHAR(255) NOT NULL',
+        'FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE'
     ]
 ];
 

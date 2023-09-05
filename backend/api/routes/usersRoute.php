@@ -1,5 +1,5 @@
 <?php
-$usersController = new UsersController($userModel);
+$usersController = new UsersController($userModel, $profileModel);
 
 $router->get('/users/me', function () use ($usersController) {
     return $usersController->getUser();
@@ -17,7 +17,7 @@ $router->get('/users/logout', function () use ($usersController) {
 }, true);
 
 $router->post('/users/register', function () use ($usersController) {
-    return $usersController->registerUser($_POST);
+    return $usersController->registerUser($_POST, $_FILES);
 });
 $router->post('/users/password/change', function () use ($usersController) {
     return $usersController->changePassword($_POST);

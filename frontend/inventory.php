@@ -59,7 +59,7 @@
                 <!-- Search -->
                 <div class='flex justify-end pt-3 gap-3 w-full'>
                   <input type="search" class="w-full px-3 py-2 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md hover:ring-gray-400 focus:ring-gray-400" placeholder="Search..." id='searchInput'>
-                  <button class="bg-blue-600 px-3 py-2 rounded" id='searchButton'>
+                  <button class="bg-blue-600 px-3 py-2 rounded hover:bg-blue-500" id='searchButton'>
                     <svg class="w-4 h-4 text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>

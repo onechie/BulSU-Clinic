@@ -1,4 +1,5 @@
 /vendor
 .env
 src/attachments
+src/images/profiles
 /Demo

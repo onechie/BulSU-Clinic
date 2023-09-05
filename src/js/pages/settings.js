@@ -1,3 +1,4 @@
+import { getUser, changePassword } from "../api/users.js";
 import {
   getComplaints,
   addComplaint,
@@ -79,6 +80,15 @@ const elements = {
     add: getById("storages-add"),
     searchInput: getById("storages-search-input"),
     searchButton: getById("storages-search-button"),
+  },
+  user: {
+    username: getById("settings-username"),
+    email: getById("settings-email"),
+    currentPassword: getById("settings-current-password"),
+    newPassword: getById("settings-new-password"),
+    confirmPassword: getById("settings-confirm-password"),
+    submitChangePassword: getById("settings-change-password"),
+    message: getById("settings-message"),
   },
 };
 const initiateAddButtons = (buttons) => {
@@ -165,6 +175,40 @@ const generateTDFunction = (tableType, data) => {
     }
   };
 };
+const updateUserSettings = async () => {
+  const {
+    username,
+    email,
+    currentPassword,
+    newPassword,
+    confirmPassword,
+    submitChangePassword,
+    message,
+  } = elements.user;
+  const handleChangePassword = async () => {
+    try {
+      const response = await changePassword({
+        oldPassword: currentPassword.value,
+        password: newPassword.value,
+        confirmPassword: confirmPassword.value,
+      });
+      message.classList = "text-green-500 text-sm";
+      message.innerText = response.message;
+    } catch (error) {
+      message.classList = "text-red-500 text-sm";
+      message.innerText = error.message;
+    }
+  };
+  try {
+    const user = await getUser();
+    username.value = user.username;
+    email.value = user.email;
+    onClick(submitChangePassword, handleChangePassword);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const updateTable = async (apiFunction, setState, table, type) => {
   try {
     const data = await apiFunction();
@@ -236,6 +280,7 @@ const typeToFunctions = {
   },
 };
 const initializeSettings = async () => {
+  await updateUserSettings();
   await updateComplaintsTable();
   await updateTreatmentsTable();
   await updateLaboratoriesTable();

@@ -2,18 +2,26 @@
 class UsersController
 {
     private $userModel;
-
-    public function __construct(UserModel $userModel)
+    private $profileModel;
+    public function __construct(UserModel $userModel, ProfileModel $profileModel)
     {
         $this->userModel = $userModel;
+        $this->profileModel = $profileModel;
     }
     public function getUser()
     {
         try {
             if (isset($_COOKIE['a_jwt'])) {
                 $userData = Auth::validateAccessJWT($_COOKIE['a_jwt']);
+                $userProfile = $this->profileModel->getProfileByUserId($userData->sub);
                 $userData = $this->userModel->getUser($userData->sub);
                 $userData = Data::filterData($userData, ['username', 'email']);
+
+                if ($userProfile) {
+                    $userData['profilePicture'] = $userProfile['url'];
+                } else {
+                    $userData['profilePicture'] = "";
+                }
                 return Response::successResponseWithData("User data found.", ["user" => $userData]);
             } else {
                 return Response::errorResponse("Access token not found.");
@@ -37,9 +45,9 @@ class UsersController
 
                 $this->validateUserData($req);
                 if (!password_verify($req['oldPassword'], $userData['password'])) {
-                    return Response::errorResponse("Old password is incorrect.");
+                    return Response::errorResponse("Current password is incorrect.");
                 } else if ($req['oldPassword'] === $req['password']) {
-                    return Response::errorResponse("New password must be different from old password.");
+                    return Response::errorResponse("New password must be different from current password.");
                 } else {
                     $req = Data::filterData($req, ['id', 'username', 'email', 'password']);
                     $req['password'] = password_hash($req['password'], PASSWORD_DEFAULT);
@@ -69,24 +77,31 @@ class UsersController
         }
     }
 
-    public function registerUser($req)
+    public function registerUser($req, $file)
     {
         $expectedKeys = ['username', 'email', 'password', 'confirmPassword', 'agreement', 'X-CSRF-TOKEN'];
         $req = Data::filterData($req, $expectedKeys);
+        $formattedPicture = [];
         try {
             $this->validateUserData($req);
+            if (File::hasPicture($file)) {
+                $formattedPicture = File::formatPicture($file['profilePicture']);
+                File::validatePicture($formattedPicture);
+            }
             $this->isUsernameExists($req['username']);
             $this->isEmailExists($req['email']);
-            if (filter_var($req['agreement'], FILTER_VALIDATE_BOOLEAN) === false) {
+            if (!isset($req['agreement'])) {
                 return Response::errorResponse("You must agree to the terms and policies.");
             }
             $req['password'] = password_hash($req['password'], PASSWORD_DEFAULT);
-            $result = $this->userModel->addUser(...array_values($req));
-            if ($result) {
+            $userId = $this->userModel->addUser(...array_values($req));
+
+            if ($userId && File::hasPicture($file)) {
+                $uploadedPicture  = File::uploadPicture($formattedPicture, $userId);
+                $this->profileModel->addProfile($userId, $uploadedPicture['name'], $uploadedPicture['url']);
                 return Response::successResponse($req['username'] . " registered successfully.");
-            } else {
-                return Response::errorResponse("User registration failed.");
             }
+            return $userId ? Response::successResponse("Record successfully added.") : Response::errorResponse("Record failed to add.");
         } catch (Throwable $error) {
             return Response::errorResponse($error->getMessage());
         }

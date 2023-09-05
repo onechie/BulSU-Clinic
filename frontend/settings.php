@@ -44,35 +44,38 @@
           <!-- CONTENT -->
           <div class='w-full px-10 pt-5 border border-gray-300 rounded overflow-y-auto flex-grow'>
             <details class="p-2">
-              <summary class="font-medium text-gray-600 text-lg">User</summary>
+              <summary class="font-medium text-gray-600 text-lg hover:cursor-pointer">Account Settings</summary>
               <div>
                 <div class="px-5 pt-5">
                   <h3 class='text-gray-600 font-medium pb-3'>Personal and account information</h3>
                   <div class='flex flex-col'>
                     <p class="text-gray-500 mb-1">Username</p>
-                    <input type="text" class="px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400 mb-2 max-w-[250px]" value="username001" disabled>
+                    <input id='settings-username' type="text" class="px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400 mb-2 max-w-[250px]" value="" disabled>
                   </div>
                   <div class='flex flex-col'>
                     <p class="text-gray-500 mb-1">Email</p>
-                    <input type="text" class="px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400 mb-2 max-w-[250px]" value="email@test.com" disabled>
+                    <input id='settings-email' type="text" class="px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400 mb-2 max-w-[250px]" value="" disabled>
                   </div>
                 </div>
                 <div class="p-5">
                   <h3 class='text-gray-600 font-medium pb-3'>Manage password</h3>
                   <div class='flex flex-col'>
                     <p class="text-gray-500 mb-1">Current password</p>
-                    <input type="password" id="currentPassword" class="px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400 mb-2 max-w-[250px]" placeholder="current password">
+                    <input type="password" id="settings-current-password" class="px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400 mb-2 max-w-[250px]" placeholder="current password">
                   </div>
                   <div class='flex flex-col'>
                     <p class="text-gray-500 mb-1">New password</p>
-                    <input type="password" id="newPassword" placeholder="new password" class="px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400 mb-2 max-w-[250px]">
+                    <input type="password" id="settings-new-password" placeholder="new password" class="px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400 mb-2 max-w-[250px]">
                   </div>
                   <div class='flex flex-col'>
                     <p class="text-gray-500 mb-1">Confirm new password</p>
-                    <input type="password" id="RetypeNewPassword" placeholder="confirm new password" class="px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400 mb-5 max-w-[250px]">
+                    <input type="password" id="settings-confirm-password" placeholder="confirm new password" class="px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400 mb-3 max-w-[250px]">
+                  </div>
+                  <div class='flex flex-col'>
+                    <p class="text-red-500" id='settings-message'></p>
                   </div>
                   <div class='flex'>
-                    <button type="button" onclick="" class="bg-blue-500 text-gray-200 py-2 px-3 rounded-md">
+                    <button type="button" id="settings-change-password" class="bg-blue-600 text-gray-200 py-2 px-3 rounded-md mt-2 hover:bg-blue-500">
                       Change password
                     </button>
                   </div>
@@ -92,7 +95,7 @@
             -->
 
             <details class="p-2">
-              <summary class="font-medium text-gray-600 text-lg">Manage Complaints</summary>
+              <summary class="font-medium text-gray-600 text-lg hover:cursor-pointer">Manage Complaints</summary>
               <div class="px-3 pb-5">
                 <div class='w-full' id="complaints-container">
                   <div class="flex pt-5 gap-5 pb-5">
@@ -102,13 +105,13 @@
                     </div>
                     <div class='w-[50%] flex flex-col justify-between gap-3'>
                       <div class='flex justify-end gap-3'>
-                        <button id='complaints-add' type="button" class="bg-blue-600 px-3 py-2 rounded text-gray-200">
+                        <button id='complaints-add' type="button" class="bg-blue-600 px-3 py-2 rounded text-gray-200 hover:bg-blue-500">
                           New complaint
                         </button>
                       </div>
                       <div class='flex gap-3'>
                         <input id='complaints-search-input' type="text" placeholder="Search..." class="flex-grow px-3 py-2 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md hover:ring-gray-400 focus:ring-gray-400" />
-                        <button id='complaints-search-button' type="button" class="bg-blue-600 px-3 py-2 rounded">
+                        <button id='complaints-search-button' type="button" class="bg-blue-600 px-3 py-2 rounded hover:bg-blue-500">
                           <svg class="w-4 h-4 text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                           </svg>
@@ -148,7 +151,7 @@
             -->
 
             <details class="p-2">
-              <summary class="font-medium text-gray-600 text-lg">Manage Treatments</summary>
+              <summary class="font-medium text-gray-600 text-lg hover:cursor-pointer">Manage Treatments</summary>
               <div class="px-3 pb-5">
                 <div class='w-full' id="treatments-container">
                   <div class="flex pt-5 gap-5 pb-5">
@@ -158,13 +161,13 @@
                     </div>
                     <div class='w-[50%] flex flex-col justify-between gap-3'>
                       <div class='flex justify-end gap-3'>
-                        <button id='treatments-add' type="button" class="bg-blue-600 px-3 py-2 rounded text-gray-200">
+                        <button id='treatments-add' type="button" class="bg-blue-600 px-3 py-2 rounded text-gray-200 hover:bg-blue-500">
                           New treatment
                         </button>
                       </div>
                       <div class='flex gap-3'>
                         <input id='treatments-search-input' type="text" placeholder="Search..." class="flex-grow px-3 py-2 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md hover:ring-gray-400 focus:ring-gray-400" />
-                        <button id='treatments-search-button' type="button" class="bg-blue-600 px-3 py-2 rounded">
+                        <button id='treatments-search-button' type="button" class="bg-blue-600 px-3 py-2 rounded hover:bg-blue-500">
                           <svg class="w-4 h-4 text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                           </svg>
@@ -205,7 +208,7 @@
             -->
 
             <details class="p-2">
-              <summary class="font-medium text-gray-600 text-lg">Manage Laboratories</summary>
+              <summary class="font-medium text-gray-600 text-lg hover:cursor-pointer">Manage Laboratories</summary>
               <div class="px-3 pb-5">
                 <div class='w-full' id="laboratories-container">
                   <div class="flex pt-5 gap-5 pb-5">
@@ -215,13 +218,13 @@
                     </div>
                     <div class='w-[50%] flex flex-col justify-between gap-3'>
                       <div class='flex justify-end gap-3'>
-                        <button id='laboratories-add' type="button" class="bg-blue-600 px-3 py-2 rounded text-gray-200">
+                        <button id='laboratories-add' type="button" class="bg-blue-600 px-3 py-2 rounded text-gray-200 hover:bg-blue-500">
                           New laboratory
                         </button>
                       </div>
                       <div class='flex gap-3'>
                         <input id='laboratories-search-input' type="text" placeholder="Search..." class="flex-grow px-3 py-2 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md hover:ring-gray-400 focus:ring-gray-400" />
-                        <button id='laboratories-search-button' type="button" class="bg-blue-600 px-3 py-2 rounded">
+                        <button id='laboratories-search-button' type="button" class="bg-blue-600 px-3 py-2 rounded hover:bg-blue-500">
                           <svg class="w-4 h-4 text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                           </svg>
@@ -261,7 +264,7 @@
             -->
 
             <details class="p-2">
-              <summary class="font-medium text-gray-600 text-lg">Manage Storages</summary>
+              <summary class="font-medium text-gray-600 text-lg hover:cursor-pointer">Manage Storages</summary>
               <div class="px-3 pb-5">
                 <div class='w-full' id="storages-container">
                   <div class="flex pt-5 gap-5 pb-5">
@@ -271,13 +274,13 @@
                     </div>
                     <div class='w-[50%] flex flex-col justify-between gap-3'>
                       <div class='flex justify-end gap-3'>
-                        <button id='storages-add' type="button" class="bg-blue-600 px-3 py-2 rounded text-gray-200">
+                        <button id='storages-add' type="button" class="bg-blue-600 px-3 py-2 rounded text-gray-200 hover:bg-blue-500">
                           New storage
                         </button>
                       </div>
                       <div class='flex gap-3'>
                         <input id='storages-search-input' type="text" placeholder="Search..." class="flex-grow px-3 py-2 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md hover:ring-gray-400 focus:ring-gray-400" />
-                        <button id='storages-search-button' type="button" class="bg-blue-600 px-3 py-2 rounded">
+                        <button id='storages-search-button' type="button" class="bg-blue-600 px-3 py-2 rounded hover:bg-blue-500">
                           <svg class="w-4 h-4 text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                           </svg>

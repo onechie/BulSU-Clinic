@@ -25,6 +25,7 @@ $laboratoryModel = new LaboratoryModel();
 $storageModel = new StorageModel();
 $treatmentModel = new TreatmentModel();
 $logModel = new LogModel();
+$profileModel = new ProfileModel();
 
 // ROUTER INSTANCE
 $router = new Router();

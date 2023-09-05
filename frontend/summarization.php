@@ -42,6 +42,11 @@
                 <div class='flex gap-[20px] justify-end'>
                   <button class='rounded-md ring-1 bg-green-600 text-gray-200 px-3 py-2 hover:bg-green-500' type="button">Print</button>
                 </div>
+                <!-- Dropdown -->
+                <div class='flex justify-end pt-3 gap-3 w-full'>
+                  <select id="selectMonth" class='outline-none py-3 ps-3 pe-2 text-gray-600 rounded-md border border-gray-300 bg-gray-100 hover:border-gray-400'>
+                  </select>
+                </div>
               </div>
             </div>
             <!-- Chart -->

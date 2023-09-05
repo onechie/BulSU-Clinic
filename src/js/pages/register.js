@@ -1,4 +1,6 @@
 "use strict";
+import { registerUser } from "../api/users.js";
+import { getById, onClick } from "../utils/utils.js";
 const endPoint = "../backend/api/users/register";
 let notificationTimeout;
 const notificationIconError = document.getElementById("notificationIconError");
@@ -8,59 +10,62 @@ const notificationIconSuccess = document.getElementById(
 const notificationTitle = document.getElementById("notificationTitle");
 const notificationMessage = document.getElementById("notificationMessage");
 
+const registerForm = getById("registerForm");
+const profilePicturePreview = getById("profilePicturePreview");
+const profileIcon = getById("profileIcon");
 const registerButton = document.getElementById("registerButton");
 
-const submitUserData = async () => {
-  const usernameInput = document.getElementById("username");
-  const emailInput = document.getElementById("email");
-  const passwordInput = document.getElementById("password");
-  const confirmPasswordInput = document.getElementById("confirmPassword");
-  const agreementInput = document.getElementById("agreement");
-
+registerForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
   registerButton.disabled = true;
-
+  const userData = new FormData(registerForm);
   try {
-    const username = usernameInput.value;
-    const email = emailInput.value;
-    const password = passwordInput.value;
-    const confirmPassword = confirmPasswordInput.value;
-    const agreement = agreementInput.checked;
-
     toggleRegisterButton(true);
     closeNotification();
-    const { data } = await axios.post(
-      endPoint,
-      {
-        username,
-        email,
-        password,
-        confirmPassword,
-        agreement,
-      },
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
-    );
-
-    notificationMessage.innerText = data.message;
+    const { message } = await registerUser(userData);
+    notificationMessage.innerText = message;
     registerButton.disabled = false;
     openNotification("Registration Success", true);
     toggleRegisterButton(false);
-
-    usernameInput.value = "";
-    emailInput.value = "";
-    passwordInput.value = "";
-    confirmPasswordInput.value = "";
-    agreementInput.checked = false;
+    profilePicturePreview.classList = `relative outline-none ring-2 ring-gray-500 hover:ring-gray-600 cursor-pointer 
+    rounded-full h-[100px] w-[100px] overflow-hidden bg-center bg-cover bg-[url("")]`;
+    profileIcon.classList.remove("hidden");
+    registerForm.reset();
   } catch (error) {
-    notificationMessage.innerText = error.response.data.message;
+    notificationMessage.innerText = error.message;
     registerButton.disabled = false;
     openNotification("Registration Failed", false);
     toggleRegisterButton(false);
   }
-};
+});
+
+registerForm.profilePicture.addEventListener("change", () => {
+  if (registerForm.profilePicture.files.length === 0) {
+    profilePicturePreview.classList = `relative outline-none ring-2 ring-gray-500 hover:ring-gray-600 cursor-pointer 
+    rounded-full h-[100px] w-[100px] overflow-hidden bg-center bg-cover bg-[url("")]`;
+    profileIcon.classList.remove("hidden");
+    return;
+  }
+  const profilePicture = registerForm.profilePicture.files[0];
+
+  var validImageTypes = ["image/gif", "image/jpeg", "image/png", "image/jpg"];
+
+  if (validImageTypes.includes(profilePicture.type) === false) {
+    profilePicturePreview.classList = `relative outline-none ring-2 ring-gray-500 hover:ring-gray-600 cursor-pointer 
+    rounded-full h-[100px] w-[100px] overflow-hidden bg-center bg-cover bg-[url("")]`;
+    registerForm.profilePicture.value = null;
+    closeNotification();
+    notificationMessage.innerText = "Please insert valid image file!";
+    openNotification("Invalid Photo", false);
+    profileIcon.classList.remove("hidden");
+  } else {
+    profilePicturePreview.classList = `relative outline-none ring-2 ring-gray-500 hover:ring-gray-600 cursor-pointer 
+    rounded-full h-[100px] w-[100px] overflow-hidden bg-center bg-cover bg-[url("${URL.createObjectURL(
+      profilePicture
+    )}")]`;
+    profileIcon.classList.add("hidden");
+  }
+});
 
 const toggleRegisterButton = (isLoading) => {
   const buttonLoading = document.getElementById("buttonLoading");
