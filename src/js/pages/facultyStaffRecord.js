@@ -287,7 +287,9 @@ const handleViewHistoryClose = () => {
 const updateRecordTable = async () => {
   try {
     const recordsResponse = await getRecords();
-    recordsData = recordsResponse.records;
+    recordsData = recordsResponse.records.filter(
+      (record) => record.type === "staff" || record.type === "faculty"
+    );
 
     recordsTableData = recordsData.map((record) => ({
       name: record.name,

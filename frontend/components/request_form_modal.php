@@ -34,6 +34,15 @@
           <p class='text-gray-500 font-medium mb-1'>Date entry <span class='text-red-500'>*</span></p>
           <input name='date' type="date" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400'>
         </div>
+        <div class="flex flex-col">
+          <p class='text-gray-500 font-medium mb-1'>Patient type <span class='text-red-500'>*</span></p>
+          <select name="type" class="text-gray-500 outline-none px-3 py-1 ring-1 ring-gray-300 rounded-md h-full focus:ring-gray-400 hover:ring-gray-400">
+            <option value="" selected>select patient type</option>
+            <option value="student">Student</option>
+            <option value="faculty">Faculty</option>
+            <option value="staff">Staff</option>
+          </select>
+        </div>
         <div class='flex flex-col'>
           <p class='text-gray-500 font-medium mb-1'>Complaint <span class='text-red-500'>*</span></p>
           <input name='complaint' type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' list="complaintsList" placeholder="Patient complaint">

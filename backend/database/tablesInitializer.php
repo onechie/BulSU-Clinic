@@ -27,6 +27,7 @@ $tables = [
         'schoolYear INT NOT NULL',
         'name VARCHAR(255) NOT NULL',
         'date DATE NOT NULL',
+        'type VARCHAR(255) NOT NULL',
         'complaint TEXT NOT NULL',
         'medication VARCHAR(255) NOT NULL',
         'quantity INT NOT NULL',

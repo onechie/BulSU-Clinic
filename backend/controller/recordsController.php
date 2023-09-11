@@ -38,7 +38,7 @@ class RecordsController
 
     public function addRecord($req, $files)
     {
-        $expectedKeys = ['schoolYear', 'name', 'date', 'complaint', 'medication', 'quantity', 'treatment', 'laboratory', 'bloodPressure', 'pulse', 'weight', 'temperature', 'respiration', 'oximetry'];
+        $expectedKeys = ['schoolYear', 'name', 'date', 'type', 'complaint', 'medication', 'quantity', 'treatment', 'laboratory', 'bloodPressure', 'pulse', 'weight', 'temperature', 'respiration', 'oximetry'];
         $req = Data::filterData($req, $expectedKeys);
         $formattedFiles = [];
         try {
@@ -122,6 +122,7 @@ class RecordsController
         $name = $recordData['name'] ?? null;
         $date = $recordData['date'] ?? null;
         $complaint = $recordData['complaint'] ?? null;
+        $type = $recordData['type'] ?? null;
         $medication = $recordData['medication'] ?? null;
         $quantity = $recordData['quantity'] ?? null;
         $treatment = $recordData['treatment'] ?? null;
@@ -137,6 +138,7 @@ class RecordsController
         Data::onlyNum("School Year", strval($schoolYear));
         Data::onlyAlphaNum("Name", $name);
         Data::onlyDate("Date", $date);
+        Data::onlyAlphaNum("Patient type", $type);
         Data::onlyAlphaNum("Complaint", $complaint);
         Data::onlyAlphaNum("Medication", $medication);
         $hasMedicine = $this->medicineModel->getMedicineByName($medication);

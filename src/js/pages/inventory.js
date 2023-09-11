@@ -1,31 +1,31 @@
 import { getMedicines, addMedicine, updateMedicine } from "../api/medicines.js";
 import { getStorages } from "../api/storages.js";
-import { createTableRows, createOptions } from "../utils/utils.js";
+import {
+  createTableRows,
+  createOptions,
+  getById,
+  onClick,
+  handleOpen,
+} from "../utils/utils.js";
 
 const PAGE_SIZE = 10;
 
-const searchInput = document.getElementById("searchInput");
-const inventoryMedicinesTable = document.getElementById(
-  "inventoryMedicinesTable"
-);
-const pageCountElement = document.getElementById("pageCount");
-const pageNumberInput = document.getElementById("pageNumber");
-const addMedicineModal = document.getElementById("addMedicineModal");
-const addMedicineButton = document.getElementById("addMedicineButton");
-const addMedicineMessage = document.getElementById("addMedicineMessage");
-const addMedicineForm = document.getElementById("addMedicineForm");
-const addMedicineCancel = document.getElementById("addMedicineCancel");
-const addMedicineStoragesList = document.getElementById(
-  "addMedicineStoragesList"
-);
-const editMedicineModal = document.getElementById("editMedicineModal");
-const editMedicineButton = document.getElementById("editMedicineButton");
-const editMedicineMessage = document.getElementById("editMedicineMessage");
-const editMedicineForm = document.getElementById("editMedicineForm");
-const editMedicineCancel = document.getElementById("editMedicineCancel");
-const editMedicineStoragesList = document.getElementById(
-  "editMedicineStoragesList"
-);
+const searchInput = getById("searchInput");
+const printInventory = getById("printInventory");
+const inventoryMedicinesTable = getById("inventoryMedicinesTable");
+const pageCountElement = getById("pageCount");
+const pageNumberInput = getById("pageNumber");
+const addMedicineModal = getById("addMedicineModal");
+const addMedicineButton = getById("addMedicineButton");
+const addMedicineMessage = getById("addMedicineMessage");
+const addMedicineForm = getById("addMedicineForm");
+const addMedicineCancel = getById("addMedicineCancel");
+const addMedicineStoragesList = getById("addMedicineStoragesList");
+const editMedicineModal = getById("editMedicineModal");
+const editMedicineMessage = getById("editMedicineMessage");
+const editMedicineForm = getById("editMedicineForm");
+const editMedicineCancel = getById("editMedicineCancel");
+const editMedicineStoragesList = getById("editMedicineStoragesList");
 
 let medicinesData = [];
 let storagesData = [];
@@ -39,7 +39,7 @@ const customTDFunction = (key, value, td) => {
     td.classList.remove("text-gray-500", "pe-3");
     td.classList.add("text-end");
     const button = document.createElement("button");
-    button.className = "underline text-blue-500";
+    button.className = "underline text-blue-500 print:hidden";
     button.innerText = "edit";
     button.addEventListener("click", () => {
       handleEditButtonClick(value);
@@ -49,18 +49,13 @@ const customTDFunction = (key, value, td) => {
 };
 
 const setupEventListeners = () => {
-  document
-    .getElementById("searchButton")
-    .addEventListener("click", handleSearch);
-  document
-    .getElementById("pageNext")
-    .addEventListener("click", () => handlePageChange(1));
-  document
-    .getElementById("pagePrev")
-    .addEventListener("click", () => handlePageChange(-1));
+  onClick(getById("searchButton"), handleSearch);
+  onClick(printInventory, () => window.print());
+  onClick(getById("pageNext"), () => handlePageChange(1));
+  onClick(getById("pagePrev"), () => handlePageChange(-1));
   pageNumberInput.addEventListener("change", handlePageInputChange);
-  addMedicineButton.addEventListener("click", () => {
-    addMedicineModal.classList.remove("hidden");
+  onClick(addMedicineButton, () => {
+    handleOpen(addMedicineModal);
   });
   addMedicineForm.boxesCount.addEventListener(
     "change",
@@ -71,8 +66,7 @@ const setupEventListeners = () => {
     handleItemsQuantityChange
   );
   addMedicineForm.addEventListener("submit", handleAddMedicineSubmit);
-  addMedicineCancel.addEventListener("click", handleAddMedicineCancel);
-
+  onClick(addMedicineCancel, handleAddMedicineCancel);
   editMedicineForm.boxesCount.addEventListener(
     "change",
     handleEditMedicineQuantities
@@ -81,9 +75,8 @@ const setupEventListeners = () => {
     "change",
     handleEditMedicineQuantities
   );
-
   editMedicineForm.addEventListener("submit", handleEditMedicineSubmit);
-  editMedicineCancel.addEventListener("click", handleEditMedicineCancel);
+  onClick(editMedicineCancel, handleEditMedicineCancel);
 };
 
 const renderPage = (pageNumber) => {

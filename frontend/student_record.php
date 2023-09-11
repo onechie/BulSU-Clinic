@@ -8,7 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
   <link rel="stylesheet" href="/src/styles/index.css" />
-  <title>Records</title>
+  <title>Student Records</title>
 </head>
 
 <body class="">
@@ -51,7 +51,7 @@
             <div class='flex flex gap-[50px] pb-5'>
               <!-- Table info -->
               <div class='w-[50%]'>
-                <h1 class='font-medium text-xl text-gray-700 pb-2'>Patients Record Overview</h1>
+                <h1 class='font-medium text-xl text-gray-700 pb-2'>Student Patients Record Overview</h1>
                 <p class='text-gray-500'>Name of patient and their complaint, date of entry, and medication.</p>
               </div>
               <div class="w-[50%] flex flex-col justify-between">
@@ -75,7 +75,7 @@
               <table class='min-w-full table-auto border-collapse' id='clinicRecordTable'>
                 <thead class="">
                   <tr class='border-b border-gray-300'>
-                    <th class='py-3 text-gray-600 text-start pe-3'>Name</th>
+                    <th class='py-3 text-gray-600 text-start pe-3'>Patient</th>
                     <th class='py-3 text-gray-600 text-start pe-3'>Complaint</th>
                     <th class='py-3 text-gray-600 text-start pe-3'>Date of entry</th>
                     <th class='py-3 text-gray-600 text-start pe-3'>Medication</th>
@@ -119,7 +119,7 @@
     </div>
   </div>
   <!-- SCRIPTS -->
-  <script type='module' src="/src/js/pages/clinicRecord.js"></script>
+  <script type='module' src="/src/js/pages/studentRecord.js"></script>
 </body>
 
 </html>

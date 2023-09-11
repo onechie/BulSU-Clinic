@@ -29,13 +29,14 @@ class RecordModel extends Database
         }
     }
 
-    public function addRecord(int $schoolYear, string $name, string $date, string $complaint, string $medication, int $quantity, string $treatment, string $laboratory, string $bloodPressure, string $pulse, string $weight, string $temperature, string $respiration, string $oximetry, string $userCreated)
+    public function addRecord(int $schoolYear, string $name, string $date, string $complaint, string $type, string $medication, int $quantity, string $treatment, string $laboratory, string $bloodPressure, string $pulse, string $weight, string $temperature, string $respiration, string $oximetry, string $userCreated)
     {
-        $sql = 'INSERT INTO records (schoolYear, name, date, complaint, medication, quantity, treatment, laboratory, bloodPressure, pulse, weight, temperature, respiration, oximetry, userCreated) VALUES (:schoolYear, :name, :date, :complaint, :medication, :quantity, :treatment, :laboratory, :bloodPressure, :pulse, :weight, :temperature, :respiration, :oximetry, :userCreated)';
+        $sql = 'INSERT INTO records (schoolYear, name, date, complaint, type, medication, quantity, treatment, laboratory, bloodPressure, pulse, weight, temperature, respiration, oximetry, userCreated) VALUES (:schoolYear, :name, :date, :type, :complaint, :medication, :quantity, :treatment, :laboratory, :bloodPressure, :pulse, :weight, :temperature, :respiration, :oximetry, :userCreated)';
         $params = [
             ':schoolYear' => $schoolYear,
             ':name' => $name,
             ':date' => $date,
+            ':type' => $type,
             ':complaint' => $complaint,
             ':medication' => $medication,
             ':quantity' => $quantity,
@@ -56,13 +57,14 @@ class RecordModel extends Database
         }
     }
 
-    public function updateRecord(int $id, int $schoolYear, string $name, string $date, string $complaint, string $medication, int $quantity, string $treatment, string $laboratory, string $bloodPressure, string $pulse, string $weight, string $temperature, string $respiration, string $oximetry)
+    public function updateRecord(int $id, int $schoolYear, string $name, string $date, string $complaint, string $type, string $medication, int $quantity, string $treatment, string $laboratory, string $bloodPressure, string $pulse, string $weight, string $temperature, string $respiration, string $oximetry)
     {
-        $sql = 'UPDATE records SET schoolYear = :schoolYear, name = :name, date = :date, complaint = :complaint, medication = :medication, quantity = :quantity, treatment = :treatment, laboratory = :laboratory, bloodPressure = :bloodPressure, pulse = :pulse, weight = :weight, temperature = :temperature, respiration = :respiration, oximetry = :oximetry WHERE id = :id';
+        $sql = 'UPDATE records SET schoolYear = :schoolYear, name = :name, date = :date, type = :type, complaint = :complaint, medication = :medication, quantity = :quantity, treatment = :treatment, laboratory = :laboratory, bloodPressure = :bloodPressure, pulse = :pulse, weight = :weight, temperature = :temperature, respiration = :respiration, oximetry = :oximetry WHERE id = :id';
         $params = [
             ':schoolYear' => $schoolYear,
             ':name' => $name,
             ':date' => $date,
+            ':type' => $type,
             ':complaint' => $complaint,
             ':medication' => $medication,
             ':quantity' => $quantity,

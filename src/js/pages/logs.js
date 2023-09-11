@@ -106,7 +106,6 @@ const updateActivityLogsTable = async () => {
 
     logsTableData = logsData.map((log) => {
       const { date, time } = formatDateTime(log.created_at);
-
       return {
         date: date,
         time: time,
@@ -115,6 +114,7 @@ const updateActivityLogsTable = async () => {
         showDetails: log.id,
       };
     });
+    logsTableData.reverse();
 
     pageCountElement.innerText = Math.ceil(logsTableData.length / PAGE_SIZE);
     pages = Array.from(

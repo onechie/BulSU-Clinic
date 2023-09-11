@@ -1,12 +1,12 @@
-<div class="w-full flex justify-between h-[50px] bg-lime-900 absolute shadow-[inset 0 2px 4px 0 rgb(0 0 0 / 0.05)] top-0">
+<div class="w-full flex justify-between h-[50px] bg-lime-900 absolute shadow-[inset 0 2px 4px 0 rgb(0 0 0 / 0.05)] top-0 print:bg-white print:h-[100px]">
   <div class="h-full flex items-center px-5" fixed>
-    <img src="./src/images/logo.png" class="h-[45px]" />
-    <h1 class="text-lime-50 ms-3 font-poppins text-xl font-medium">
-      <span class='font-medium text-2xl'>B</span><small class=''>UL</small>SU
-      <span class='font-medium text-2xl'>C</span><small class=''>LINIC</small>
+    <img src="./src/images/logo.png" class="h-[45px] print:h-[90px]" />
+    <h1 class="text-lime-50 ms-3 font-poppins text-xl font-medium print:text-3xl print:text-gray-700">
+      <span class='text-2xl print:text-4xl'>B</span><small class=''>UL</small>SU
+      <span class='text-2xl print:text-4xl'>C</span><small class=''>LINIC</small>
     </h1>
   </div>
-  <div class='h-full flex items-center px-5'>
+  <div class='h-full flex items-center px-5 print:hidden'>
     <div class="flex h-full px-2 items-center hover:bg-black/20 hover:cursor-pointer" id='user-button'>
       <div id='profile-picture' class='me-1 relative outline-none ring-1 ring-gray-200 rounded-full h-[35px] w-[35px] overflow-hidden bg-center bg-cover bg-[url("/src/images/default-profile.jpg")]'>
       </div>

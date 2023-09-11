@@ -13,7 +13,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 $pageRouter = new PageRouter();
 
 $pageRouter->get('/', function () {
-  PageRouter::displayPage('home.php');
+  header('Location: /login');
 });
 $pageRouter->get('/login', function () {
   PageRouter::displayPage('login.php');
@@ -33,8 +33,11 @@ $pageRouter->get('/summarization', function () {
   PageRouter::displayPage('summarization.php');
 }, true, false);
 
-$pageRouter->get('/clinicrecord', function () {
-  PageRouter::displayPage('clinicrecord.php');
+$pageRouter->get('/student', function () {
+  PageRouter::displayPage('student_record.php');
+}, true, false);
+$pageRouter->get('/faculty&staff', function () {
+  PageRouter::displayPage('faculty_staff_record.php');
 }, true, false);
 $pageRouter->get('/logs', function () {
   PageRouter::displayPage('logs.php');

@@ -1,4 +1,4 @@
-<div class='pt-[50px] w-[50px] bg-gray-800 h-full' id='menu-container'>
+<div class='pt-[50px] w-[50px] bg-gray-800 h-full print:hidden' id='menu-container'>
     <div class='p-3 flex items-center justify-end hover:bg-gray-900/50 cursor-pointer' id='menu-toggler' onclick="(menuToggler())">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-600">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
@@ -22,17 +22,18 @@
         </svg>
         <p class='text-base px-2 text-gray-400 menu-label hidden opacity-0'>Summarization</p>
     </a>
-    <a href="/clinicrecord" class='p-3 flex items-center border-b border-gray-700 hover:bg-gray-900/50'>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-600">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-        <p class='text-base px-2 text-gray-400 menu-label hidden opacity-0'>Faculty</p>
-    </a>
-    <a href="/clinicrecord" class='p-3 flex items-center border-b border-gray-700 hover:bg-gray-900/50'>
+    <a href="/student" class='p-3 flex items-center border-b border-gray-700 hover:bg-gray-900/50'>
+
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-600">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
         </svg>
-        <p class='text-base px-2 text-gray-400 menu-label hidden opacity-0'>Staff</p>
+        <p class='text-base px-2 text-gray-400 menu-label hidden opacity-0'>Student</p>
+    </a>
+    <a href="/faculty&staff" class='p-3 flex items-center border-b border-gray-700 hover:bg-gray-900/50'>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-600">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+        <p class='text-base px-2 text-gray-400 menu-label hidden opacity-0'>Faculty/Staff</p>
     </a>
     <a href="/logs" class='p-3 flex items-center border-b border-gray-700 hover:bg-gray-900/50'>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-600">
