@@ -7,6 +7,7 @@ let currentChart = null;
 
 const container = getById("barChart");
 const selectMonth = getById("selectMonth");
+const printSummarization = getById("printSummarization");
 
 let medicinesData = [];
 let recordsData = [];
@@ -17,6 +18,11 @@ let monthOptions = new Set();
 document.addEventListener("DOMContentLoaded", () => {
   getAndDisplaySummarization();
 });
+
+printSummarization.addEventListener("click", function () {
+  window.print();
+});
+
 const sortLikePyramid = (arr) => {
   const compareByItemsD = (a, b) => b.itemsDeducted - a.itemsDeducted;
   arr.sort(compareByItemsD);

@@ -9,6 +9,14 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
   <link rel="stylesheet" href="/src/styles/index.css" />
+  <style>
+    @media print {
+      @page {
+        margin: 1cm;
+        size: A4;
+      }
+    }
+  </style>
   <title>Summarization</title>
 </head>
 
@@ -25,22 +33,22 @@
       ?>
 
       <!-- MAIN CONTENT -->
-      <div class='bg-gray-300 h-full w-full p-3 pt-[60px] overflow-auto'>
-        <div class='bg-gray-100 h-full w-full py-3 px-6 flex flex-col min-h-[500px] min-w-[900px]'>
+      <div class='bg-gray-300 h-full w-full p-3 pt-[60px] overflow-auto print:overflow-hidden print:p-0 print:pt-[110px] print:bg-white'>
+        <div class='bg-gray-100 h-full w-full py-3 px-6 flex flex-col min-h-[500px] min-w-[900px]  print:w-full print:bg-white'>
           <!-- HEADER -->
-          <h1 class='text-gray-700 font-medium text-2xl pb-5 font-noto'>Summarization</h1>
+          <h1 class='text-gray-700 font-medium text-2xl pb-5 font-noto print:hidden'>Summarization</h1>
           <!-- CONTENT -->
-          <div class='w-full h-full p-10 border border-gray-399 rounded-md flex flex-col flex-grow'>
+          <div class='w-full h-full p-10 border border-gray-399 rounded-md flex flex-col flex-grow print:flex-shrink print:text-[12px] print:border-none print:p-0'>
             <div class='flex flex gap-[50px] pb-5'>
               <!-- Table info -->
-              <div class='w-[50%]'>
+              <div class='w-[50%] print:w-[100%]'>
                 <h1 class='font-medium text-xl text-gray-700 pb-2'>Medicine Consumption Analysis</h1>
                 <p class='text-gray-500'>Brand of medicines and their consumption per month.</p>
               </div>
-              <div class="w-[50%] flex flex-col justify-between">
+              <div class="w-[50%] flex flex-col justify-between print:hidden">
                 <!-- Buttons -->
                 <div class='flex gap-[20px] justify-end'>
-                  <button class='rounded-md ring-1 bg-green-600 text-gray-200 px-3 py-2 hover:bg-green-500' type="button">Print</button>
+                  <button class='rounded-md ring-1 bg-green-600 text-gray-200 px-3 py-2 hover:bg-green-500' id='printSummarization'>Print</button>
                 </div>
                 <!-- Dropdown -->
                 <div class='flex justify-end pt-3 gap-3 w-full'>
@@ -50,8 +58,8 @@
               </div>
             </div>
             <!-- Chart -->
-            <div class="flex-grow overflow-y-auto h-[150px]">
-              <div class='relative h-full overflow-hidden'>
+            <div class="flex-grow overflow-y-auto  h-[150px] print:overflow-hidden">
+              <div class='relative h-full overflow-hidden print:overflow-hidden'>
                 <canvas id="barChart"></canvas>
               </div>
             </div>
