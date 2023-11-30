@@ -1,5 +1,5 @@
 <?php
-$usersController = new UsersController($userModel, $profileModel);
+$usersController = new UsersController($userModel, $profileModel, $otpModel);
 
 $router->get('/users/me', function () use ($usersController) {
     return $usersController->getUser();
@@ -22,3 +22,6 @@ $router->post('/users/register', function () use ($usersController) {
 $router->post('/users/password/change', function () use ($usersController) {
     return $usersController->changePassword($_POST);
 }, true);
+$router->post('/users/register/otp', function () use ($usersController) {
+    return $usersController->generateOTP($_POST);
+});

@@ -71,6 +71,11 @@ $tables = [
         'name VARCHAR(255) NOT NULL',
         'url VARCHAR(255) NOT NULL',
         'FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE'
+    ],
+    'otps' => [
+        'code VARCHAR(255) NOT NULL',
+        'email VARCHAR(255) NOT NULL',
+        'expiresAt DATETIME NOT NULL'
     ]
 ];
 

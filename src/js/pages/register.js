@@ -1,5 +1,5 @@
 "use strict";
-import { registerUser } from "../api/users.js";
+import { registerUser, registerOTP } from "../api/users.js";
 import { getById, onClick } from "../utils/utils.js";
 const endPoint = "../backend/api/users/register";
 let notificationTimeout;
@@ -14,6 +14,43 @@ const registerForm = getById("registerForm");
 const profilePicturePreview = getById("profilePicturePreview");
 const profileIcon = getById("profileIcon");
 const registerButton = document.getElementById("registerButton");
+
+const sendOtpButton = getById("sendOtpButton");
+const otpButtonTimer = getById("otpButtonTimer");
+
+sendOtpButton.addEventListener("click", async () => {
+  try {
+    sendOtpButton.disabled = true;
+    toggleOtpButton(true);
+    closeNotification();
+    const { message } = await registerOTP({ email: registerForm.email.value });
+    sendOtpButton.classList.add("hidden");
+    notificationMessage.innerText = message;
+    openNotification("OTP Sent", true);
+    toggleOtpButton(false);
+    otpButtonTimer.classList.remove("hidden");
+
+    let countdown = 60;
+    otpButtonTimer.innerText = countdown + "s";
+
+    const countdownInterval = setInterval(() => {
+      countdown--;
+      otpButtonTimer.innerText = countdown + "s";
+      if (countdown === 0) {
+        clearInterval(countdownInterval);
+        sendOtpButton.disabled = false;
+        sendOtpButton.classList.remove("hidden");
+        otpButtonTimer.classList.add("hidden");
+      }
+    }, 1000); // 1 second
+
+  } catch (error) {
+    sendOtpButton.disabled = false;
+    notificationMessage.innerText = error.message;
+    openNotification("OTP Failed to send", false);
+    toggleOtpButton(false);
+  }
+});
 
 registerForm.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -66,7 +103,17 @@ registerForm.profilePicture.addEventListener("change", () => {
     profileIcon.classList.add("hidden");
   }
 });
-
+const toggleOtpButton = (isLoading) => {
+  const buttonLoading = document.getElementById("otpButtonLoading");
+  const buttonReady = document.getElementById("otpButtonReady");
+  if (isLoading) {
+    buttonLoading.style.display = "block";
+    buttonReady.style.display = "none";
+  } else {
+    buttonLoading.style.display = "none";
+    buttonReady.style.display = "block";
+  }
+}
 const toggleRegisterButton = (isLoading) => {
   const buttonLoading = document.getElementById("buttonLoading");
   const buttonReady = document.getElementById("buttonReady");

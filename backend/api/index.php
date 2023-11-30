@@ -1,4 +1,7 @@
 <?php
+// SET DATE TIMEZONE
+date_default_timezone_set('Asia/Manila');
+
 // SET HEADERs
 header('Content-Type: application/json');
 
@@ -26,6 +29,7 @@ $storageModel = new StorageModel();
 $treatmentModel = new TreatmentModel();
 $logModel = new LogModel();
 $profileModel = new ProfileModel();
+$otpModel = new OtpModel();
 
 // ROUTER INSTANCE
 $router = new Router();

@@ -59,3 +59,17 @@ export const changePassword = async (passwordData) => {
     throw error.response.data;
   }
 };
+
+export const registerOTP = async (email) => {
+  const endPoint = "/backend/api/users/register/otp";
+  try {
+    const { data } = await axios.post(endPoint, email, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+    return data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};  
