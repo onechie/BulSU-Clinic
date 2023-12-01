@@ -52,7 +52,7 @@ class PageRouter
         $access_token = $_COOKIE['a_jwt'] ?? '';
         if ($access_token) {
             if (!Auth::validateAccessJWT($access_token)) {
-                header("Location: /login");
+                header("Location: /landingpage");
                 exit();
             }
         } else {

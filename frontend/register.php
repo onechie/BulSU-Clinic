@@ -12,7 +12,7 @@
 </head>
 
 <body class="">
-    <div class='relative bg-gray-100 h-full overflow-hidden'>
+    <div class="absolute inset-0 h-full w-full bg-[url('/src/images/Hc.jpg')] bg-center bg-no-repeat bg-cover overflow-hidden">
         <?php
         //HEADER COMPONENT
         require_once './frontend/components/notification.php';
