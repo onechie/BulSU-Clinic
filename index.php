@@ -13,15 +13,11 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 $pageRouter = new PageRouter();
 
 $pageRouter->get('/', function () {
-  header('Location: /landingpage');
-});
-$pageRouter->get('/landingpage', function () {
   PageRouter::displayPage('landingpage.php');
 }, false);
 $pageRouter->get('/login', function () {
   PageRouter::displayPage('login.php');
 }, false);
-
 $pageRouter->get('/register', function () {
   PageRouter::displayPage('register.php');
 }, false);
