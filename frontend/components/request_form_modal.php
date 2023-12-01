@@ -24,7 +24,16 @@
       <div class='grid lg:grid-cols-4 grid-cols-3 gap-3'>
         <div class='flex flex-col'>
           <p class='text-gray-500 font-medium mb-1'>School year <span class='text-red-500'>*</span></p>
-          <input name='schoolYear' type="text" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' placeholder="e.g 2024">
+          <select id="year" name="schoolYear" class='px-3 py-1 outline-none text-gray-500 ring-1 ring-gray-300 rounded-md focus:ring-gray-400 hover:ring-gray-400' placeholder="e.g 2024">
+          <!-- JavaScript code to generate options dynamically for the years-->
+          <script>
+          // Get the current year
+          const currentYear = new Date().getFullYear();
+         for (let year = currentYear; year <= currentYear + 20; year++) {
+            document.write(`<option value="${year}">${year}</option>`);
+         } 
+         </script>
+         </select>
         </div>
         <div class='flex flex-col'>
           <p class='text-gray-500 font-medium mb-1'>Patient's name <span class='text-red-500'>*</span></p>
