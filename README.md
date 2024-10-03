@@ -2,6 +2,20 @@
 
 A comprehensive solution designed to streamline clinic operations. It allows for efficient patient record management, from basic details to medical history. The system also includes features for managing medicine inventory, tracking stock levels, and monitoring medicine consumption statistics. This ensures that clinics can maintain accurate records, manage resources effectively, and make data-driven decisions to improve patient care.
 
+## Technologies Used
+
+- **HTML**
+- **CSS**
+- **JavaScript**
+- **PHP**
+- **MySQL**
+- **Axios**
+- **Tailwind CSS**
+- **Chart.js**
+- **PHPMailer**
+- **JWT**
+
+
 ## Login Page
 
 Provides a secure and user-friendly interface for authentication. Users can easily access their accounts using their credentials. The system employs JWT (JSON Web Token) for secure session management. Upon successful login, a JWT token is generated and stored, which is used to verify and maintain user sessions across different pages. This ensures a robust and secure method for handling user authentication and protecting sensitive data.
